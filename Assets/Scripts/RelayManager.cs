@@ -1,0 +1,100 @@
+using System.Threading.Tasks;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class RelayManager : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private async Task Authenticate()
+    {
+        // initialize unity services
+        await UnityServices.InitializeAsync();
+
+        // if not already signed in
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            // log in anonymously - easiest method.
+            AuthenticationService.Instance.SignedIn += () => { Debug.Log("Signed In! Player Id = " + AuthenticationService.Instance.PlayerId); };
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
+    }
+
+    public async Task<string> CreateRelay()
+    {
+        // log in and authenticate
+        await Authenticate();
+
+        try
+        {
+            // create relay instance with correct amount of open connections
+            Debug.Log("Creating relay instance.");
+            Allocation allocation = await RelayService.Instance.CreateAllocationAsync(Utils.maxLobbySize - 1);
+
+            // get join code of the newly created lobby
+            string newJoinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            Debug.Log("Instance created. Join code: " + newJoinCode);
+
+            // configure transport connection
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(
+                allocation.RelayServer.IpV4,
+                (ushort)allocation.RelayServer.Port,
+                allocation.AllocationIdBytes,
+                allocation.Key,
+                allocation.ConnectionData
+            );
+
+            // start host, and return the code if this succeeds
+            return NetworkManager.Singleton.StartHost() ? newJoinCode : null;
+        }
+        catch (RelayServiceException e) // catch any relay service errors.
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return null;
+    }
+
+    public async Task<bool> JoinRelay(string joinCode)
+    {
+        // log in and authenticate
+        await Authenticate();
+
+        try
+        {
+            Debug.Log("Joining relay with code " + joinCode);
+            JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+
+            // configure transport connection
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(
+                allocation.RelayServer.IpV4,
+                (ushort)allocation.RelayServer.Port,
+                allocation.AllocationIdBytes,
+                allocation.Key,
+                allocation.ConnectionData,
+                allocation.HostConnectionData
+            );
+            
+            // start client and return result
+            return !string.IsNullOrEmpty(joinCode) && NetworkManager.Singleton.StartClient();
+        }
+        catch (RelayServiceException e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        return false;
+    }
+
+}
