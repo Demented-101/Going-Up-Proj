@@ -15,12 +15,12 @@ public class RelayUI : MonoBehaviour
 
     public async void HostLobby()
     {
-        await relayManager.CreateRelay();
+        await relayManager.CreateLobby();
     }
 
     public async void JoinLobby()
     {
-        await relayManager.JoinRelay(code);
+        await relayManager.JoinLobbyByCode(code, "JOINED PLAYER");
     }
 
     public void SetLobbyCode(string newCode)
