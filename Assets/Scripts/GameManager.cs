@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,19 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentState = Utils.GameStates.Pregame;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) { TogglePaused(); }
+    }
+
+    public void TogglePaused()
+    {
+        gameStatus.isPaused = !gameStatus.isPaused;
+        Time.timeScale = gameStatus.isPaused ? 0.0f : 1.0f;
+
+        gameStatus.onPauseChanged.Invoke();
     }
 
     // updates the current game state to reduce repeated code.

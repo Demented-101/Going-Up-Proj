@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8739381856727615534}
   - component: {fileID: 7048038980649435409}
   - component: {fileID: 1425894724334241471}
+  - component: {fileID: 7045746244390968358}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: Untagged
@@ -173,3 +174,22 @@ MonoBehaviour:
   anchor: {fileID: 0}
   copyPosition: 1
   copyRotation: 1
+--- !u!114 &7045746244390968358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393377716941663642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0493849057b689d4da0fb7209aadba64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listenForState: 2
+  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
+  orbitObject: {fileID: 0}
+  orbitDistance: 3
+  sensitivity: 5
+  YMin: -50
+  YMax: 50

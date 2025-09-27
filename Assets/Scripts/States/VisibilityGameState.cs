@@ -6,6 +6,6 @@ public class VisibilityGameState : GameState
     public override void OnStateChanged(Utils.GameStates newState)
     {
         base.OnStateChanged(newState);
-        gameObject.SetActive(isActive == showOnState);
+        gameObject.SetActive(IsActive == showOnState);
     }
 }

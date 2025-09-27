@@ -4,10 +4,10 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     [SerializeField] private Utils.GameStates listenForState;
-    public bool isActive { get; private set; }
+    public bool IsActive { get; private set; }
     public GameStatus gameStatus;
 
-    private void Start()
+    public virtual void Start()
     {
         gameStatus.onStateChange += OnStateChanged;
         OnStateChanged(Utils.GameStates.Pregame);
@@ -15,6 +15,7 @@ public class GameState : MonoBehaviour
 
     public virtual void OnStateChanged(Utils.GameStates newState)
     {
-        isActive = newState == listenForState;
+        IsActive = newState == listenForState;
+        if (IsActive) { Debug.Log("ACTIVATED"); }
     }
 }
