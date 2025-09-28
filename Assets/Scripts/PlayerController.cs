@@ -5,7 +5,6 @@ using UnityEngine.Rendering;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5.0f;
-    private const float gravityConst = 9.81f;
     private Vector3 playerVelocity = Vector3.zero;
 
     public InputActionReference moveAction;

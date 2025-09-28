@@ -157,6 +157,7 @@ MonoBehaviour:
   anchor: {fileID: 0}
   copyPosition: 1
   copyRotation: 1
+  onlyOnEnter: 0
 --- !u!114 &1425894724334241471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +175,7 @@ MonoBehaviour:
   anchor: {fileID: 0}
   copyPosition: 1
   copyRotation: 1
+  onlyOnEnter: 0
 --- !u!114 &7045746244390968358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +191,7 @@ MonoBehaviour:
   listenForState: 2
   gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
   orbitObject: {fileID: 0}
-  orbitDistance: 3
+  orbitDistance: 5
   sensitivity: 5
   YMin: -50
   YMax: 50

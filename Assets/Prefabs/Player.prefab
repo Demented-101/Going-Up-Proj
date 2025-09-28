@@ -129,10 +129,11 @@ GameObject:
   - component: {fileID: 2653974227910090457}
   - component: {fileID: 207527416322212008}
   - component: {fileID: 1942043817892762271}
-  - component: {fileID: 7609500711487938644}
+  - component: {fileID: 1807140595852462061}
+  - component: {fileID: 5201987354581476343}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,7 +197,6 @@ MonoBehaviour:
   anchor: {fileID: 0}
   copyPosition: 1
   copyRotation: 1
-  onlyOnEnter: 0
 --- !u!114 &1942043817892762271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,8 +214,7 @@ MonoBehaviour:
   anchor: {fileID: 0}
   copyPosition: 1
   copyRotation: 1
-  onlyOnEnter: 0
---- !u!114 &7609500711487938644
+--- !u!114 &1807140595852462061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,7 +223,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8004087044261627823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee97372cebc24d47ae39ef23ee2ffd9, type: 3}
+  m_Script: {fileID: 11500000, guid: a4756244c5919fd4aa43bc55ca0d2ab9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   listenForState: 2
@@ -232,4 +231,19 @@ MonoBehaviour:
   anchor: {fileID: 0}
   copyPosition: 1
   copyRotation: 1
-  onlyOnEnter: 1
+--- !u!114 &5201987354581476343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bba25fc0ad9fee3409b8efa73fd427e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listenForState: 2
+  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
+  speed: 2
+  moveAction: {fileID: 1739868064065894466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
