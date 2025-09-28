@@ -598,10 +598,22 @@ PrefabInstance:
       propertyPath: anchor
       value: 
       objectReference: {fileID: 238876472}
+    - target: {fileID: 1807140595852462061, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: anchor
+      value: 
+      objectReference: {fileID: 1713248758}
     - target: {fileID: 1942043817892762271, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: anchor
       value: 
       objectReference: {fileID: 9870570}
+    - target: {fileID: 1942043817892762271, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: doprint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2653974227910090457, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2665585012330172540, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: anchor
       value: 
@@ -625,6 +637,14 @@ PrefabInstance:
     - target: {fileID: 4422173333338732555, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 693467428
+      objectReference: {fileID: 0}
+    - target: {fileID: 5201987354581476343, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5201987354581476343, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5813795236312865861, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -681,6 +701,10 @@ PrefabInstance:
     - target: {fileID: 8004087044261627823, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004087044261627823, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3925360637537199247, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
@@ -1843,7 +1867,7 @@ PrefabInstance:
       objectReference: {fileID: 2122044370}
     - target: {fileID: 8814897065899629075, guid: 8e925986d78456c4a8c831e0dbb83b09, type: 3}
       propertyPath: m_VersionIndex
-      value: 2251
+      value: 2293
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1860,6 +1884,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 393377716941663642, guid: d4fb32a57b8ad3f419cd33760c5d8c46, type: 3}
       propertyPath: m_Name
+      value: MainCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 393377716941663642, guid: d4fb32a57b8ad3f419cd33760c5d8c46, type: 3}
+      propertyPath: m_TagString
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 604740391765028895, guid: d4fb32a57b8ad3f419cd33760c5d8c46, type: 3}

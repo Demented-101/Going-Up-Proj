@@ -25,6 +25,11 @@ public class PauseMenuUI : MonoBehaviour
         gameObject.SetActive(isPaused); // only show when paused
     }
 
+    public void AddPointsTEMP()
+    {
+        gameStatus.AddScore(1000);
+    }
+
     public void SaveAndQuit()
     {
         // TODO - save game

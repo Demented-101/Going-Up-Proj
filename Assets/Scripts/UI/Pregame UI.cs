@@ -19,7 +19,7 @@ public class PregameUI : MonoBehaviour
 
     public void NewGame()
     {
-        gameStatus.Reset();
+        gameStatus.LoadFromGeneric();
         gameManager.StartGame();
     }
 

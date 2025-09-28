@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     public void EndRun()
     {
         ChangeState(Utils.GameStates.Elevator);
+        gameStatus.RunEnded();
     }
 
 }

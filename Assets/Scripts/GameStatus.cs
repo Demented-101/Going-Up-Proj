@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 [CreateAssetMenu(fileName = "GameStatus", menuName = "Scriptable Objects/GameStatus")]
 public class GameStatus : ScriptableObject
@@ -20,24 +21,41 @@ public class GameStatus : ScriptableObject
     public bool isOnRoof { get; private set; } = false;
     public int runCount { get; private set; } = 0;
 
+
+    public void LoadFromSave()
+    {
+        SaveData data = SaveManager.Load();
+        CopyFromSaveData(data);
+    }
+
+    public void LoadFromGeneric()
+    {
+        SaveData data = new SaveData();
+        data.loadBasics();
+
+        CopyFromSaveData(data);
+    }
+
+    private void CopyFromSaveData(SaveData saveData)
+    {
+        currentScore = saveData.currentScore;
+        totScore = saveData.totScore;
+        highScore = saveData.highScore;
+        currentFloor = saveData.currentFloor;
+        currentBuilding = saveData.currentBuilding;
+        isOnRoof = saveData.isOnRoof;
+        runCount = saveData.runCount;
+    }
+
     public void Reset()
     {
         isPaused = false;
         onPauseChanged?.Invoke();
-        
+
         gameState = Utils.GameStates.Pregame;
         onStateChange?.Invoke(gameState);
 
-        currentScore = 0;
-        totScore = 0;
-        highScore = 0;
-
-        currentFloor = 1;
-        currentBuilding = 1;
-        isOnRoof = false;
-        runCount = 0;
-
-        Updated?.Invoke();
+        LoadFromGeneric();
     }
 
     public void AddScore(int addScore)
@@ -55,7 +73,16 @@ public class GameStatus : ScriptableObject
 
         runCount++;
 
-        if (isOnRoof && currentScore > 1000) // has beaten roof level -> moved to next building
+        if (currentScore < 1000) // not enough points gained - hasnt beaten floor
+        {
+            gameState = Utils.GameStates.GameOver;
+            onStateChange?.Invoke(gameState);
+            Debug.Log("Game over! State changed - Game Over");
+
+            return;
+        }
+
+        if (isOnRoof) // has beaten roof level -> moved to next building
         {
             isOnRoof = false;
             currentFloor = 1;
@@ -80,4 +107,5 @@ public class GameStatus : ScriptableObject
 
         Updated.Invoke();
     }
+
 }

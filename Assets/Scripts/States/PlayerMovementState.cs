@@ -23,6 +23,8 @@ public class PlayerMovementState : GameState
 
     private void Update()
     {
+        if (!IsActive) { return; }
+
         Vector3 move = Vector3.zero;
         if (controller.isGrounded && playerVelocity.y < 0)
         {
