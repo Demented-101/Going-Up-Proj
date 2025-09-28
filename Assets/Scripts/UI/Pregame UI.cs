@@ -1,17 +1,25 @@
 using UnityEngine;
+using static Utils;
 
 public class PregameUI : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
+    private GameManager gameManager;
+    [SerializeField] GameStatus gameStatus;
+
+    private void Start()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
 
     public void ContinueGame()
     {
+        // TODO - load previous save file
         gameManager.StartGame();
     }
 
     public void NewGame()
     {
-        // TODO - load previous save file
+        gameStatus.Reset();
         gameManager.StartGame();
     }
 

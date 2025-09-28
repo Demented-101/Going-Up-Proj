@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         currentState = Utils.GameStates.Pregame;
+        gameStatus.Reset();
     }
 
     private void Update()
@@ -25,9 +26,11 @@ public class GameManager : MonoBehaviour
     public void TogglePaused()
     {
         gameStatus.isPaused = !gameStatus.isPaused;
-        Time.timeScale = gameStatus.isPaused ? 0.0f : 1.0f;
+        if (gameStatus.gameState != Utils.GameStates.Run) gameStatus.isPaused = false; // dont allow pausing outside of runs
 
-        gameStatus.onPauseChanged.Invoke();
+        Time.timeScale = gameStatus.isPaused ? 0.0f : 1.0f; // change time scale to stop most processes
+
+        gameStatus.onPauseChanged?.Invoke();
     }
 
     // updates the current game state to reduce repeated code.

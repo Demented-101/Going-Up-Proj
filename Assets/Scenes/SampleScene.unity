@@ -322,6 +322,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6258396570558647916, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258396570558647916, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258396570558647916, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 617359912}
+    - target: {fileID: 6258396570558647916, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258396570558647916, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SaveAndQuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258396570558647916, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseMenuUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6258396570558647916, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6333945742823827382, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -518,6 +546,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9047013501648361430, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+      propertyPath: gameStatus
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -778,6 +810,17 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!114 &617359912 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2147122942703248649, guid: 878d428f6c1961f44ab3f7de09ac0b57, type: 3}
+  m_PrefabInstance: {fileID: 202613975}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b2d918adfe3784f9945ebb5b238447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &635590029
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +833,7 @@ GameObject:
   - component: {fileID: 635590030}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

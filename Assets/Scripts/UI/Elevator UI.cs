@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class ElevatorUI : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
+    private GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
 
     public void StartRun()
     {

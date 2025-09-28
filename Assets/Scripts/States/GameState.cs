@@ -16,6 +16,5 @@ public class GameState : MonoBehaviour
     public virtual void OnStateChanged(Utils.GameStates newState)
     {
         IsActive = newState == listenForState;
-        if (IsActive) { Debug.Log("ACTIVATED"); }
     }
 }

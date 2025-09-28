@@ -18,10 +18,11 @@ public class GameStatusDataLayout : MonoBehaviour
 
     private void Start()
     {
-        gameStatus.Updated += UpdateText;
-
         prefixTextMesh = prefixText.GetComponent<TMP_Text>();
         valueTextMesh = valueText.GetComponent<TMP_Text>();
+
+        gameStatus.Updated += UpdateText;
+        UpdateText();
     }
 
     private void UpdateText()
@@ -37,11 +38,11 @@ public class GameStatusDataLayout : MonoBehaviour
 
         // add the correct scores when needed.
         if (showCurrentScore)   { AddText("Score", gameStatus.currentScore.ToString()); }
-        if (showTotScore)       { AddText("Score", gameStatus.totScore.ToString()); }
-        if (showHighScore)      { AddText("Score", gameStatus.highScore.ToString()); }
-        if (showFloor)          { AddText("Score", gameStatus.currentFloor.ToString()); }
-        if (showBuilding)       { AddText("Score", gameStatus.currentBuilding.ToString()); }
-        if (showRunCount)       { AddText("Score", gameStatus.runCount.ToString()); }
+        if (showTotScore)       { AddText("Total Score", gameStatus.totScore.ToString()); }
+        if (showHighScore)      { AddText("High Score", gameStatus.highScore.ToString()); }
+        if (showFloor)          { AddText("Floor No", gameStatus.currentFloor.ToString()); }
+        if (showBuilding)       { AddText("Building", gameStatus.currentBuilding.ToString()); }
+        if (showRunCount)       { AddText("Run Count", gameStatus.runCount.ToString()); }
     }
 
     private void AddText(string prefix, string value)

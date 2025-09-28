@@ -1,29 +1,28 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PauseMenuUI : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager;
+    private GameManager gameManager;
     [SerializeField] private GameStatus gameStatus;
     private bool isPaused = false;
 
     private void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         gameStatus.onPauseChanged += UpdatePaused;
+        UpdatePaused();
+
+        // make sure pause menu will always start disabled
+        gameStatus.onStateChange += (state) => { if (isPaused) gameManager.TogglePaused(); };
     }
 
     private void UpdatePaused()
     {
         isPaused = gameStatus.isPaused;
 
-        gameObject.SetActive(!isPaused); // only show when paused
-    }
-
-
-    public void Unpause()
-    {
-        if (!isPaused) { return; }
-        gameManager.TogglePaused();
+        gameObject.SetActive(isPaused); // only show when paused
     }
 
     public void SaveAndQuit()

@@ -12,8 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9850f1017a43cd348bb345b04815fda4, type: 3}
   m_Name: GlobalGameStatus
   m_EditorClassIdentifier: 
-  gameState: 1
-  currentScore: 40
-  totScore: 35780
-  currentFloor: 80
-  currentBuilding: 2
+  isPaused: 0
+  gameState: 0

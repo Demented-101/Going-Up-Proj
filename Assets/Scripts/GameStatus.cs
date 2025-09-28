@@ -5,20 +5,40 @@ using UnityEngine;
 public class GameStatus : ScriptableObject
 {
     public Action Updated;
+    public Action onPauseChanged;
+    public Action<Utils.GameStates> onStateChange;
 
     public bool isPaused = false;
-    public Action onPauseChanged;
     public Utils.GameStates gameState;
-    public Action<Utils.GameStates> onStateChange;
 
     public int currentScore { get; private set; } = 0;
     public int totScore { get; private set; } = 0;
     public int highScore { get; private set; } = 0;
 
-    public int currentFloor { get; private set; } = 0;
+    public int currentFloor { get; private set; } = 1;
     public int currentBuilding { get; private set; } = 1;
     public bool isOnRoof { get; private set; } = false;
     public int runCount { get; private set; } = 0;
+
+    public void Reset()
+    {
+        isPaused = false;
+        onPauseChanged?.Invoke();
+        
+        gameState = Utils.GameStates.Pregame;
+        onStateChange?.Invoke(gameState);
+
+        currentScore = 0;
+        totScore = 0;
+        highScore = 0;
+
+        currentFloor = 1;
+        currentBuilding = 1;
+        isOnRoof = false;
+        runCount = 0;
+
+        Updated?.Invoke();
+    }
 
     public void AddScore(int addScore)
     {
