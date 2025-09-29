@@ -7,11 +7,9 @@ using UnityEngine;
 
 public static class SaveManager
 {
-    private const string fileName = "/player.json";
-
     public static void Save(GameStatus status)
     {
-        string path = Application.persistentDataPath + fileName; // get the file path
+        string path = Utils.GetSaveFilePath(); // get the file path
 
         SaveData data = new SaveData();
         data.loadFromGameStatus(status); // create save data class and load players data onto it
@@ -21,7 +19,7 @@ public static class SaveManager
 
     public static SaveData Load()
     {
-        string path = Application.persistentDataPath + fileName; // get the file path
+        string path = Utils.GetSaveFilePath(); // get the file path
         if (File.Exists(path))
         {
             SaveData data = new SaveData();

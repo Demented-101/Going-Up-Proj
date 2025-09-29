@@ -8,4 +8,10 @@ public static class Utils
     }
 
     public const int maxLobbySize = 4;
+    public const string fileName = "/player.json";
+
+    public static string GetSaveFilePath()
+    {
+        return Application.persistentDataPath + fileName;
+    }
 }
