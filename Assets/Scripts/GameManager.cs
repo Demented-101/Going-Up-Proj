@@ -46,14 +46,25 @@ public class GameManager : MonoBehaviour
     }
     
     // pregame menu -> first elevator
-    public void StartGame()
+    public void StartGame(bool loadFromFile)
     {
+        if (loadFromFile)
+        {
+            gameStatus.LoadFromSave();
+        } else
+        {
+            gameStatus.LoadFromGeneric();
+        }
         ChangeState(Utils.GameStates.Elevator);
     }
 
     // ends the game (any state -> pregame menu)
-    public void EndGame()
+    public void EndGame(bool saveGame)
     {
+        if (saveGame)
+        {
+            SaveManager.Save(gameStatus);
+        }
         ChangeState(Utils.GameStates.Pregame);
     }
 
@@ -68,6 +79,7 @@ public class GameManager : MonoBehaviour
     {
         ChangeState(Utils.GameStates.Elevator);
         gameStatus.RunEnded();
+        SaveManager.Save(gameStatus);
     }
 
 }

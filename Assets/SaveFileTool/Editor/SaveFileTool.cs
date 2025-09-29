@@ -48,7 +48,8 @@ public class SaveFileTool : EditorWindow
         SaveData data = LoadData(Utils.GetSaveFilePath());
         if (data != null)
         {
-            Debug.Log("Current Score: " + data.currentScore);
+            Debug.Log("Game's Total Score: " + data.totScore);
+            Debug.Log("Game's High Score: " + data.highScore);
         }
     }
 }

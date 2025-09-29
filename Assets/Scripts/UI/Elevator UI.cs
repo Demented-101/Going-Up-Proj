@@ -16,7 +16,6 @@ public class ElevatorUI : MonoBehaviour
 
     public void SaveAndQuit()
     {
-        //TODO - Save game data to fileSt
-        gameManager.EndGame();
+        gameManager.EndGame(true);
     }
 }

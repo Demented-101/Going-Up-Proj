@@ -4,7 +4,6 @@
 // loading or saving the data itself is done seperately by the SaveManager
 public class SaveData
 {
-    public int currentScore = 0;
     public int totScore = 0;
     public int highScore = 0;
     public int currentFloor = 1;
@@ -14,7 +13,6 @@ public class SaveData
 
     public void loadFromGameStatus(GameStatus status)
     {
-        currentScore = status.currentScore;
         totScore = status.totScore;
         highScore = status.highScore;
         currentFloor = status.currentFloor;

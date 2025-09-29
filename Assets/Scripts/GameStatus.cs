@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 [CreateAssetMenu(fileName = "GameStatus", menuName = "Scriptable Objects/GameStatus")]
 public class GameStatus : ScriptableObject
@@ -38,8 +37,7 @@ public class GameStatus : ScriptableObject
 
     private void CopyFromSaveData(SaveData saveData)
     {
-        currentScore = saveData.currentScore;
-        totScore = saveData.totScore;
+        totScore = saveData.totScore; // dont need to save current score
         highScore = saveData.highScore;
         currentFloor = saveData.currentFloor;
         currentBuilding = saveData.currentBuilding;

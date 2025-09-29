@@ -32,7 +32,6 @@ public class PauseMenuUI : MonoBehaviour
 
     public void SaveAndQuit()
     {
-        // TODO - save game
-        gameManager.EndGame();
+        gameManager.EndGame(false); // dont save mid-game data, needed info is saved on game start.
     }
 }

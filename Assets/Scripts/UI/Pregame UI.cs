@@ -13,14 +13,12 @@ public class PregameUI : MonoBehaviour
 
     public void ContinueGame()
     {
-        // TODO - load previous save file
-        gameManager.StartGame();
+        gameManager.StartGame(true);
     }
 
     public void NewGame()
     {
-        gameStatus.LoadFromGeneric();
-        gameManager.StartGame();
+        gameManager.StartGame(false);
     }
 
     public void Quit()

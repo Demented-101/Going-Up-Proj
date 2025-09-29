@@ -14,6 +14,6 @@ public class GameOverUI : MonoBehaviour
     public void ReturnToMenu()
     {
         gameStatus.LoadFromGeneric();
-        gameManager.EndGame();
+        gameManager.EndGame(true); // Overrides the save file to ensure that the player cannot just go back and try again.
     }
 }
