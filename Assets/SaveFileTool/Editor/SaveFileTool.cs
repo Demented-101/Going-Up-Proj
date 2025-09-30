@@ -18,9 +18,9 @@ public class SaveFileTool : EditorWindow
 
         // Scores - get scores, set high and total score
         // Game - get game status, and set floor + building - Try to update IsOnRoof for consistency.
-        // Other - get Tot runs and IsOnRoof.
 
         if (GUILayout.Button("Print Scores")) { PrintScores(); }
+        if (GUILayout.Button("Print Stats")) { PrintGameStats(); }
 
         //itemName = EditorGUILayout.TextField(itemName);
         //itemCount = EditorGUILayout.IntField(itemCount);
@@ -34,6 +34,7 @@ public class SaveFileTool : EditorWindow
         SaveData data = new SaveData(); // load save file
         string json = File.ReadAllText(path);
         JsonUtility.FromJsonOverwrite(json, data);
+
         return data;
     }
 
@@ -50,6 +51,18 @@ public class SaveFileTool : EditorWindow
         {
             Debug.Log("Game's Total Score: " + data.totScore);
             Debug.Log("Game's High Score: " + data.highScore);
+            Debug.Log("Game's Total Runs: " + data.runCount);
+        }
+    }
+
+    private void PrintGameStats()
+    {
+        SaveData data = LoadData(Utils.GetSaveFilePath());
+        if (data != null)
+        {
+            Debug.Log("Game current floor: " + data.currentFloor);
+            Debug.Log("Game current building: " + data.currentBuilding);
+            Debug.Log("Game is on roof?: " + data.isOnRoof);
         }
     }
 }

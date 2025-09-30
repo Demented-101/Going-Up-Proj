@@ -23,7 +23,6 @@ public class SaveData
 
     public void loadBasics()
     {
-        currentScore = 0;
         totScore = 0;
         highScore = 0;
         currentFloor = 1;
