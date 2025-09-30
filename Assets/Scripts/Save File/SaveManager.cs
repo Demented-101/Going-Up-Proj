@@ -31,7 +31,7 @@ public static class SaveManager
         else
         {
             SaveData data = new SaveData();
-            data.loadBasics();
+            data.LoadGeneric();
             Debug.LogError("no save file found at path - creating new save file at == " + path);
 
             // create file path to ensure this doesnt happen again

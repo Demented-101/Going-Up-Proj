@@ -50,10 +50,10 @@ public class GameManager : MonoBehaviour
     {
         if (loadFromFile)
         {
-            gameStatus.LoadFromSave();
+            gameStatus.LoadFromSave(false);
         } else
         {
-            gameStatus.LoadFromGeneric();
+            gameStatus.LoadFromSave(true);
         }
         ChangeState(Utils.GameStates.Elevator);
     }

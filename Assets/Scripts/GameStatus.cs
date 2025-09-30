@@ -21,39 +21,47 @@ public class GameStatus : ScriptableObject
     public int runCount { get; private set; } = 0;
 
 
-    public void LoadFromSave()
+    public void LoadFromSave(bool useGenerics = false) 
     {
-        SaveData data = SaveManager.Load();
-        CopyFromSaveData(data);
-    }
+        // load values from the save file
+        SaveData data = null;
 
-    public void LoadFromGeneric()
-    {
-        SaveData data = new SaveData();
-        data.loadBasics();
+        if (useGenerics)
+        {
+            data = new SaveData();
+            data.LoadGeneric();
+        }
+        else
+        {
+            data = SaveManager.Load();
+        }
 
         CopyFromSaveData(data);
     }
 
     private void CopyFromSaveData(SaveData saveData)
     {
-        totScore = saveData.totScore; // dont need to save current score
+        totScore = saveData.totScore;
         highScore = saveData.highScore;
         currentFloor = saveData.currentFloor;
         currentBuilding = saveData.currentBuilding;
         isOnRoof = saveData.isOnRoof;
         runCount = saveData.runCount;
+
+        Updated.Invoke();
     }
 
     public void Reset()
     {
+        // sets up all the values at the game's load.
         isPaused = false;
         onPauseChanged?.Invoke();
 
         gameState = Utils.GameStates.Pregame;
         onStateChange?.Invoke(gameState);
 
-        LoadFromGeneric();
+        bool useGenerics = false;
+        LoadFromSave(useGenerics);
     }
 
     public void AddScore(int addScore)

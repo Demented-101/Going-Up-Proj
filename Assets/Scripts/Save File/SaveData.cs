@@ -21,7 +21,7 @@ public class SaveData
         runCount = status.runCount;
     }
 
-    public void loadBasics()
+    public void LoadGeneric()
     {
         totScore = 0;
         highScore = 0;

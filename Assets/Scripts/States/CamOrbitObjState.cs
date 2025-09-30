@@ -23,7 +23,7 @@ public class CamOrbitObjState : GameState
         orbitTrans = orbitObject.transform;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!IsActive) { return; }
 

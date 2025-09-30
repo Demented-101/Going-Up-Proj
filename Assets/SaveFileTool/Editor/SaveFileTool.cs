@@ -8,61 +8,65 @@ using UnityEngine;
 public class SaveFileTool : EditorWindow
 {
     [MenuItem("Tools/Custom Tools/Save File Tool")]
+
     public static void ShowWindow(){
         GetWindow(typeof(SaveFileTool));
     }
+
+    private SaveData data;
 
     private void OnGUI()
     {
         GUILayout.Label("Save File Tool");
 
-        // Scores - get scores, set high and total score
-        // Game - get game status, and set floor + building - Try to update IsOnRoof for consistency.
+        if (data != null)
+        {
+            data.totScore = EditorGUILayout.IntField("Total score", data.totScore);
+            data.highScore = EditorGUILayout.IntField("High score", data.highScore);
 
-        if (GUILayout.Button("Print Scores")) { PrintScores(); }
-        if (GUILayout.Button("Print Stats")) { PrintGameStats(); }
+            data.currentFloor = EditorGUILayout.IntField("current floor", data.currentFloor);
+            data.currentBuilding = EditorGUILayout.IntField("current building", data.currentBuilding);
+            
+            GUILayout.Label("Is on roof: " + data.isOnRoof + "            WARNING - this does not update, and it is suggested 'current floor' should conform to this value to avoid bugs.");
+            GUILayout.Label("Total runs: " + data.runCount);
+        }
 
-        //itemName = EditorGUILayout.TextField(itemName);
-        //itemCount = EditorGUILayout.IntField(itemCount);
-        //if (GUILayout.Button("Add Item to Inventory")) { AddItemInventory(); }
-        //if (GUILayout.Button("Print Inventory")) { PrintInventory(); }
+
+        if (GUILayout.Button("Load")) { LoadData(Utils.GetSaveFilePath()); }
+        if (GUILayout.Button("Save")) { SaveJson(Utils.GetSaveFilePath()); }
+
+        if (GUILayout.Button("clear save")) { ClearFile(); }
+
 
     }
 
-    private SaveData LoadData(string path)
+    private void LoadData(string path)
     {
-        SaveData data = new SaveData(); // load save file
-        string json = File.ReadAllText(path);
-        JsonUtility.FromJsonOverwrite(json, data);
+        if (data == null) { data = new SaveData(); }
 
-        return data;
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            JsonUtility.FromJsonOverwrite(json, data);
+        }
+        else
+        {
+            Debug.LogError("no save file found at path + " + path);
+        }
     }
 
-    private void SaveJson(SaveData data, string path)
+    private void SaveJson(string path)
     {
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(path, json);
     }
 
-    private void PrintScores()
+    private void ClearFile()
     {
-        SaveData data = LoadData(Utils.GetSaveFilePath());
-        if (data != null)
-        {
-            Debug.Log("Game's Total Score: " + data.totScore);
-            Debug.Log("Game's High Score: " + data.highScore);
-            Debug.Log("Game's Total Runs: " + data.runCount);
-        }
-    }
+        SaveData newSave = new SaveData();
+        newSave.LoadGeneric();
+        data = newSave;
 
-    private void PrintGameStats()
-    {
-        SaveData data = LoadData(Utils.GetSaveFilePath());
-        if (data != null)
-        {
-            Debug.Log("Game current floor: " + data.currentFloor);
-            Debug.Log("Game current building: " + data.currentBuilding);
-            Debug.Log("Game is on roof?: " + data.isOnRoof);
-        }
+        SaveJson(Utils.GetSaveFilePath());
     }
 }
