@@ -71,34 +71,45 @@ public class GameStatus : ScriptableObject
         Updated.Invoke();
     }
 
-    public void RunEnded()
+    private int GetPassedFloors(int score, int startFloor)
     {
-        // calculate new floor and building
-        // Floors per building (x) = 90 + x*10
-        // Score per floor = 1000
+        int passedFloors = 0;
+        int remainingScore = score;
+        int nextFloorReq = Utils.GetFloorPointRequirement(currentFloor);
 
-        runCount++;
-
-        if (currentScore < 1000) // not enough points gained - hasnt beaten floor
+        while (remainingScore > nextFloorReq)
         {
-            gameState = Utils.GameStates.GameOver;
-            onStateChange?.Invoke(gameState);
-            Debug.Log("Game over! State changed - Game Over");
+            passedFloors++;
+            remainingScore -= nextFloorReq;
 
-            return;
+            nextFloorReq = Utils.GetFloorPointRequirement(startFloor + passedFloors);
         }
 
-        if (isOnRoof) // has beaten roof level -> moved to next building
+        return passedFloors;
+    }
+
+    public void RunEnded() // calculate new floor, building, and score values
+    {
+        runCount++;
+        int passedFloors = GetPassedFloors(currentScore, currentFloor);
+
+        if (isOnRoof) // has passed roof level -> moved to next building
         {
             isOnRoof = false;
             currentFloor = 1;
             currentBuilding++;
         }
+        else if (passedFloors < 1) // not enough points gained - hasnt beaten floor
+        {
+            gameState = Utils.GameStates.GameOver;
+            onStateChange?.Invoke(gameState);
+            Debug.Log("GAME OVER - ENDING GAME LOOP");
+        }
         else // is still mid-building
         {
-            currentFloor += currentScore / 1000;
-            int maxFloor = 90 + (currentBuilding * 10);
+            currentFloor += passedFloors;
 
+            int maxFloor = Utils.GetBuildingFloorCount(currentBuilding);
             if (currentFloor > maxFloor) // has reached roof
             {
                 currentFloor = maxFloor;
