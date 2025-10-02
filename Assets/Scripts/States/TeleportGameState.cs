@@ -3,16 +3,15 @@ using UnityEngine;
 public class TeleportGameState : GameState
 {
     [SerializeField] private GameObject anchor;
+    [SerializeField] private int frameDelay = 1;
     [SerializeField] private bool copyPosition;
     [SerializeField] private bool copyRotation;
-    private bool shouldMove;
-    private bool hasMoved;
-    private CharacterController characterController;
+    private int moveState = -1; // -1 has moved, 0 move this frame, 1+ frames until move
 
-    public override void Start()
+    public override void OnStateChanged(Utils.GameStates newState)
     {
-        base.Start();
-        characterController = GetComponent<CharacterController>();
+        base.OnStateChanged(newState);
+        if (IsActive) { moveState = frameDelay; }
     }
 
     private void Update()
@@ -21,37 +20,23 @@ public class TeleportGameState : GameState
         // this is because the order is not ensured, so if an anchor runs after this on the same frame, the movement will be cancelled.
         if (IsActive)
         {
-            // if i havent moved but also shouldnt on this frame
-            if (!shouldMove && !hasMoved)
+            // dont move on this frame
+            if (moveState > 0) { moveState--; }
+
+            // move on this frame
+            else if (moveState == 0)
             {
-                shouldMove = true;
-                return;
-            }
+                moveState = -1;
 
-            // if i should move this frame but havent yet
-            if (!hasMoved && shouldMove)
-            {
-                hasMoved = true;
-                shouldMove = false;
-
-                // disable and re-enable any character controllers to override their position bias. This will force the new position
-                if (characterController != null) { characterController.enabled = false; }
-
+                // for this to work on CharacterControllers, enable auto sync transforms.
                 if (copyPosition) { transform.position = anchor.transform.position; }
                 if (copyRotation) { transform.rotation = anchor.transform.rotation; }
-
-                if (characterController != null) { characterController.enabled = true; }
-
-                return;
             }
-
-            
         }
 
-        else if (!IsActive)
+        else // not active
         {
-            hasMoved = false;
-            shouldMove = false;
+            moveState = -1;
         }
     }
 }
