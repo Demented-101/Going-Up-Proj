@@ -127,10 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5813795236312865861}
   - component: {fileID: 2653974227910090457}
-  - component: {fileID: 207527416322212008}
-  - component: {fileID: 1942043817892762271}
-  - component: {fileID: 1807140595852462061}
-  - component: {fileID: 5201987354581476343}
+  - component: {fileID: 82304968878960213}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -180,7 +177,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &207527416322212008
+--- !u!114 &82304968878960213
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,61 +186,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8004087044261627823}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee97372cebc24d47ae39ef23ee2ffd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listenForState: 0
-  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
-  anchor: {fileID: 0}
-  copyPosition: 1
-  copyRotation: 1
---- !u!114 &1942043817892762271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004087044261627823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ee97372cebc24d47ae39ef23ee2ffd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listenForState: 1
-  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
-  anchor: {fileID: 0}
-  copyPosition: 1
-  copyRotation: 1
---- !u!114 &1807140595852462061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004087044261627823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4756244c5919fd4aa43bc55ca0d2ab9, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c3c1bc884e52034f9905eda5c21ea9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   listenForState: 2
   gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
-  anchor: {fileID: 0}
-  copyPosition: 1
-  copyRotation: 1
---- !u!114 &5201987354581476343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004087044261627823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bba25fc0ad9fee3409b8efa73fd427e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  listenForState: 2
-  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
-  speed: 2
-  moveAction: {fileID: 1739868064065894466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  printUpdates: 0
+  showOnState: 1

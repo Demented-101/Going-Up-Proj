@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class VisibilityGameState : GameState
+public class VisibilityGameState : GameStateBehaviour
 {
     [SerializeField] bool showOnState = true;
     public override void OnStateChanged(Utils.GameStates newState)

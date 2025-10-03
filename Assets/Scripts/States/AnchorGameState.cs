@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AnchorGameState : GameState
+public class AnchorGameState : GameStateBehaviour
 {
     [SerializeField] private GameObject anchor;
     [SerializeField] private bool copyPosition;

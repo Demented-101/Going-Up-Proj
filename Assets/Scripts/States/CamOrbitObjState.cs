@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
-public class CamOrbitObjState : GameState
+public class CamOrbitObjState : GameStateBehaviour
 {
     [SerializeField] private GameObject orbitObject;
     private Transform orbitTrans;

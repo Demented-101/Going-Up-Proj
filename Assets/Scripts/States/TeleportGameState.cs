@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TeleportGameState : GameState
+public class TeleportGameState : GameStateBehaviour
 {
     [SerializeField] private GameObject anchor;
     [SerializeField] private int frameDelay = 1;

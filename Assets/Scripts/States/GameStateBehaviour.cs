@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameState : MonoBehaviour
+public class GameStateBehaviour : MonoBehaviour
 {
     [SerializeField] private Utils.GameStates listenForState;
     public bool IsActive { get; private set; }
