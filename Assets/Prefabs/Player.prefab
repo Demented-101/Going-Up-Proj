@@ -127,7 +127,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5813795236312865861}
   - component: {fileID: 2653974227910090457}
-  - component: {fileID: 82304968878960213}
+  - component: {fileID: 7195913015587502366}
+  - component: {fileID: 3325044058351551261}
+  - component: {fileID: 785777506303322812}
+  - component: {fileID: 6125527371495795119}
+  - component: {fileID: 3994788116096344240}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -177,7 +181,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &82304968878960213
+--- !u!114 &7195913015587502366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,3 +197,66 @@ MonoBehaviour:
   gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
   printUpdates: 0
   showOnState: 1
+--- !u!114 &3325044058351551261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4756244c5919fd4aa43bc55ca0d2ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listenForState: 2
+  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
+  printUpdates: 0
+  anchor: {fileID: 0}
+  frameDelay: 1
+  copyPosition: 1
+  copyRotation: 0
+--- !u!114 &785777506303322812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858cceea021aa8a41819238ae7f1d6dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
+  initialState: {fileID: 3994788116096344240}
+--- !u!114 &6125527371495795119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503f5256bd4a7c542a6d1f85eb7a092d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementInput: {fileID: 1739868064065894466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  sprintInput: {fileID: 4180077529772703721, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+--- !u!114 &3994788116096344240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8be14fa25d3e940a5d9bf63677ded3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reference: {fileID: 11400000, guid: e31b096b2667be749a383360b26382a3, type: 2}
+  notGroundedState: {fileID: 0}
+  onSprintState: {fileID: 0}
+  rotateInputToCam: 1

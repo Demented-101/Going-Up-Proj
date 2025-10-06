@@ -9,6 +9,8 @@ public class MovementStateHandler : MonoBehaviour
 
     public InputManager inputManager { get; private set; }
     public CharacterController controller { get; private set; }
+    public GameObject cameraObj { get; private set; }
+    public CamOrbitObjState camOrbitController { get; private set; }
 
     [SerializeField] private GameStatus gameStatus;
     [SerializeField] private MovementState initialState;
@@ -16,14 +18,19 @@ public class MovementStateHandler : MonoBehaviour
 
     public void Start()
     {
+        // setup objects required for sub-states
         inputManager = GetComponent<InputManager>();
         controller = GetComponent<CharacterController>();
+        cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        camOrbitController = cameraObj.GetComponent<CamOrbitObjState>();
 
+        // setup initial state
         currentState = initialState;
     }
 
     public void ChangeState(MovementState newState)
     {
+        // Disable old state and start new state.
         MovementState oldState = currentState;
         currentState = newState;
 
@@ -35,6 +42,7 @@ public class MovementStateHandler : MonoBehaviour
 
     public void Update()
     {
-        currentState.enabled = gameStatus.gameState == Utils.GameStates.Run
+        // make sure the player isnt enabled on incorrect states
+        currentState.enabled = gameStatus.gameState == Utils.GameStates.Run;
     }
 }

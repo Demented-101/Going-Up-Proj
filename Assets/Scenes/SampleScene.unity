@@ -831,6 +831,22 @@ PrefabInstance:
       propertyPath: copyRotation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3325044058351551261, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: anchor
+      value: 
+      objectReference: {fileID: 238876472}
+    - target: {fileID: 3325044058351551261, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: copyPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3325044058351551261, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: copyRotation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3994788116096344240, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: mapMovementToCamera
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4422173333338732555, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 251500144
@@ -2076,7 +2092,7 @@ PrefabInstance:
       objectReference: {fileID: 2122044370}
     - target: {fileID: 8814897065899629075, guid: 8e925986d78456c4a8c831e0dbb83b09, type: 3}
       propertyPath: m_VersionIndex
-      value: 2296
+      value: 2299
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

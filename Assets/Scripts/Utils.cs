@@ -6,6 +6,10 @@ public static class Utils
     {
         Pregame, Elevator, Run, GameOver,
     }
+    public enum CameraStates
+    {
+        FreeOrbit, LockedX, Locked
+    }
 
     // multiplayer (unused)
     public const int maxLobbySize = 4;
