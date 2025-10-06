@@ -7,20 +7,15 @@ public class MovementState : MonoBehaviour
     [SerializeField] public MovementStateReference reference;
 
     public MovementStateHandler stateHandler { get; private set; }
-    public InputManager inputManager { get; private set; }
-    public CharacterController characterController { get; private set; }
-    public GameObject camObj { get; private set; }
-    public CamOrbitObjState camOrbit { get; private set; }
+    private InputManager inputManager;
+    private CharacterController characterController;
+    private GameObject camObj;
+    private CamOrbitObjState camOrbit;
 
 
     private void Start()
     {
         stateHandler = GetComponent<MovementStateHandler>();
-
-        inputManager = stateHandler.inputManager;
-        characterController = stateHandler.controller;
-        camObj = stateHandler.cameraObj;
-        camOrbit = stateHandler.camOrbitController;
     }
 
     public static Vector3 GetMoveDirection(InputManager inputManager, bool mapToCam, GameObject cam = null)
@@ -58,8 +53,31 @@ public class MovementState : MonoBehaviour
         // how much we speed up/slow down is dependent on the difference between the wish and current velocity
         float currentSpeed = Vector3.Dot(currentVelocity, wishDirection);
         float addSpeed = Mathf.Clamp(reference.maxVelocity - currentSpeed, 0, reference.acceleration * delta); // clamped to stop the player from going too fast
-        Debug.Log(currentSpeed + "    " + addSpeed);
-
+        
         return currentVelocity + (wishDirection * addSpeed);
+    }
+
+    public GameObject GetCameraGameObject()
+    {
+        if (camObj != null) { return camObj; }
+        return GameObject.FindGameObjectWithTag("MainCamera");
+    }
+
+    public CamOrbitObjState GetCameraOrbitState()
+    {
+        if (camOrbit != null) { return camOrbit; }
+        return GetCameraGameObject().GetComponent<CamOrbitObjState>();
+    }
+
+    public InputManager GetInputManager()
+    {
+        if (inputManager != null) { return inputManager; }
+        return stateHandler.inputManager;
+    }
+
+    public CharacterController GetCharacter()
+    {
+        if (characterController != null) { return characterController; }
+        return stateHandler.controller;
     }
 }

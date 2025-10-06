@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
   m_Name: PlayerGeneric
   m_EditorClassIdentifier: 
-  maxVelocity: 1
-  acceleration: 0.85
+  maxVelocity: 4
+  acceleration: 0.2
   stopSpeed: 1.5
   gravity: -9.81
   friction: 4

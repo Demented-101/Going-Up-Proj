@@ -22,6 +22,7 @@ public class MovementStateHandler : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         controller = GetComponent<CharacterController>();
         cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
+        Debug.Log(cameraObj);
         camOrbitController = cameraObj.GetComponent<CamOrbitObjState>();
 
         // setup initial state
