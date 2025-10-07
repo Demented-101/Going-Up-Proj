@@ -7,6 +7,8 @@ public class MoveStateWalk : MovementState
     public MovementState onSprintState;
     public bool mapMovementToCamera;
 
+    private float coyoteTime;
+
     private void Update()
     {
         // get input direction
@@ -15,8 +17,11 @@ public class MoveStateWalk : MovementState
         // -> midair state
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
+        // jumping -> midair state (is on ground or coyote time)
+        if (stateHandler.inputManager.GetWishJump()) { Jump(); return; }
+
         // -> sprint state
-        if (onSprintState != null && stateHandler.inputManager.GetIsSprinting()) {stateHandler.ChangeState(onSprintState); return; }
+        if (onSprintState != null && stateHandler.inputManager.GetWishSprint()) {stateHandler.ChangeState(onSprintState); return; }
 
         Vector3 oldVelocity = stateHandler.velocity;
         stateHandler.Move(ProcessMovement(wishDir, oldVelocity));
@@ -35,5 +40,14 @@ public class MoveStateWalk : MovementState
         }
 
         return Accelerate(wishDir, velocity, reference);
+    }
+
+    private void Jump()
+    {
+        Vector3 newVelocity = stateHandler.velocity * reference.jumpLeapPower;
+        newVelocity.y += reference.jumpImpulse;
+
+        stateHandler.ChangeState(notGroundedState);
+        stateHandler.Move(newVelocity);
     }
 }

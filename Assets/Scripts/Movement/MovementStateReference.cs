@@ -10,7 +10,10 @@ public class MovementStateReference : ScriptableObject
     public float stopSpeed = 1.5f; // the minimun speed at which the player stops - otherwise current speed is used
     public float gravity = 9.81f; 
     public float friction = 4.0f; // multiplies slow-down speed
+
     public float jumpImpulse = 2.0f;
+    public float jumpLeapPower = 0.9f; // horizonal movement multiplier on-jump
+    public float coyoteTime = 0.3f; // additional time to perform a jump when leaving the ground
 
     // max air velocity is omitted since air velocity should use a seperate movement state ref
 

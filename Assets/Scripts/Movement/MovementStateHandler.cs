@@ -32,6 +32,8 @@ public class MovementStateHandler : MonoBehaviour
 
     public void ChangeState(MovementState newState)
     {
+        if (newState == currentState) { return; }
+
         if (newState == null)
         {
             Debug.LogError("State passed is null");
@@ -48,10 +50,11 @@ public class MovementStateHandler : MonoBehaviour
         currentState = newState;
 
         oldState.enabled = false;
-        newState.enabled = true;
+        oldState.onExit();
 
-        Debug.Log(oldState + "   old");
-        Debug.Log(newState + "   new");
+        newState.enabled = true;
+        newState.onEntered();
+
         onStateChanged?.Invoke(newState, oldState);
     }
 

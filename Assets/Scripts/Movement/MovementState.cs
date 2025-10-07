@@ -12,6 +12,9 @@ public class MovementState : MonoBehaviour
         stateHandler = GetComponent<MovementStateHandler>();
     }
 
+    public virtual void onEntered() { }
+    public virtual void onExit() { }
+
     public static Vector3 GetMoveDirection(InputManager inputManager, bool mapToCam, GameObject cam = null)
     {
         Vector3 wishDir = Vector3.zero;

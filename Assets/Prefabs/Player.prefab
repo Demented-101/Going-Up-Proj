@@ -246,6 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementInput: {fileID: 1739868064065894466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   sprintInput: {fileID: 4180077529772703721, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  jumpInput: {fileID: 5257537664434596400, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &3994788116096344240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +262,7 @@ MonoBehaviour:
   reference: {fileID: 11400000, guid: e31b096b2667be749a383360b26382a3, type: 2}
   notGroundedState: {fileID: 4527509128101230564}
   onSprintState: {fileID: 0}
-  mapMovementToCamera: 0
+  mapMovementToCamera: 1
 --- !u!114 &4527509128101230564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,4 +277,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: {fileID: 11400000, guid: 6f5fe34fff0a92e4793c2c09a7fbd9ff, type: 2}
   onGroundedState: {fileID: 3994788116096344240}
-  mapMovementToCamera: 0
+  mapMovementToCamera: 1

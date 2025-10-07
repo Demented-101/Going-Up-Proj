@@ -16,7 +16,9 @@ MonoBehaviour:
   acceleration: 30
   stopSpeed: 1.5
   gravity: 0
-  friction: 4
-  jumpImpulse: 2
+  friction: 5
+  jumpImpulse: 3
+  jumpLeapPower: 1.7
+  coyoteTime: 0
   cameraState: 0
   camSpeedLock: {x: -1, y: -1}
