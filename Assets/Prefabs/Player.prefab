@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 785777506303322812}
   - component: {fileID: 6125527371495795119}
   - component: {fileID: 3994788116096344240}
+  - component: {fileID: 4527509128101230564}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -230,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
   initialState: {fileID: 3994788116096344240}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!114 &6125527371495795119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +259,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: {fileID: 11400000, guid: e31b096b2667be749a383360b26382a3, type: 2}
-  notGroundedState: {fileID: 0}
+  notGroundedState: {fileID: 4527509128101230564}
   onSprintState: {fileID: 0}
-  rotateInputToCam: 1
+  mapMovementToCamera: 0
+--- !u!114 &4527509128101230564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2035ae47687541c4f9475241e42bddfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reference: {fileID: 11400000, guid: 6f5fe34fff0a92e4793c2c09a7fbd9ff, type: 2}
+  onGroundedState: {fileID: 3994788116096344240}
+  mapMovementToCamera: 0

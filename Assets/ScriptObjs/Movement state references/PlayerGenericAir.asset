@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
-  m_Name: PlayerGeneric
+  m_Name: PlayerGenericAir
   m_EditorClassIdentifier: 
-  maxVelocity: 6
-  acceleration: 30
-  stopSpeed: 1.5
-  gravity: 0
-  friction: 4
+  maxVelocity: 5
+  acceleration: 0.2
+  stopSpeed: 0.8
+  gravity: 9.81
+  friction: 0
   jumpImpulse: 2
   cameraState: 0
   camSpeedLock: {x: -1, y: -1}

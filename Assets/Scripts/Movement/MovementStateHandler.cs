@@ -32,6 +32,17 @@ public class MovementStateHandler : MonoBehaviour
 
     public void ChangeState(MovementState newState)
     {
+        if (newState == null)
+        {
+            Debug.LogError("State passed is null");
+            return;
+        }
+        if (currentState == null)
+        {
+            Debug.Log("Old state is null");
+            return;
+        }
+
         // Disable old state and start new state.
         MovementState oldState = currentState;
         currentState = newState;
@@ -39,7 +50,9 @@ public class MovementStateHandler : MonoBehaviour
         oldState.enabled = false;
         newState.enabled = true;
 
-        onStateChanged.Invoke(newState, oldState);
+        Debug.Log(oldState + "   old");
+        Debug.Log(newState + "   new");
+        onStateChanged?.Invoke(newState, oldState);
     }
 
     public void Update()
@@ -54,8 +67,7 @@ public class MovementStateHandler : MonoBehaviour
 
         if(controller != null && velocity != Vector3.zero)
         {
-            Debug.Log(newVelocity);
-            controller.Move(velocity);
+            controller.Move(velocity * Time.deltaTime);
         }
     }
 }

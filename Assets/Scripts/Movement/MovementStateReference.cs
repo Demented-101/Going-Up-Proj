@@ -5,11 +5,11 @@ using UnityEngine.Rendering;
 public class MovementStateReference : ScriptableObject
 {
     // used for easy customization of movement states
-    public float maxVelocity = 0.6f;
-    public float acceleration = 6f;
-    public float stopSpeed = 1.5f; // how fast the player slows down. use as friction
-    public float gravity = -9.81f; // used only when not grounded
-    public float friction = 4.0f;
+    public float maxVelocity = 0.6f; // the plauers top-speed
+    public float acceleration = 6f; // how fast the player speeds up
+    public float stopSpeed = 1.5f; // the minimun speed at which the player stops - otherwise current speed is used
+    public float gravity = 9.81f; 
+    public float friction = 4.0f; // multiplies slow-down speed
     public float jumpImpulse = 2.0f;
 
     // max air velocity is omitted since air velocity should use a seperate movement state ref
