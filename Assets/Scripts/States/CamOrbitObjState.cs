@@ -17,6 +17,9 @@ public class CamOrbitObjState : GameStateBehaviour
     private float currentX;
     private float currentY;
 
+    private Utils.CameraStates cameraState;
+    private Vector2 movementLock;
+
     public override void Start()
     {
         base.Start();

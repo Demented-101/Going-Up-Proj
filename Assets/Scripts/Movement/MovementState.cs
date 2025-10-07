@@ -5,13 +5,7 @@ using UnityEngine.Rendering;
 public class MovementState : MonoBehaviour
 {
     [SerializeField] public MovementStateReference reference;
-
     public MovementStateHandler stateHandler { get; private set; }
-    private InputManager inputManager;
-    private CharacterController characterController;
-    private GameObject camObj;
-    private CamOrbitObjState camOrbit;
-
 
     private void Start()
     {
@@ -57,27 +51,17 @@ public class MovementState : MonoBehaviour
         return currentVelocity + (wishDirection * addSpeed);
     }
 
+    private GameObject _camObj = null;
     public GameObject GetCameraGameObject()
     {
-        if (camObj != null) { return camObj; }
+        if (_camObj != null) { return _camObj; }
         return GameObject.FindGameObjectWithTag("MainCamera");
     }
 
+    private CamOrbitObjState _camOrbit = null;
     public CamOrbitObjState GetCameraOrbitState()
     {
-        if (camOrbit != null) { return camOrbit; }
+        if (_camOrbit != null) { return _camOrbit; }
         return GetCameraGameObject().GetComponent<CamOrbitObjState>();
-    }
-
-    public InputManager GetInputManager()
-    {
-        if (inputManager != null) { return inputManager; }
-        return stateHandler.inputManager;
-    }
-
-    public CharacterController GetCharacter()
-    {
-        if (characterController != null) { return characterController; }
-        return stateHandler.controller;
     }
 }

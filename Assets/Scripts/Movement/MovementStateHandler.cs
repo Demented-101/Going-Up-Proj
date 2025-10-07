@@ -15,6 +15,7 @@ public class MovementStateHandler : MonoBehaviour
     [SerializeField] private GameStatus gameStatus;
     [SerializeField] private MovementState initialState;
     public MovementState currentState { get; private set; }
+    public Vector3 velocity = Vector3.zero;
 
     public void Start()
     {
@@ -45,5 +46,16 @@ public class MovementStateHandler : MonoBehaviour
     {
         // make sure the player isnt enabled on incorrect states
         currentState.enabled = gameStatus.gameState == Utils.GameStates.Run;
+    }
+
+    public void Move(Vector3 newVelocity)
+    {
+        velocity = newVelocity;
+
+        if(controller != null && velocity != Vector3.zero)
+        {
+            Debug.Log(newVelocity);
+            controller.Move(velocity);
+        }
     }
 }
