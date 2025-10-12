@@ -7,8 +7,12 @@ public class MoveStateAir : MovementState
     public bool mapMovementToCamera;
     private float coyoteTime;
 
+    public int fallAnimationState; // if character has high downward vertical velocity
+    public int leapAnimationState; // if character has high horizontal velocity
+
     public override void onEntered()
     {
+        base.onEntered();
         coyoteTime = reference.coyoteTime;
     }
 
@@ -19,6 +23,10 @@ public class MoveStateAir : MovementState
             coyoteTime -= Time.deltaTime; 
             if (stateHandler.inputManager.GetWishJump()) { Jump(); }
         }
+        else
+        {
+            stateHandler.SetAnimatorState(fallAnimationState);
+        }
 
         // get input direction
         Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, mapMovementToCamera, GetCameraGameObject());
@@ -28,7 +36,9 @@ public class MoveStateAir : MovementState
 
         Vector3 velocity = stateHandler.velocity;
         velocity.y -= reference.gravity * Time.deltaTime;
+
         stateHandler.Move(Accelerate(wishDir, velocity, reference));
+        stateHandler.Rotate(reference.rotationMode);
     }
 
     private void Jump()
@@ -39,5 +49,6 @@ public class MoveStateAir : MovementState
         newVelocity.y += reference.jumpImpulse;
 
         stateHandler.Move(newVelocity);
+        stateHandler.SetAnimatorState(leapAnimationState);
     }
 }

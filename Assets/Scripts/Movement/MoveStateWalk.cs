@@ -7,7 +7,10 @@ public class MoveStateWalk : MovementState
     public MovementState onSprintState;
     public bool mapMovementToCamera;
 
-    private float coyoteTime;
+    public int idleAnimationState = 0;
+    public int walkingAnimationState = 1;
+    public int jumpAnimationState = -1;
+    public float animationSpeedMultiplier = 1.0f;
 
     private void Update()
     {
@@ -24,8 +27,14 @@ public class MoveStateWalk : MovementState
         if (onSprintState != null && stateHandler.inputManager.GetWishSprint()) {stateHandler.ChangeState(onSprintState); return; }
 
         Vector3 oldVelocity = stateHandler.velocity;
-        stateHandler.Move(ProcessMovement(wishDir, oldVelocity));
+        Vector3 newVelocity = ProcessMovement(wishDir, oldVelocity);
+
+        stateHandler.Move(newVelocity);
+        stateHandler.SetAnimatorState(newVelocity.magnitude > 0? walkingAnimationState : idleAnimationState);
+        stateHandler.SetAnimatorSpeed(newVelocity.magnitude * animationSpeedMultiplier);
+        stateHandler.Rotate(reference.rotationMode);
     }
+
 
     private Vector3 ProcessMovement(Vector3 wishDir, Vector3 velocity)
     {
@@ -49,5 +58,6 @@ public class MoveStateWalk : MovementState
 
         stateHandler.ChangeState(notGroundedState);
         stateHandler.Move(newVelocity);
+        stateHandler.SetAnimatorState(jumpAnimationState);
     }
 }

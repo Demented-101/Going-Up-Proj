@@ -13,6 +13,7 @@ public class MovementState : MonoBehaviour
     }
 
     public virtual void onEntered() { }
+
     public virtual void onExit() { }
 
     public static Vector3 GetMoveDirection(InputManager inputManager, bool mapToCam, GameObject cam = null)
@@ -55,13 +56,12 @@ public class MovementState : MonoBehaviour
     }
 
     private GameObject _camObj = null;
+    private CamOrbitObjState _camOrbit = null;
     public GameObject GetCameraGameObject()
     {
         if (_camObj != null) { return _camObj; }
         return GameObject.FindGameObjectWithTag("MainCamera");
     }
-
-    private CamOrbitObjState _camOrbit = null;
     public CamOrbitObjState GetCameraOrbitState()
     {
         if (_camOrbit != null) { return _camOrbit; }

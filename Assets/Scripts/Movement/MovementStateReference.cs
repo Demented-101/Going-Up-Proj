@@ -17,6 +17,8 @@ public class MovementStateReference : ScriptableObject
 
     // max air velocity is omitted since air velocity should use a seperate movement state ref
 
+    // camera + character transform controls
     public Utils.CameraStates cameraState = Utils.CameraStates.FreeOrbit;
     public Vector2 camSpeedLock = new Vector2(-1, -1); // -1 is uncapped, 0 means no control, 1 means only 1 unit per second max
+    public Utils.CharacterRotationMode rotationMode;
 }

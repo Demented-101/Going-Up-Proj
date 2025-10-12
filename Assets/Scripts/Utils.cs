@@ -10,6 +10,10 @@ public static class Utils
     {
         FreeOrbit, LockedX, Locked
     }
+    public enum CharacterRotationMode
+    {
+        None, FollowVelocity, FollowVelocityHorizontal, FollowCamera
+    } // follow veloctity makes the character face real velocity, follow velocity horizontal will lock rotation to horizontal rotation.
 
     // multiplayer (unused)
     public const int maxLobbySize = 4;
