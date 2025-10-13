@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal.Filters;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,25 +10,26 @@ public class MoveStateWalk : MovementState
 
     public int idleAnimationState = 0;
     public int walkingAnimationState = 1;
-    public int jumpAnimationState = -1;
     public float animationSpeedMultiplier = 1.0f;
+    public string jumpAnimationTrigger = "";
 
     private void Update()
     {
         // get input direction
         Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, mapMovementToCamera, GetCameraGameObject());
 
-        // -> midair state
-        if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
+        // -> midair state - make sure can do coyote time
+        if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState, new string[1] { "do Coyote Time" }); return; }
 
         // jumping -> midair state (is on ground or coyote time)
         if (stateHandler.inputManager.GetWishJump()) { Jump(); return; }
 
         // -> sprint state
-        if (onSprintState != null && stateHandler.inputManager.GetWishSprint()) {stateHandler.ChangeState(onSprintState); return; }
+        if (onSprintState != null && stateHandler.inputManager.GetWishSprint()) {stateHandler.ChangeState(onSprintState, new string[0]); return; }
 
         Vector3 oldVelocity = stateHandler.velocity;
         Vector3 newVelocity = ProcessMovement(wishDir, oldVelocity);
+        //if (newVelocity.y < 0) { newVelocity.y = 0; }
 
         stateHandler.Move(newVelocity);
         stateHandler.SetAnimatorState(newVelocity.magnitude > 0? walkingAnimationState : idleAnimationState);
@@ -54,10 +56,11 @@ public class MoveStateWalk : MovementState
     private void Jump()
     {
         Vector3 newVelocity = stateHandler.velocity * reference.jumpLeapPower;
-        newVelocity.y += reference.jumpImpulse;
+        newVelocity.y = reference.jumpImpulse;
 
-        stateHandler.ChangeState(notGroundedState);
+        stateHandler.ChangeState(notGroundedState, new string[0]); // do not allow coyote time
         stateHandler.Move(newVelocity);
-        stateHandler.SetAnimatorState(jumpAnimationState);
+        if (jumpAnimationTrigger != "") { stateHandler.SendAnimatorTrigger(jumpAnimationTrigger); }
+        
     }
 }

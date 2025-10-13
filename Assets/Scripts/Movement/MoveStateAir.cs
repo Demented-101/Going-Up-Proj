@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -7,13 +8,13 @@ public class MoveStateAir : MovementState
     public bool mapMovementToCamera;
     private float coyoteTime;
 
-    public int fallAnimationState; // if character has high downward vertical velocity
-    public int leapAnimationState; // if character has high horizontal velocity
+    [SerializeField] private int fallAnimationState = -1;
+    [SerializeField] private string jumpAnimationTrigger = "";
 
-    public override void onEntered()
+    public override void onEntered(string[] data)
     {
-        base.onEntered();
-        coyoteTime = reference.coyoteTime;
+        base.onEntered(data);
+        coyoteTime = data.Contains("do Coyote Time") ? reference.coyoteTime : 0;
     }
 
     private void Update()
@@ -32,7 +33,11 @@ public class MoveStateAir : MovementState
         Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, mapMovementToCamera, GetCameraGameObject());
 
         // -> grounded state
-        if (onGroundedState != null && stateHandler.controller.isGrounded) { stateHandler.ChangeState(onGroundedState); return; }
+        if (onGroundedState != null && stateHandler.controller.isGrounded) {
+            stateHandler.Move(stateHandler.velocity + new Vector3(1, 0, 1)); // remove Y component for landing - improves jump physics
+            stateHandler.ChangeState(onGroundedState, new string[0]); 
+            return; 
+        }
 
         Vector3 velocity = stateHandler.velocity;
         velocity.y -= reference.gravity * Time.deltaTime;
@@ -46,9 +51,10 @@ public class MoveStateAir : MovementState
         coyoteTime = 0;
 
         Vector3 newVelocity = stateHandler.velocity * reference.jumpLeapPower;
-        newVelocity.y += reference.jumpImpulse;
+        newVelocity.y = reference.jumpImpulse;
 
         stateHandler.Move(newVelocity);
-        stateHandler.SetAnimatorState(leapAnimationState);
+        if (jumpAnimationTrigger != "") { stateHandler.SendAnimatorTrigger(jumpAnimationTrigger); }
+        
     }
 }

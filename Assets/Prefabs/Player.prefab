@@ -183,7 +183,7 @@ MonoBehaviour:
   mapMovementToCamera: 1
   idleAnimationState: 0
   walkingAnimationState: 1
-  jumpAnimationState: -1
+  jumpAnimationTrigger: Jump
   animationSpeedMultiplier: 0.4
 --- !u!114 &4527509128101230564
 MonoBehaviour:
@@ -201,7 +201,7 @@ MonoBehaviour:
   onGroundedState: {fileID: 3994788116096344240}
   mapMovementToCamera: 1
   fallAnimationState: -1
-  leapAnimationState: -1
+  jumpAnimationTrigger: jump
 --- !u!1001 &224639137517415439
 PrefabInstance:
   m_ObjectHideFlags: 0

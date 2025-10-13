@@ -12,7 +12,7 @@ public class MovementState : MonoBehaviour
         stateHandler = GetComponent<MovementStateHandler>();
     }
 
-    public virtual void onEntered() { }
+    public virtual void onEntered(string[] data) { }
 
     public virtual void onExit() { }
 

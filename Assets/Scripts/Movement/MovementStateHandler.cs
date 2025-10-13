@@ -38,7 +38,7 @@ public class MovementStateHandler : MonoBehaviour
         currentState = initialState;
     }
 
-    public void ChangeState(MovementState newState)
+    public void ChangeState(MovementState newState, string[] data)
     {
         if (newState == currentState) { return; }
 
@@ -64,7 +64,7 @@ public class MovementStateHandler : MonoBehaviour
         oldState.onExit();
 
         newState.enabled = true;
-        newState.onEntered();
+        newState.onEntered(data);
 
         onStateChanged?.Invoke(newState, oldState);
     }
@@ -141,9 +141,17 @@ public class MovementStateHandler : MonoBehaviour
         }
     }
 
+    public void SendAnimatorTrigger(string triggerName)
+    {
+        if (animator != null && AnimatorHasParameter(animator, "Jump"))
+        {
+            animator.SetTrigger(triggerName);
+        }
+    }
+
     private static bool AnimatorHasParameter(Animator animator, string paramName)
     {
-        foreach( AnimatorControllerParameter param in animator.parameters)
+        foreach( AnimatorControllerParameter param in animator.parameters )
         {
             if (param.name == paramName) return true;
         }
