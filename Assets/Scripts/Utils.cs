@@ -6,14 +6,15 @@ public static class Utils
     {
         Pregame, Elevator, Run, GameOver,
     }
-    public enum CameraStates
-    {
-        FreeOrbit, LockedX, Locked
-    }
     public enum CharacterRotationMode
     {
-        None, FollowVelocity, FollowVelocityHorizontal, FollowCamera
-    } // follow veloctity makes the character face real velocity, follow velocity horizontal will lock rotation to horizontal rotation.
+        None, FollowVelocity, FollowVelocityHorizontal, FollowCamera, FollowCameraHorizontal
+    }
+    public enum InputMappingMode
+    {
+        None, ToCamera, ToCameraHorizontal
+    }
+
 
     // multiplayer (unused)
     public const int maxLobbySize = 4;

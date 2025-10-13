@@ -43,10 +43,11 @@ GameObject:
   - component: {fileID: 2653974227910090457}
   - component: {fileID: 7195913015587502366}
   - component: {fileID: 3325044058351551261}
-  - component: {fileID: 785777506303322812}
   - component: {fileID: 6125527371495795119}
+  - component: {fileID: 785777506303322812}
   - component: {fileID: 3994788116096344240}
   - component: {fileID: 4527509128101230564}
+  - component: {fileID: 7688665356511021128}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -131,6 +132,21 @@ MonoBehaviour:
   frameDelay: 1
   copyPosition: 1
   copyRotation: 0
+--- !u!114 &6125527371495795119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503f5256bd4a7c542a6d1f85eb7a092d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementInput: {fileID: 1739868064065894466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  sprintInput: {fileID: 4180077529772703721, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  jumpInput: {fileID: 5257537664434596400, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &785777506303322812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,21 +166,6 @@ MonoBehaviour:
   animStateName: State
   animSpeedName: Speed
   printUpdates: 0
---- !u!114 &6125527371495795119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004087044261627823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 503f5256bd4a7c542a6d1f85eb7a092d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementInput: {fileID: 1739868064065894466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  sprintInput: {fileID: 4180077529772703721, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  jumpInput: {fileID: 5257537664434596400, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!114 &3994788116096344240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,12 +180,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: {fileID: 11400000, guid: e31b096b2667be749a383360b26382a3, type: 2}
   notGroundedState: {fileID: 4527509128101230564}
-  onSprintState: {fileID: 0}
-  mapMovementToCamera: 1
+  onSprintState: {fileID: 7688665356511021128}
+  inputMapping: 2
   idleAnimationState: 0
   walkingAnimationState: 1
-  jumpAnimationTrigger: Jump
   animationSpeedMultiplier: 0.4
+  jumpAnimationTrigger: Jump
 --- !u!114 &4527509128101230564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,9 +200,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reference: {fileID: 11400000, guid: 6f5fe34fff0a92e4793c2c09a7fbd9ff, type: 2}
   onGroundedState: {fileID: 3994788116096344240}
-  mapMovementToCamera: 1
+  inputMapping: 2
   fallAnimationState: -1
-  jumpAnimationTrigger: jump
+  jumpAnimationTrigger: Jump
+--- !u!114 &7688665356511021128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004087044261627823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cd456c205c1e04a8e1b0feceb35a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reference: {fileID: 11400000, guid: 87a8ec87e6ed24d4686792f13ae88ba0, type: 2}
+  walkState: {fileID: 3994788116096344240}
+  notGroundedState: {fileID: 4527509128101230564}
+  runningAnimationState: 1
+  startAnimationTrigger: 
+  animationSpeedMultiplier: 0.5
+  jumpAnimationTrigger: Jump
 --- !u!1001 &224639137517415439
 PrefabInstance:
   m_ObjectHideFlags: 0

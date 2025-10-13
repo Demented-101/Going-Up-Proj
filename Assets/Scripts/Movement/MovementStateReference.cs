@@ -14,11 +14,11 @@ public class MovementStateReference : ScriptableObject
     public float jumpImpulse = 2.0f;
     public float jumpLeapPower = 0.9f; // horizonal movement multiplier on-jump
     public float coyoteTime = 0.3f; // additional time to perform a jump when leaving the ground
-
+    public float sprintSpeedRequirement = 2.0f; // the speed needed to be able to sprint
+    
     // max air velocity is omitted since air velocity should use a seperate movement state ref
 
     // camera + character transform controls
-    public Utils.CameraStates cameraState = Utils.CameraStates.FreeOrbit;
     public Vector2 camSpeedLock = new Vector2(-1, -1); // -1 is uncapped, 0 means no control, 1 means only 1 unit per second max
     public Utils.CharacterRotationMode rotationMode;
 }

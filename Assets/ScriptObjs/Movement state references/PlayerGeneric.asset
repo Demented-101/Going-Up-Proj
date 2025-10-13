@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
   m_Name: PlayerGeneric
   m_EditorClassIdentifier: 
-  maxVelocity: 6
+  maxVelocity: 10
   acceleration: 30
-  stopSpeed: 1.5
-  gravity: 0
-  friction: 5
+  stopSpeed: 2.5
+  gravity: 9.81
+  friction: 4
   jumpImpulse: 4
-  jumpLeapPower: 1.7
+  jumpLeapPower: 1.2
   coyoteTime: 0
-  cameraState: 0
+  sprintSpeedRequirement: 0.5
   camSpeedLock: {x: -1, y: -1}
   rotationMode: 2

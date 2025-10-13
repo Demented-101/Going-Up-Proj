@@ -38,23 +38,16 @@ public class MovementStateHandler : MonoBehaviour
         currentState = initialState;
     }
 
-    public void ChangeState(MovementState newState, string[] data)
+    public void ChangeState(MovementState newState, MovementState.TransitionData[] data = null)
     {
-        if (newState == currentState) { return; }
+        if (newState == null || currentState == null || newState == currentState) { return; }
 
-        if (newState == null)
+        if (printUpdates) 
         {
-            Debug.LogError("State passed is null");
-            return;
+            
+            if (data != null) { Debug.Log("new state entered: " + newState + " data size: " + data.Length); }
+            else { Debug.Log("new state entered: " + newState); }
         }
-        if (currentState == null)
-        {
-            Debug.Log("Old state is null");
-            return;
-        }
-
-        Debug.Log(printUpdates);
-        if (printUpdates) { Debug.Log("new state entered: " + newState); }
 
         // Disable old state and start new state.
         MovementState oldState = currentState;
@@ -64,7 +57,7 @@ public class MovementStateHandler : MonoBehaviour
         oldState.onExit();
 
         newState.enabled = true;
-        newState.onEntered(data);
+        newState.onEntered(data == null ? Array.Empty<MovementState.TransitionData>() : data); // make sure an array is always passed);
 
         onStateChanged?.Invoke(newState, oldState);
     }
@@ -83,6 +76,12 @@ public class MovementStateHandler : MonoBehaviour
         {
             controller.Move(velocity * Time.deltaTime);
         }
+    }
+
+    public void CapSpeed(float speed)
+    {
+        if (velocity.magnitude <= speed) { return; }
+        velocity = velocity.normalized * speed;
     }
 
     public void Rotate(Utils.CharacterRotationMode rotationMode)
@@ -122,7 +121,21 @@ public class MovementStateHandler : MonoBehaviour
                 transform.LookAt(transform.position + camForward);
                 
                 break;
+
+            case Utils.CharacterRotationMode.FollowCameraHorizontal:
+                // follow main camera - horizontal only
+
+                if (cameraObj == null) { Debug.LogError("No camera found - rotation cannot follow camera rot"); break; }
+                Vector3 camForwardHorz = new Vector3(cameraObj.transform.forward.x, 0, cameraObj.transform.forward.z);
+                transform.LookAt(transform.position + camForwardHorz.normalized);
+
+                break;
         }
+    }
+
+    public void UpdateCameraLock(Vector2 camLock)
+    {
+        camOrbitController.movementLock = camLock;
     }
 
     public void SetAnimatorState(int newState)
