@@ -11,6 +11,7 @@ public class MovementStateHandler : MonoBehaviour
     public CharacterController controller { get; private set; }
     public GameObject cameraObj { get; private set; }
     public CamOrbitObjState camOrbitController { get; private set; }
+    private MovementState[] allStates = null;
 
     [SerializeField] private GameStatus gameStatus;
     [SerializeField] private MovementState initialState;
@@ -36,18 +37,18 @@ public class MovementStateHandler : MonoBehaviour
 
         // setup initial state
         currentState = initialState;
+        allStates = GetComponents<MovementState>();
     }
 
     public void ChangeState(MovementState newState, MovementState.TransitionData[] data = null)
     {
-        if (newState == null || currentState == null || newState == currentState) { return; }
-
         if (printUpdates) 
         {
-            
-            if (data != null) { Debug.Log("new state entered: " + newState + " data size: " + data.Length); }
-            else { Debug.Log("new state entered: " + newState); }
+            if (data != null) { Debug.Log("new state entered: " + newState + " old state: " + currentState + " data size: " + data.Length); }
+            else { Debug.Log("new state entered: " + newState + "old state: " + currentState); }
         }
+
+        if (newState == null || currentState == null || newState == currentState) { if (printUpdates) Debug.Log("returned");  return;  }
 
         // Disable old state and start new state.
         MovementState oldState = currentState;
@@ -64,8 +65,11 @@ public class MovementStateHandler : MonoBehaviour
 
     public void Update()
     {
-        // make sure the player isnt enabled on incorrect states
-        currentState.enabled = gameStatus.gameState == Utils.GameStates.Run;
+        foreach(MovementState state in allStates)
+        {
+            // only the current state is enabled, and is disabled out of game
+            state.enabled = state == currentState && gameStatus.gameState == Utils.GameStates.Run;
+        }
     }
 
     public void Move(Vector3 newVelocity)

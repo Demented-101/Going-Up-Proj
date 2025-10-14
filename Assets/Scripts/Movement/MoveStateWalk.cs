@@ -17,6 +17,7 @@ public class MoveStateWalk : MovementState
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
+        stateHandler.camOrbitController.SetYClamp(Utils.genericCamLock.x, Utils.genericCamLock.y, 1);
 
         Vector3 currentVelocity = stateHandler.velocity;
         if (!data.Contains(TransitionData.IgnoreVelocityCap))
@@ -39,15 +40,16 @@ public class MoveStateWalk : MovementState
         // calculate velocities
         Vector3 oldVelocity = stateHandler.velocity;
         Vector3 newVelocity = ProcessMovement(wishDir, oldVelocity);
-        float horizontalSpeed = new Vector3(newVelocity.x, 0, newVelocity.z).magnitude;
+        float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
         
-        // -> sprint state
-        if (onSprintState != null && CanSprint(horizontalSpeed)) {stateHandler.ChangeState(onSprintState); return; }
 
         stateHandler.Move(newVelocity);
         stateHandler.SetAnimatorState(horizontalSpeed > 0.05? walkingAnimationState : idleAnimationState);
         stateHandler.SetAnimatorSpeed(horizontalSpeed * animationSpeedMultiplier);
         stateHandler.Rotate(reference.rotationMode);
+        
+        // -> sprint state
+        if (onSprintState != null && CanSprint(horizontalSpeed)) { stateHandler.ChangeState(onSprintState); return; }
     }
 
     private Vector3 ProcessMovement(Vector3 wishDir, Vector3 velocity)
@@ -68,7 +70,6 @@ public class MoveStateWalk : MovementState
 
     private void Jump()
     {
-
         Vector3 newVelocity = stateHandler.velocity * reference.jumpLeapPower;
         newVelocity.y = reference.jumpImpulse;
 

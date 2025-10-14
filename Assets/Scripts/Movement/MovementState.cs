@@ -32,7 +32,7 @@ public class MovementState : MonoBehaviour
         switch (mapping)
         {
             case Utils.InputMappingMode.None: // input -> wish movement
-                wishDir = new Vector3(input.y, 0, input.x);
+                wishDir = Utils.GetHorizontal(input, true);
                 break;
 
             case Utils.InputMappingMode.ToCamera: //input -> camera rotation
@@ -44,8 +44,8 @@ public class MovementState : MonoBehaviour
                 break;
 
             case Utils.InputMappingMode.ToCameraHorizontal: //input -> camera rotation (remove Y)
-                Vector3 camForwardHorz = new Vector3(cam.transform.forward.x, 0, cam.transform.forward.z);
-                Vector3 camRightHorz = new Vector3(cam.transform.right.x, 0, cam.transform.right.z);
+                Vector3 camForwardHorz = Utils.GetHorizontal(cam.transform.forward, true);
+                Vector3 camRightHorz = Utils.GetHorizontal(cam.transform.right, true); ;
 
                 wishDir += camForwardHorz.normalized * input.y;
                 wishDir += camRightHorz.normalized * input.x;

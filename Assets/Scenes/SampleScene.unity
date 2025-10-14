@@ -867,6 +867,10 @@ PrefabInstance:
       propertyPath: leapAnimationState
       value: -2
       objectReference: {fileID: 0}
+    - target: {fileID: 4527509128101230564, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: onGroundedSprintState
+      value: 
+      objectReference: {fileID: 2098559203}
     - target: {fileID: 5201987354581476343, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: speed
       value: 5
@@ -1312,10 +1316,8 @@ MonoBehaviour:
   m_VersionIndex: 3253
   m_IsSelectable: 1
   m_SelectedFaces: 
-  m_SelectedEdges:
-  - a: 1
-    b: 3
-  m_SelectedVertices: 0100000003000000
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!4 &756818766
 Transform:
   m_ObjectHideFlags: 0
@@ -2209,6 +2211,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2098559203 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7688665356511021128, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+  m_PrefabInstance: {fileID: 279952596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cd456c205c1e04a8e1b0feceb35a36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &2122044370
 Mesh:
   m_ObjectHideFlags: 0

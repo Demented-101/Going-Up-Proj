@@ -11,8 +11,8 @@ public class MoveStateSprint : MovementState
     public float animationSpeedMultiplier = 1.0f;
     public string jumpAnimationTrigger = "";
 
-    private const float sprintCamMinY = 15;
-    private const float sprintCamMaxY = 20;
+    private const float sprintCamMinY = 17;
+    private const float sprintCamMaxY = 17;
 
     public override void onEntered(TransitionData[] data)
     {
@@ -29,7 +29,7 @@ public class MoveStateSprint : MovementState
 
     private void Update()
     {
-        float turning = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.None).x;
+        float turning = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.None).x; // get the A or D input used for turning
 
         // -> midair state - make sure can do coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { Debug.Log("ungrounded"); stateHandler.ChangeState(notGroundedState); return; }
@@ -37,30 +37,30 @@ public class MoveStateSprint : MovementState
         // jumping -> midair state (is on ground or coyote time)
         if (stateHandler.inputManager.GetWishJump()) { Debug.Log("Jumped"); Jump(); return; }
 
+        // -> walking
+        if (walkState != null & !stateHandler.inputManager.GetWishSprint()) { Debug.Log("lost sprint"); stateHandler.ChangeState(walkState); return; }
+
         Vector3 oldVelocity = stateHandler.velocity;
         Vector3 newVelocity = ProcessMovement(oldVelocity);
-        float horizontalSpeed = new Vector3(newVelocity.x, 0, newVelocity.z).magnitude;
-
-        // -> walking (either sprint is released or max speed isnt met)
-        if (walkState != null & !stateHandler.inputManager.GetWishSprint()) { Debug.Log("lost sprint"); stateHandler.ChangeState(walkState); return; }
 
         stateHandler.Move(newVelocity);
         stateHandler.SetAnimatorState(runningAnimationState);
-        stateHandler.SetAnimatorSpeed(horizontalSpeed * animationSpeedMultiplier);
+        stateHandler.SetAnimatorSpeed(Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier);
         stateHandler.Rotate(reference.rotationMode);
     }
 
     private Vector3 ProcessMovement(Vector3 velocity)
     {
         float currentSpeed = velocity.magnitude;
-        Vector3 wishDir = stateHandler.cameraObj.transform.forward;
-        wishDir.y = 0;
+        Vector3 wishDir = Utils.GetHorizontal(stateHandler.cameraObj.transform.forward, true);
 
-        velocity = Accelerate(wishDir.normalized, velocity, reference);
-        if (velocity.magnitude < reference.sprintSpeedRequirement) { velocity = wishDir.normalized * reference.sprintSpeedRequirement; }
-        if (velocity.magnitude > reference.maxVelocity) { stateHandler.CapSpeed(reference.maxVelocity); }
+        // make sure a minimum speed is kept
+        if (velocity.magnitude < reference.sprintSpeedRequirement) { velocity = wishDir * reference.sprintSpeedRequirement; }
 
-        velocity.y -= reference.gravity;
+        Vector3 targetVelocity = wishDir * reference.maxVelocity;
+        velocity.x = Mathf.MoveTowards(velocity.x, targetVelocity.x, reference.acceleration * Time.deltaTime);
+        velocity.z = Mathf.MoveTowards(velocity.z, targetVelocity.z, reference.acceleration * Time.deltaTime);
+
         return velocity;
     }
 

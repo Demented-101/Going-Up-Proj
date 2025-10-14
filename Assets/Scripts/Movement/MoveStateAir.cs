@@ -1,10 +1,10 @@
 using System.Linq;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class MoveStateAir : MovementState
 {
     public MovementState onGroundedState;
+    public MovementState onGroundedSprintState;
     public Utils.InputMappingMode inputMapping;
     private float coyoteTime;
 
@@ -24,18 +24,16 @@ public class MoveStateAir : MovementState
             coyoteTime -= Time.deltaTime; 
             if (stateHandler.inputManager.GetWishJump()) { Jump(); }
         }
-        else
-        {
-            stateHandler.SetAnimatorState(fallAnimationState);
-        }
-
+        else stateHandler.SetAnimatorState(fallAnimationState);
+        
         // get input direction
         Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, inputMapping, GetCameraGameObject());
 
         // -> grounded state
         if (onGroundedState != null && stateHandler.controller.isGrounded) {
-            stateHandler.Move(new Vector3(stateHandler.velocity.x, 0, stateHandler.velocity.z)); // remove Y component for landing - improves jump physics
-            stateHandler.ChangeState(onGroundedState); 
+            stateHandler.Move(Utils.GetHorizontal(stateHandler.velocity, false)); // remove Y component for landing - improves jump physics
+            if (onGroundedSprintState != null && CanSprint(stateHandler.velocity.magnitude)) { stateHandler.ChangeState(onGroundedSprintState); }
+            else { stateHandler.ChangeState(onGroundedState); }
             return; 
         }
 
