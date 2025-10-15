@@ -29,13 +29,10 @@ public class MoveStateWalk : MovementState
     private void Update()
     {
         // get input direction
-        Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, inputMapping, GetCameraGameObject());
+        Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, inputMapping, stateHandler.cameraObj);
 
-        // -> midair state - make sure can do coyote time
+        // -> ungrounded - allow coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
-
-        // jumping -> midair state (is on ground or coyote time)
-        if (stateHandler.inputManager.GetWishJump()) { Jump(); return; }
 
         // calculate velocities
         Vector3 oldVelocity = stateHandler.velocity;
@@ -47,9 +44,10 @@ public class MoveStateWalk : MovementState
         stateHandler.SetAnimatorState(horizontalSpeed > 0.05? walkingAnimationState : idleAnimationState);
         stateHandler.SetAnimatorSpeed(horizontalSpeed * animationSpeedMultiplier);
         stateHandler.Rotate(reference.rotationMode);
-        
-        // -> sprint state
-        if (onSprintState != null && CanSprint(horizontalSpeed)) { stateHandler.ChangeState(onSprintState); return; }
+
+        // -> sprint + jumping
+        AttemptJump(reference, notGroundedState, jumpAnimationTrigger);
+        AttemptSprint(reference, horizontalSpeed, onSprintState);
     }
 
     private Vector3 ProcessMovement(Vector3 wishDir, Vector3 velocity)
@@ -66,15 +64,5 @@ public class MoveStateWalk : MovementState
 
         velocity.y -= reference.gravity;
         return Accelerate(wishDir, velocity, reference);
-    }
-
-    private void Jump()
-    {
-        Vector3 newVelocity = stateHandler.velocity * reference.jumpLeapPower;
-        newVelocity.y = reference.jumpImpulse;
-
-        stateHandler.ChangeState(notGroundedState, new TransitionData[] {TransitionData.IgnoreCoyoteTime}); // do not allow coyote time
-        stateHandler.Move(newVelocity);
-        if (jumpAnimationTrigger != "") { stateHandler.SendAnimatorTrigger(jumpAnimationTrigger); }
     }
 }

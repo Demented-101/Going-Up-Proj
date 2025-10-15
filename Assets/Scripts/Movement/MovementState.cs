@@ -1,8 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [RequireComponent(typeof(MovementStateHandler))]
-public class MovementState : MonoBehaviour
+public abstract class MovementState : MonoBehaviour
 {
     public enum TransitionData
     {
@@ -32,7 +33,7 @@ public class MovementState : MonoBehaviour
         switch (mapping)
         {
             case Utils.InputMappingMode.None: // input -> wish movement
-                wishDir = Utils.GetHorizontal(input, true);
+                wishDir = new Vector3(input.x, 0, input.y);
                 break;
 
             case Utils.InputMappingMode.ToCamera: //input -> camera rotation
@@ -66,21 +67,35 @@ public class MovementState : MonoBehaviour
         return currentVelocity + (wishDirection * addSpeed);
     }
 
-    public bool CanSprint(float speed)
+    protected virtual bool AttemptSprint(MovementStateReference sprintRef, float speed, MovementState sprintState)
     {
-        return stateHandler.inputManager.GetWishSprint() && reference.sprintSpeedRequirement < speed;
+        if (sprintState == null || !stateHandler.inputManager.GetWishSprint()) { return false; }
+        if (sprintRef.sprintSpeedRequirement > speed) { return false; }
+
+        StartSprint(sprintState);
+        return true;
+    }
+    protected virtual void StartSprint(MovementState sprintState)
+    {
+       stateHandler.ChangeState(sprintState);
     }
 
-    private GameObject _camObj = null;
-    private CamOrbitObjState _camOrbit = null;
-    public GameObject GetCameraGameObject()
+    protected virtual bool AttemptJump(MovementStateReference jumpRef, MovementState airState, string animTrigger = "")
     {
-        if (_camObj != null) { return _camObj; }
-        return GameObject.FindGameObjectWithTag("MainCamera");
+        if (airState == null || !stateHandler.inputManager.GetWishJump()) { return false; }
+        if (jumpRef.jumpImpulse == -1) { return false; }
+
+        Jump(jumpRef, airState, animTrigger);
+        return true;
     }
-    public CamOrbitObjState GetCameraOrbitState()
+    protected virtual void Jump(MovementStateReference jumpRef, MovementState airState, string animTrigger)
     {
-        if (_camOrbit != null) { return _camOrbit; }
-        return GetCameraGameObject().GetComponent<CamOrbitObjState>();
+        // use passed reference
+        Vector3 newVelocity = stateHandler.velocity * jumpRef.jumpLeapPower;
+        newVelocity.y = jumpRef.jumpImpulse;
+
+        stateHandler.Move(newVelocity);
+        if (airState != this) { stateHandler.ChangeState(airState, new TransitionData[] { TransitionData.IgnoreCoyoteTime}); }
+        if (animTrigger != "") { stateHandler.SendAnimatorTrigger(animTrigger); }
     }
 }

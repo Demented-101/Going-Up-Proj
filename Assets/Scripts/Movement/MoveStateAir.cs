@@ -19,21 +19,24 @@ public class MoveStateAir : MovementState
 
     private void Update()
     {
-        if (coyoteTime > 0) 
+        if (coyoteTime > 0)
         { 
-            coyoteTime -= Time.deltaTime; 
-            if (stateHandler.inputManager.GetWishJump()) { Jump(); }
+            coyoteTime -= Time.deltaTime;
+            AttemptJump(reference, this, jumpAnimationTrigger);
         }
         else stateHandler.SetAnimatorState(fallAnimationState);
         
         // get input direction
-        Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, inputMapping, GetCameraGameObject());
+        Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, inputMapping, stateHandler.cameraObj);
 
         // -> grounded state
         if (onGroundedState != null && stateHandler.controller.isGrounded) {
             stateHandler.Move(Utils.GetHorizontal(stateHandler.velocity, false)); // remove Y component for landing - improves jump physics
-            if (onGroundedSprintState != null && CanSprint(stateHandler.velocity.magnitude)) { stateHandler.ChangeState(onGroundedSprintState); }
-            else { stateHandler.ChangeState(onGroundedState); }
+            
+            if (!AttemptSprint(reference, stateHandler.velocity.magnitude, onGroundedSprintState)) // attempt to go to sprint, if not continue to grounded
+            { 
+                stateHandler.ChangeState(onGroundedState); 
+            }
             return; 
         }
 
@@ -44,14 +47,9 @@ public class MoveStateAir : MovementState
         stateHandler.Rotate(reference.rotationMode);
     }
 
-    private void Jump()
+    protected override void Jump(MovementStateReference jumpRef, MovementState airState, string animTrigger)
     {
+        base.Jump(jumpRef, null, animTrigger);
         coyoteTime = 0;
-
-        Vector3 newVelocity = stateHandler.velocity * reference.jumpLeapPower;
-        newVelocity.y = reference.jumpImpulse;
-
-        stateHandler.Move(newVelocity);
-        if (jumpAnimationTrigger != "") { stateHandler.SendAnimatorTrigger(jumpAnimationTrigger); }
     }
 }

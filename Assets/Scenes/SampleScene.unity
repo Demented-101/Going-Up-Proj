@@ -927,6 +927,10 @@ PrefabInstance:
       propertyPath: anchor
       value: 
       objectReference: {fileID: 1713248758}
+    - target: {fileID: 7688665356511021128, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: turningReference
+      value: 
+      objectReference: {fileID: 11400000, guid: 23f13acab8549b64da450f5735a6ac97, type: 2}
     - target: {fileID: 8004087044261627823, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: m_Name
       value: Player
