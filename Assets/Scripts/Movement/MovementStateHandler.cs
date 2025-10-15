@@ -20,6 +20,7 @@ public class MovementStateHandler : MonoBehaviour
     [SerializeField] private string animStateName = "State";
     [SerializeField] private string animSpeedName = "Speed";
     [SerializeField] private bool printUpdates;
+    [SerializeField] private bool printVelocity;
     
     public MovementState currentState { get; private set; }
     public Vector3 velocity { get; private set; } = Vector3.zero;
@@ -45,7 +46,7 @@ public class MovementStateHandler : MonoBehaviour
         if (printUpdates) 
         {
             if (data != null) { Debug.Log("new state entered: " + newState + " old state: " + currentState + " data size: " + data.Length); }
-            else { Debug.Log("new state entered: " + newState + "old state: " + currentState); }
+            else { Debug.Log("new state entered: " + newState +  "old state: " + currentState); }
         }
 
         if (newState == null || currentState == null || newState == currentState) { if (printUpdates) Debug.Log("returned");  return;  }
@@ -70,6 +71,8 @@ public class MovementStateHandler : MonoBehaviour
             // only the current state is enabled, and is disabled out of game
             state.enabled = state == currentState && gameStatus.gameState == Utils.GameStates.Run;
         }
+
+        if (printVelocity) { Debug.Log("Velocity: " + velocity + "  horizontal speed: " + Utils.GetHorizontal(velocity, false).magnitude); }
     }
 
     public void Move(Vector3 newVelocity)

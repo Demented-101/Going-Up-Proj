@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
   m_Name: RunMach2
   m_EditorClassIdentifier: 
-  maxVelocity: 14
-  acceleration: 7
+  maxVelocity: 10
+  acceleration: 3
   stopSpeed: 1
-  gravity: 0
+  gravity: 9.81
   friction: 2
   jumpImpulse: 2
   jumpLeapPower: 2

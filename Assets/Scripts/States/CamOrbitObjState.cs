@@ -10,15 +10,22 @@ public class CamOrbitObjState : GameStateBehaviour
     [SerializeField] private float YMin = -50f;
     [SerializeField] private float YMax = 50f;
 
-    public float oldYMin;
-    public float oldYMax;
-    public float transitionTime = 0;
-    public float transitionSpeed = 0;
+    // Y bounding
+    private float oldYMin;
+    private float oldYMax;
+    private float transitionTime = 0;
+    private float transitionSpeed = 0;
+
+    // movement speed lock
+    public Vector2 movementLock;
+
+    // Horizontal rotation
+    private bool doRotation = false;
+    private float targetRotation;
+    private float turnDuration;
 
     private float currentX;
     private float currentY;
-
-    public Vector2 movementLock;
 
     public override void Start()
     {
@@ -29,15 +36,26 @@ public class CamOrbitObjState : GameStateBehaviour
     private void LateUpdate()
     {
         if (!IsActive) { return; }
-
         // read mouse input
         Vector2 movement = GetMouseMovement();
 
-        currentX += movement.x * Time.deltaTime;
         currentY += movement.y * Time.deltaTime;
+        currentX += movement.x * Time.deltaTime;
+
+        // move towards the target rotation
+        if (doRotation) 
+        { 
+            currentX = Mathf.MoveTowards(currentX, targetRotation, turnDuration * Time.deltaTime);
+            if (currentX == targetRotation) doRotation = false;
+        }
+        else
+        {
+            targetRotation = currentX;
+        }
+
 
         // clamp Y rotation
-        Vector2 YClamp = HandleTransition();
+        Vector2 YClamp = GetYClamp();
         currentY = Mathf.Clamp(currentY, YClamp.x, YClamp.y);
 
         // get cam position + look at object
@@ -68,9 +86,9 @@ public class CamOrbitObjState : GameStateBehaviour
         return movement * sensitivity;
     }
 
-    private Vector2 HandleTransition()
+    private Vector2 GetYClamp()
     {
-        if(transitionTime < 1) { transitionTime += Time.deltaTime * transitionSpeed; }
+        if (transitionTime < 1) { transitionTime += Time.deltaTime * transitionSpeed; }
 
         float newMin = Mathf.Lerp(oldYMin, YMin, transitionTime);
         float newMax = Mathf.Lerp(oldYMax, YMax, transitionTime);
@@ -80,9 +98,20 @@ public class CamOrbitObjState : GameStateBehaviour
 
     public void SetYClamp(float Min, float Max, float speed)
     {
-        oldYMax = YMax; oldYMin = YMin;
-        YMax = Max; YMin = Min;
+        oldYMax = YMax; 
+        oldYMin = YMin;
+
+        YMax = Max; 
+        YMin = Min;
+
         transitionTime = 0.01f;
         transitionSpeed = speed;
+    }
+
+    public void StartHorzRotation(float rotation, float duration)
+    {
+        doRotation = true;
+        targetRotation += rotation;
+        turnDuration = duration * Mathf.Abs(rotation);
     }
 }

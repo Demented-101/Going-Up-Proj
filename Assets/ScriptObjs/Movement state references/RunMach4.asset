@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
-  m_Name: RunTurn
+  m_Name: RunMach4
   m_EditorClassIdentifier: 
-  maxVelocity: 14
-  acceleration: 30
+  maxVelocity: 20
+  acceleration: 1
   stopSpeed: 1
   gravity: 9.81
-  friction: 2
-  jumpImpulse: -1
-  jumpLeapPower: 0
+  friction: 4
+  jumpImpulse: 2
+  jumpLeapPower: 1
   coyoteTime: 0.3
-  sprintSpeedRequirement: 4.5
-  camSpeedLock: {x: 0, y: 0}
-  rotationMode: 4
+  sprintSpeedRequirement: 14.9
+  camSpeedLock: {x: 0.05, y: 0}
+  rotationMode: 2

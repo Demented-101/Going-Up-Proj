@@ -39,7 +39,6 @@ public class MoveStateWalk : MovementState
         Vector3 newVelocity = ProcessMovement(wishDir, oldVelocity);
         float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
         
-
         stateHandler.Move(newVelocity);
         stateHandler.SetAnimatorState(horizontalSpeed > 0.05? walkingAnimationState : idleAnimationState);
         stateHandler.SetAnimatorSpeed(horizontalSpeed * animationSpeedMultiplier);
@@ -62,7 +61,7 @@ public class MoveStateWalk : MovementState
             velocity *= Mathf.Max(currentSpeed - control, 0) / currentSpeed;
         }
 
-        velocity.y -= reference.gravity;
+        velocity.y = -reference.gravity;
         return Accelerate(wishDir, velocity, reference);
     }
 }
