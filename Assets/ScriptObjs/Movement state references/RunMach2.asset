@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RunMach2
   m_EditorClassIdentifier: 
   maxVelocity: 10
-  acceleration: 3
+  acceleration: 1
   stopSpeed: 1
   gravity: 9.81
   friction: 2

@@ -220,11 +220,11 @@ MonoBehaviour:
   reference: {fileID: 11400000, guid: 87a8ec87e6ed24d4686792f13ae88ba0, type: 2}
   walkState: {fileID: 3994788116096344240}
   notGroundedState: {fileID: 4527509128101230564}
-  turningReference: {fileID: 11400000, guid: 23f13acab8549b64da450f5735a6ac97, type: 2}
   mach3Ref: {fileID: 11400000, guid: a9ade501a750c9d49a73ea15bdba30ec, type: 2}
   mach4Ref: {fileID: 11400000, guid: 8133cad5c701b65438f98fe4e187e32e, type: 2}
-  runningAnimationState: 1
-  startAnimationTrigger: 
+  turningReference: {fileID: 11400000, guid: 23f13acab8549b64da450f5735a6ac97, type: 2}
+  runningAnimationState: 2
+  sprintingAnimStateName: SprintState
   animationSpeedMultiplier: 0.75
   jumpAnimationTrigger: Jump
 --- !u!1001 &224639137517415439

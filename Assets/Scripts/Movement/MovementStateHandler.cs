@@ -145,11 +145,13 @@ public class MovementStateHandler : MonoBehaviour
         camOrbitController.movementLock = camLock;
     }
 
-    public void SetAnimatorState(int newState)
+    public void SetAnimatorState(int newState, string paramName = "")
     {
-        if (animator != null && AnimatorHasParameter(animator, animStateName))
+        string param = paramName == "" ? animStateName : paramName;
+
+        if (animator != null && AnimatorHasParameter(animator, param))
         {
-            animator.SetInteger(animStateName, newState);
+            animator.SetInteger(param, newState);
         }
     }
 

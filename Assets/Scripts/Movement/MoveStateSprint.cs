@@ -10,24 +10,30 @@ public class MoveStateSprint : MovementState
     [SerializeField] private MovementStateReference mach3Ref;
     [SerializeField] private MovementStateReference mach4Ref;
     [SerializeField] private MovementStateReference turningReference;
-    [SerializeField] private int runningAnimationState = 1;
-    [SerializeField] private string startAnimationTrigger = "";
+    [SerializeField] private float maxTurnDelay = 0.3f;
+    [SerializeField] private int runningAnimationState = 2;
+    [SerializeField] private string sprintingAnimStateName = "SprintState";
     [SerializeField] private float animationSpeedMultiplier = 1.0f;
     [SerializeField] private string jumpAnimationTrigger = "";
 
     private const float sprintCamMinY = 17;
     private const float sprintCamMaxY = 17;
 
+    private const int sprintAnimState = 1;
+    private const int maxSprintAnimState = 2;
+    private const int turnLeftAnimState = 3;
+    private const int turnRightAnimState = 4;
+
     private bool isTurning = false;
     private Vector3 turnVector;
     private bool boost = false;
     private int currentMach = 2;
+    private float turnDelay = -1;
     private enum TurnDirections { right, left, backward };
 
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
-        if (startAnimationTrigger != "") { stateHandler.SendAnimatorTrigger(startAnimationTrigger); }
         if (stateHandler.camOrbitController != null) { stateHandler.camOrbitController.SetYClamp(sprintCamMinY, sprintCamMaxY, 1); }
 
         // update to correct mach
@@ -53,7 +59,8 @@ public class MoveStateSprint : MovementState
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
         // -> turning
-        if (!isTurning) { 
+        if (turnDelay > 0) turnDelay -= Time.deltaTime;
+        else { 
             if (turning.x > 0) { StartTurn(TurnDirections.right); } // turn right
             if (turning.x < 0) { StartTurn(TurnDirections.left); } // turn left
         }
@@ -126,14 +133,17 @@ public class MoveStateSprint : MovementState
             case TurnDirections.right:
                 turnVector = stateHandler.cameraObj.transform.right;
                 stateHandler.camOrbitController.StartHorzRotation(90, camRotSpeed);
+                stateHandler.SetAnimatorState(turnRightAnimState, sprintingAnimStateName);
                 break;
             case TurnDirections.left:
                 turnVector = stateHandler.cameraObj.transform.right * -1;
                 stateHandler.camOrbitController.StartHorzRotation(-90, camRotSpeed);
+                stateHandler.SetAnimatorState(turnLeftAnimState, sprintingAnimStateName);
                 break;
             case TurnDirections.backward:
                 turnVector = stateHandler.cameraObj.transform.forward * -1;
                 stateHandler.camOrbitController.StartHorzRotation(180, camRotSpeed);
+                stateHandler.SetAnimatorState(turnLeftAnimState, sprintingAnimStateName);
                 break;
         }
     }
@@ -141,17 +151,25 @@ public class MoveStateSprint : MovementState
     private void EndTurn()
     {
         isTurning = false;
+        turnDelay = maxTurnDelay;
         boost = true;
+
+        stateHandler.SetAnimatorState(sprintAnimState, sprintingAnimStateName);
     }
 
     protected override bool AttemptSprint(MovementStateReference nextSprintRef, float speed, MovementState sprintState)
     {
         if (nextSprintRef == null) return false;
-        if (speed < nextSprintRef.sprintSpeedRequirement) { return false; }
+        if (speed < nextSprintRef.sprintSpeedRequirement && !isTurning) { return false; }
 
         StartSprint(sprintState);
-        currentMach++;
         return true;
+    }
+
+    protected override void StartSprint(MovementState sprintState)
+    {
+        currentMach++;
+        if (currentMach >= 4) { stateHandler.SetAnimatorState(maxSprintAnimState, sprintingAnimStateName); }
     }
 
     private MovementStateReference GetMachRef(int mach = -1)
