@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
   m_Name: RunMach3
   m_EditorClassIdentifier: 
-  maxVelocity: 15
-  acceleration: 2
+  maxVelocity: 19
+  acceleration: 7
   stopSpeed: 1
   gravity: 9.81
   friction: 3
@@ -21,5 +21,5 @@ MonoBehaviour:
   jumpLeapPower: 1.5
   coyoteTime: 11
   sprintSpeedRequirement: 9.9
-  camSpeedLock: {x: 0.05, y: 0}
-  rotationMode: 2
+  cameraRotationMode: 1
+  characterRotationMode: 4

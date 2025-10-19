@@ -140,9 +140,9 @@ public class MovementStateHandler : MonoBehaviour
         }
     }
 
-    public void UpdateCameraLock(Vector2 camLock)
+    public void UpdateCameraMode(Utils.CameraRotationMode camMode)
     {
-        camOrbitController.movementLock = camLock;
+        camOrbitController.rotationMode = camMode;
     }
 
     public void SetAnimatorState(int newState, string paramName = "")

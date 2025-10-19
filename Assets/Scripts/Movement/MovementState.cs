@@ -1,3 +1,4 @@
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -7,7 +8,7 @@ public abstract class MovementState : MonoBehaviour
 {
     public enum TransitionData
     {
-        Force, IgnoreVelocityCap, IgnoreCoyoteTime
+        Force, IgnoreVelocityCap, IgnoreCoyoteTime,
     }
 
     [SerializeField] public MovementStateReference reference;
@@ -20,7 +21,14 @@ public abstract class MovementState : MonoBehaviour
 
     public virtual void onEntered(TransitionData[] data) 
     {
-        stateHandler.UpdateCameraLock(reference.camSpeedLock);
+        // get state handler
+        if (stateHandler == null) { stateHandler = GetComponent<MovementStateHandler>(); }
+        
+        // update camera mode
+        if (stateHandler.camOrbitController != null) 
+        {
+            stateHandler.camOrbitController.rotationMode = reference.cameraRotationMode;
+        }
     }
 
     public virtual void onExit() { }
@@ -56,7 +64,7 @@ public abstract class MovementState : MonoBehaviour
         return wishDir.normalized;
     }
 
-    public static Vector3 Accelerate(Vector3 wishDirection, Vector3 currentVelocity, MovementStateReference reference)
+    protected static Vector3 Accelerate(Vector3 wishDirection, Vector3 currentVelocity, MovementStateReference reference)
     {
         float delta = Time.deltaTime;
 
@@ -67,19 +75,7 @@ public abstract class MovementState : MonoBehaviour
         return currentVelocity + (wishDirection * addSpeed);
     }
 
-    protected virtual bool AttemptSprint(MovementStateReference sprintRef, float speed, MovementState sprintState)
-    {
-        if (sprintState == null || !stateHandler.inputManager.GetWishSprint()) { return false; }
-        if (sprintRef.sprintSpeedRequirement > speed) { return false; }
-
-        StartSprint(sprintState);
-        return true;
-    }
-    protected virtual void StartSprint(MovementState sprintState)
-    {
-       stateHandler.ChangeState(sprintState);
-    }
-
+    // jumping
     protected virtual bool AttemptJump(MovementStateReference jumpRef, MovementState airState, string animTrigger = "")
     {
         if (airState == null || !stateHandler.inputManager.GetWishJump()) { return false; }
@@ -97,5 +93,19 @@ public abstract class MovementState : MonoBehaviour
         stateHandler.Move(newVelocity);
         if (airState != this) { stateHandler.ChangeState(airState, new TransitionData[] { TransitionData.IgnoreCoyoteTime}); }
         if (animTrigger != "") { stateHandler.SendAnimatorTrigger(animTrigger); }
+    }
+    
+    // sprinting
+    protected virtual bool AttemptSprint(MovementStateReference sprintRef, float speed, MovementState sprintState)
+    {
+        if (sprintState == null || !stateHandler.inputManager.GetWishSprint()) { return false; }
+        if (sprintRef.sprintSpeedRequirement > speed) { return false; }
+
+        StartSprint(sprintState);
+        return true;
+    }
+    protected virtual void StartSprint(MovementState sprintState)
+    {
+       stateHandler.ChangeState(sprintState);
     }
 }

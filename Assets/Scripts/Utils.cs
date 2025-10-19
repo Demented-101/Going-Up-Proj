@@ -11,6 +11,10 @@ public static class Utils
     {
         None, FollowVelocity, FollowVelocityHorizontal, FollowCamera, FollowCameraHorizontal
     }
+    public enum CameraRotationMode
+    {
+        FreeOrbit, FollowRotation, Locked
+    }
     public enum InputMappingMode
     {
         None, ToCamera, ToCameraHorizontal
@@ -28,9 +32,6 @@ public static class Utils
     private const int seedPrefixSize = 3; // the size of the buidling side of the seed
     private const int seedSuffixSize = 5; // the size of the floor sude of the seed
     private const string seedPadding = "00000"; // ! - must be longer than both pre/suffix sizes, and is a digit. is added to the front of both ends to ensure size before its cut down
-
-    // other
-    public static Vector2 genericCamLock { get; private set; } = new Vector2(-50, 50);
 
     // floor and building math
     static public int GetFloorPointRequirement(int floor) { return (floor + 10) * 50; }

@@ -165,8 +165,8 @@ MonoBehaviour:
   animator: {fileID: 4914437216786641370}
   animStateName: State
   animSpeedName: Speed
-  printUpdates: 1
-  printVelocity: 0
+  printUpdates: 0
+  printVelocity: 1
 --- !u!114 &3994788116096344240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,10 +223,14 @@ MonoBehaviour:
   mach3Ref: {fileID: 11400000, guid: a9ade501a750c9d49a73ea15bdba30ec, type: 2}
   mach4Ref: {fileID: 11400000, guid: 8133cad5c701b65438f98fe4e187e32e, type: 2}
   turningReference: {fileID: 11400000, guid: 23f13acab8549b64da450f5735a6ac97, type: 2}
+  maxTurnDelay: 0.3
   runningAnimationState: 2
   sprintingAnimStateName: SprintState
-  animationSpeedMultiplier: 0.75
+  minSprintAnimSpeed: 1.2
+  animationSpeedMultiplier: 0.1
   jumpAnimationTrigger: Jump
+  startAnimationTrigger: 
+  boostAnimationTrigger: Boost
 --- !u!1001 &224639137517415439
 PrefabInstance:
   m_ObjectHideFlags: 0

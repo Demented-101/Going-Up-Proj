@@ -1,6 +1,8 @@
+using System.Runtime.CompilerServices;
 using Unity.Services.Matchmaker.Models;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MoveStateSprint : MovementState
 {
@@ -13,31 +15,33 @@ public class MoveStateSprint : MovementState
     [SerializeField] private float maxTurnDelay = 0.3f;
     [SerializeField] private int runningAnimationState = 2;
     [SerializeField] private string sprintingAnimStateName = "SprintState";
-    [SerializeField] private float animationSpeedMultiplier = 1.0f;
+    [SerializeField] private float minSprintAnimSpeed = 1.5f;
+    [SerializeField] private float animationSpeedMultiplier = 0.1f;
     [SerializeField] private string jumpAnimationTrigger = "";
-
-    private const float sprintCamMinY = 17;
-    private const float sprintCamMaxY = 17;
+    [SerializeField] private string startAnimationTrigger = "";
+    [SerializeField] private string boostAnimationTrigger = "";
 
     private const int sprintAnimState = 1;
     private const int maxSprintAnimState = 2;
     private const int turnLeftAnimState = 3;
     private const int turnRightAnimState = 4;
+    private const float boostSpeed = 1.3f;
+
+    public int currentMach { get; private set; } = 2;
 
     private bool isTurning = false;
     private Vector3 turnVector;
-    private bool boost = false;
-    private int currentMach = 2;
     private float turnDelay = -1;
     private enum TurnDirections { right, left, backward };
 
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
-        if (stateHandler.camOrbitController != null) { stateHandler.camOrbitController.SetYClamp(sprintCamMinY, sprintCamMaxY, 1); }
 
         // update to correct mach
         currentMach = 2;
+
+
         float currentSpeed = Utils.GetHorizontal(stateHandler.velocity, false).magnitude;
         AttemptSprint(mach3Ref, currentSpeed, this);
         AttemptSprint(mach4Ref, currentSpeed, this);
@@ -46,24 +50,25 @@ public class MoveStateSprint : MovementState
     public override void onExit()
     {
         base.onExit();
-        if (stateHandler.camOrbitController != null) { stateHandler.camOrbitController.SetYClamp(-50, 50, 1); }
         isTurning = false;
     }
 
     private void Update()
     {
         Vector3 turning = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.None); // get the A or D input used for turnings
-        bool wishNextMach = turning.z > 0;
 
         // -> midair state - make sure can do coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
         // -> turning
-        if (turnDelay > 0) turnDelay -= Time.deltaTime;
-        else { 
-            if (turning.x > 0) { StartTurn(TurnDirections.right); } // turn right
-            if (turning.x < 0) { StartTurn(TurnDirections.left); } // turn left
+        if (!isTurning) { 
+            if (turnDelay > 0) turnDelay -= Time.deltaTime;
+            else { 
+                if (turning.x > 0) { StartTurn(TurnDirections.right); } // turn right
+                if (turning.x < 0) { StartTurn(TurnDirections.left); } // turn left
+            }
         }
+        
 
         Vector3 oldVelocity = stateHandler.velocity;
         Vector3 newVelocity = ProcessMovement(oldVelocity);
@@ -71,11 +76,19 @@ public class MoveStateSprint : MovementState
 
         stateHandler.Move(newVelocity);
         stateHandler.SetAnimatorState(runningAnimationState);
-        stateHandler.SetAnimatorSpeed(Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier);
-        stateHandler.Rotate(GetMachRef().rotationMode);
+        stateHandler.SetAnimatorSpeed((Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier) + minSprintAnimSpeed);
+        stateHandler.Rotate(GetMachRef().characterRotationMode);
+        stateHandler.camOrbitController.UpdateFaceDirection(-Utils.GetHorizontal(newVelocity, true));
+
+        // sprint animation
+        if (!isTurning) 
+        {
+            if (currentMach >= 4) stateHandler.SetAnimatorState(maxSprintAnimState, sprintingAnimStateName);
+            else stateHandler.SetAnimatorState(sprintAnimState, sprintingAnimStateName);
+        }
 
         // -> walking, jumping + next mach
-        if (walkState != null & !stateHandler.inputManager.GetWishSprint()) { stateHandler.ChangeState(walkState); return; }
+        if (walkState != null & !stateHandler.inputManager.GetWishSprint()) { stateHandler.ChangeState(walkState, new TransitionData[] {TransitionData.IgnoreVelocityCap}); return; }
         AttemptJump(GetMachRef(), notGroundedState, jumpAnimationTrigger);
         AttemptSprint(GetMachRef(currentMach + 1), horizontalSpeed, this);
     }
@@ -91,10 +104,8 @@ public class MoveStateSprint : MovementState
 
         Vector3 targetVelocity = wishDir * GetMachRef().maxVelocity;
         float acceleration = GetMachRef().acceleration;
-        if (boost) { acceleration += GetMachRef().acceleration * 1.3f; boost = false; }
 
-        velocity.x = Mathf.MoveTowards(velocity.x, targetVelocity.x, acceleration * Time.deltaTime);
-        velocity.z = Mathf.MoveTowards(velocity.z, targetVelocity.z, acceleration * Time.deltaTime);
+        velocity = Vector3.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
         velocity.y = -GetMachRef().gravity;
 
         return velocity;
@@ -113,11 +124,17 @@ public class MoveStateSprint : MovementState
             velocity *= Mathf.Max(currentSpeed - control, 0) / currentSpeed;
         }
 
-        // have completed rotation
-        if (velocity.magnitude > realRef.sprintSpeedRequirement && Vector3.Dot(Utils.GetHorizontal(velocity, true), turnVector) >= 0.95) { EndTurn(); }
 
         // make sure minimum speed is kept
         if (velocity.magnitude < realRef.sprintSpeedRequirement) { velocity += turnVector * realRef.sprintSpeedRequirement; }
+
+        // have completed rotation
+        if (velocity.magnitude > realRef.sprintSpeedRequirement && Vector3.Dot(Utils.GetHorizontal(velocity, true), turnVector.normalized) >= 0.99) 
+        { 
+            EndTurn();
+            stateHandler.SendAnimatorTrigger(boostAnimationTrigger);
+            return (turnVector * velocity.magnitude) - (Vector3.up * realRef.gravity);
+        }
 
         velocity.y = -realRef.gravity;
         return Accelerate(turnVector, velocity, realRef);
@@ -126,23 +143,19 @@ public class MoveStateSprint : MovementState
     private void StartTurn(TurnDirections direction)
     {
         isTurning = true;
-        float camRotSpeed = 0.75f;
 
         switch (direction)
         {
             case TurnDirections.right:
                 turnVector = stateHandler.cameraObj.transform.right;
-                stateHandler.camOrbitController.StartHorzRotation(90, camRotSpeed);
                 stateHandler.SetAnimatorState(turnRightAnimState, sprintingAnimStateName);
                 break;
             case TurnDirections.left:
                 turnVector = stateHandler.cameraObj.transform.right * -1;
-                stateHandler.camOrbitController.StartHorzRotation(-90, camRotSpeed);
                 stateHandler.SetAnimatorState(turnLeftAnimState, sprintingAnimStateName);
                 break;
             case TurnDirections.backward:
                 turnVector = stateHandler.cameraObj.transform.forward * -1;
-                stateHandler.camOrbitController.StartHorzRotation(180, camRotSpeed);
                 stateHandler.SetAnimatorState(turnLeftAnimState, sprintingAnimStateName);
                 break;
         }
@@ -152,8 +165,7 @@ public class MoveStateSprint : MovementState
     {
         isTurning = false;
         turnDelay = maxTurnDelay;
-        boost = true;
-
+        if (currentMach == 4) currentMach = 3;
         stateHandler.SetAnimatorState(sprintAnimState, sprintingAnimStateName);
     }
 
@@ -169,7 +181,6 @@ public class MoveStateSprint : MovementState
     protected override void StartSprint(MovementState sprintState)
     {
         currentMach++;
-        if (currentMach >= 4) { stateHandler.SetAnimatorState(maxSprintAnimState, sprintingAnimStateName); }
     }
 
     private MovementStateReference GetMachRef(int mach = -1)

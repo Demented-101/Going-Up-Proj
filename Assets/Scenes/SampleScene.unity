@@ -2570,7 +2570,7 @@ PrefabInstance:
       objectReference: {fileID: 738045826}
     - target: {fileID: 7045746244390968358, guid: d4fb32a57b8ad3f419cd33760c5d8c46, type: 3}
       propertyPath: sensitivity
-      value: 400
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7048038980649435409, guid: d4fb32a57b8ad3f419cd33760c5d8c46, type: 3}
       propertyPath: anchor

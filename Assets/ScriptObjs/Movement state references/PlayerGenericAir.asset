@@ -20,5 +20,6 @@ MonoBehaviour:
   jumpImpulse: 4
   jumpLeapPower: 1
   coyoteTime: 0.3
-  camSpeedLock: {x: -1, y: -1}
-  rotationMode: 2
+  sprintSpeedRequirement: 2
+  cameraRotationMode: 0
+  characterRotationMode: 2

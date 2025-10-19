@@ -44,7 +44,7 @@ public class MoveStateAir : MovementState
         velocity.y -= reference.gravity * Time.deltaTime;
 
         stateHandler.Move(Accelerate(wishDir, velocity, reference));
-        stateHandler.Rotate(reference.rotationMode);
+        stateHandler.Rotate(reference.characterRotationMode);
     }
 
     protected override void Jump(MovementStateReference jumpRef, MovementState airState, string animTrigger)

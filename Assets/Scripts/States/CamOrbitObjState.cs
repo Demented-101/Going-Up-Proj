@@ -7,111 +7,48 @@ public class CamOrbitObjState : GameStateBehaviour
 
     [SerializeField] private float orbitDistance = 3f;
     [SerializeField] private float sensitivity = 5f;
-    [SerializeField] private float YMin = -50f;
-    [SerializeField] private float YMax = 50f;
 
-    // Y bounding
-    private float oldYMin;
-    private float oldYMax;
-    private float transitionTime = 0;
-    private float transitionSpeed = 0;
+    private Vector3 faceVector = Vector3.forward;
 
-    // movement speed lock
-    public Vector2 movementLock;
-
-    // Horizontal rotation
-    private bool doRotation = false;
-    private float targetRotation;
-    private float turnDuration;
-
-    private float currentX;
-    private float currentY;
+    public Utils.CameraRotationMode rotationMode;
 
     public override void Start()
     {
         base.Start();
         orbitTrans = orbitObject.transform;
+        faceVector = Vector3.back;
     }
 
     private void LateUpdate()
     {
         if (!IsActive) { return; }
-        // read mouse input
-        Vector2 movement = GetMouseMovement();
 
-        currentY += movement.y * Time.deltaTime;
-        currentX += movement.x * Time.deltaTime;
+        if (rotationMode == Utils.CameraRotationMode.FreeOrbit) HandleFreeOribit();
 
-        // move towards the target rotation
-        if (doRotation) 
-        { 
-            currentX = Mathf.MoveTowards(currentX, targetRotation, turnDuration * Time.deltaTime);
-            if (currentX == targetRotation) doRotation = false;
-        }
-        else
-        {
-            targetRotation = currentX;
-        }
-
-
-        // clamp Y rotation
-        Vector2 YClamp = GetYClamp();
-        currentY = Mathf.Clamp(currentY, YClamp.x, YClamp.y);
-
-        // get cam position + look at object
-        Vector3 Direction = new Vector3(0, 0, -orbitDistance);
-        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        transform.position = orbitTrans.position + rotation * Direction;
-
+        faceVector.y = 0.4f;
+        transform.position = orbitTrans.position + (faceVector * orbitDistance);
         transform.LookAt(orbitTrans.position);
+    }
+
+    private void HandleFreeOribit()
+    {
+        // read mouse input
+        Vector2 movement = GetMouseMovement() * Time.deltaTime * sensitivity;
+        faceVector = Quaternion.AngleAxis(movement.x, Vector3.up) * faceVector; // rotate around Y axis formovement
     }
 
     private Vector2 GetMouseMovement()
     {
-        Vector2 movement = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        return new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")) * sensitivity;
+    }
 
-        if (movementLock.x > -1)
+    public void UpdateFaceDirection(Vector3 newVec)
+    {
+        if (rotationMode == Utils.CameraRotationMode.FollowRotation)
         {
-            float sign = movement.x < 0 ? -1.0f : 1.0f;
-            float absMovementX = Mathf.Min(Mathf.Abs(movement.x), movementLock.x);
-            movement.x = absMovementX * sign;
+            newVec.y = 0;
+            if (newVec.magnitude < 0.05) { return; }
+            faceVector = newVec.normalized;
         }
-        if (movementLock.y > -1)
-        {
-            float sign = movement.y < 0 ? -1.0f : 1.0f;
-            float absMovementY = Mathf.Min(Mathf.Abs(movement.y), movementLock.y);
-            movement.y = absMovementY * sign;
-        }
-
-        return movement * sensitivity;
-    }
-
-    private Vector2 GetYClamp()
-    {
-        if (transitionTime < 1) { transitionTime += Time.deltaTime * transitionSpeed; }
-
-        float newMin = Mathf.Lerp(oldYMin, YMin, transitionTime);
-        float newMax = Mathf.Lerp(oldYMax, YMax, transitionTime);
-
-        return new Vector2(newMin, newMax);
-    }
-
-    public void SetYClamp(float Min, float Max, float speed)
-    {
-        oldYMax = YMax; 
-        oldYMin = YMin;
-
-        YMax = Max; 
-        YMin = Min;
-
-        transitionTime = 0.01f;
-        transitionSpeed = speed;
-    }
-
-    public void StartHorzRotation(float rotation, float duration)
-    {
-        doRotation = true;
-        targetRotation += rotation;
-        turnDuration = duration * Mathf.Abs(rotation);
     }
 }

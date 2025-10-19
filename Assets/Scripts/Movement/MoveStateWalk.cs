@@ -14,11 +14,10 @@ public class MoveStateWalk : MovementState
     public float animationSpeedMultiplier = 1.0f;
     public string jumpAnimationTrigger = "";
 
+
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
-        stateHandler.camOrbitController.SetYClamp(Utils.genericCamLock.x, Utils.genericCamLock.y, 1);
-
         Vector3 currentVelocity = stateHandler.velocity;
         if (!data.Contains(TransitionData.IgnoreVelocityCap))
         {
@@ -42,7 +41,7 @@ public class MoveStateWalk : MovementState
         stateHandler.Move(newVelocity);
         stateHandler.SetAnimatorState(horizontalSpeed > 0.05? walkingAnimationState : idleAnimationState);
         stateHandler.SetAnimatorSpeed(horizontalSpeed * animationSpeedMultiplier);
-        stateHandler.Rotate(reference.rotationMode);
+        stateHandler.Rotate(reference.characterRotationMode);
 
         // -> sprint + jumping
         AttemptJump(reference, notGroundedState, jumpAnimationTrigger);
