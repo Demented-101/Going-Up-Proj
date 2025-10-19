@@ -140,11 +140,6 @@ public class MovementStateHandler : MonoBehaviour
         }
     }
 
-    public void UpdateCameraMode(Utils.CameraRotationMode camMode)
-    {
-        camOrbitController.rotationMode = camMode;
-    }
-
     public void SetAnimatorState(int newState, string paramName = "")
     {
         string param = paramName == "" ? animStateName : paramName;
