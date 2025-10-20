@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class MoveStateWalk : MovementState
 {
-    public MovementState notGroundedState;
-    public MovementState onSprintState;
-    public Utils.InputMappingMode inputMapping;
+    [SerializeField] private MovementState notGroundedState;
+    [SerializeField] private MovementState onSprintState;
+    [SerializeField] private Utils.InputMappingMode inputMapping;
 
-    public int idleAnimationState = 0;
-    public int walkingAnimationState = 1;
-    public float animationSpeedMultiplier = 1.0f;
-    public string jumpAnimationTrigger = "";
+    [SerializeField] private int idleAnimationState = 0;
+    [SerializeField] private int walkingAnimationState = 1;
+    [SerializeField] private float animationSpeedMultiplier = 1.0f;
+    [SerializeField] private string jumpAnimationTrigger = "";
 
 
     public override void onEntered(TransitionData[] data)
@@ -52,7 +52,7 @@ public class MoveStateWalk : MovementState
         {
             float control = Mathf.Max(reference.stopSpeed, currentSpeed) * reference.friction * Time.deltaTime;
 
-            // scale the velocity based off calculated friction
+            // scale the velocity based off calculated control value
             velocity *= Mathf.Max(currentSpeed - control, 0) / currentSpeed;
         }
 
