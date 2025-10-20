@@ -8,7 +8,7 @@ public abstract class MovementState : MonoBehaviour
 {
     public enum TransitionData
     {
-        Force, IgnoreVelocityCap, IgnoreCoyoteTime,
+        Force, IgnoreVelocityCap, IgnoreCoyoteTime, KeepCamRotationMode
     }
 
     [SerializeField] public MovementStateReference reference;
@@ -25,7 +25,7 @@ public abstract class MovementState : MonoBehaviour
         if (stateHandler == null) { stateHandler = GetComponent<MovementStateHandler>(); }
         
         // update camera mode
-        if (stateHandler.camOrbitController != null) 
+        if (stateHandler.camOrbitController != null && !data.Contains(TransitionData.KeepCamRotationMode)) 
         {
             stateHandler.camOrbitController.rotationMode = reference.cameraRotationMode;
         }
@@ -76,23 +76,30 @@ public abstract class MovementState : MonoBehaviour
     }
 
     // jumping
-    protected virtual bool AttemptJump(MovementStateReference jumpRef, MovementState airState, string animTrigger = "")
+    protected virtual bool AttemptJump(MovementStateReference jumpRef, MovementState airState, string animTrigger = "", bool ForceCamMode = false)
     {
-        if (airState == null || !stateHandler.inputManager.GetWishJump()) { return false; }
-        if (jumpRef.jumpImpulse == -1) { return false; }
+        if (airState == null || !stateHandler.inputManager.GetWishJump()) { return false; } // can jump + wish jump
+        if (jumpRef.jumpImpulse <= -1) { return false; } // reference allows jumping
 
-        Jump(jumpRef, airState, animTrigger);
+        Jump(jumpRef, airState, animTrigger, ForceCamMode);
         return true;
     }
-    protected virtual void Jump(MovementStateReference jumpRef, MovementState airState, string animTrigger)
+    protected virtual void Jump(MovementStateReference jumpRef, MovementState airState, string animTrigger, bool ForceCamMode = false)
     {
         // use passed reference
         Vector3 newVelocity = stateHandler.velocity * jumpRef.jumpLeapPower;
         newVelocity.y = jumpRef.jumpImpulse;
 
         stateHandler.Move(newVelocity);
-        if (airState != this) { stateHandler.ChangeState(airState, new TransitionData[] { TransitionData.IgnoreCoyoteTime}); }
         if (animTrigger != "") { stateHandler.SendAnimatorTrigger(animTrigger); }
+
+        if (airState != this) 
+        {
+            TransitionData[] transData = { TransitionData.IgnoreCoyoteTime };
+            if (ForceCamMode) { transData = new TransitionData[] { TransitionData.IgnoreCoyoteTime, TransitionData.KeepCamRotationMode }; }
+
+            stateHandler.ChangeState(airState, transData);
+        }
     }
     
     // sprinting

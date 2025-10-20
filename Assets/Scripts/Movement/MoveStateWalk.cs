@@ -18,11 +18,7 @@ public class MoveStateWalk : MovementState
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
-        Vector3 currentVelocity = stateHandler.velocity;
-        if (!data.Contains(TransitionData.IgnoreVelocityCap))
-        {
-            stateHandler.CapSpeed(reference.maxVelocity);
-        }
+        if (!data.Contains(TransitionData.IgnoreVelocityCap)) stateHandler.CapSpeed(reference.maxVelocity);
     }
 
     private void Update()

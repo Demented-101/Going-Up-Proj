@@ -19,37 +19,33 @@ public class MoveStateAir : MovementState
 
     private void Update()
     {
-        if (coyoteTime > 0)
-        { 
-            coyoteTime -= Time.deltaTime;
-            AttemptJump(reference, this, jumpAnimationTrigger);
-        }
-        else stateHandler.SetAnimatorState(fallAnimationState);
-        
-        // get input direction
-        Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, inputMapping, stateHandler.cameraObj);
+        // coyote time jumping
+        if (coyoteTime > 0) coyoteTime -= Time.deltaTime;
+        if (AttemptJump(reference, this, jumpAnimationTrigger, true)) coyoteTime = 0;
 
         // -> grounded state
         if (onGroundedState != null && stateHandler.controller.isGrounded) {
             stateHandler.Move(Utils.GetHorizontal(stateHandler.velocity, false)); // remove Y component for landing - improves jump physics
-            
-            if (!AttemptSprint(reference, stateHandler.velocity.magnitude, onGroundedSprintState)) // attempt to go to sprint, if not continue to grounded
-            { 
-                stateHandler.ChangeState(onGroundedState); 
-            }
+
+            bool sprinting = AttemptSprint(reference, stateHandler.velocity.magnitude, onGroundedSprintState); // attempt to go to sprint, if not continue to grounded
+            if (!sprinting) stateHandler.ChangeState(onGroundedState);
             return; 
         }
+
+        // get input direction
+        Vector3 wishDir = GetMoveDirection(stateHandler.inputManager, inputMapping, stateHandler.cameraObj);
 
         Vector3 velocity = stateHandler.velocity;
         velocity.y -= reference.gravity * Time.deltaTime;
 
         stateHandler.Move(Accelerate(wishDir, velocity, reference));
         stateHandler.Rotate(reference.characterRotationMode);
+        if (coyoteTime <= 0) stateHandler.SetAnimatorState(fallAnimationState);
     }
 
-    protected override void Jump(MovementStateReference jumpRef, MovementState airState, string animTrigger)
+    protected override bool AttemptJump(MovementStateReference jumpRef, MovementState airState, string animTrigger = "", bool ForceCamMode = false)
     {
-        base.Jump(jumpRef, null, animTrigger);
-        coyoteTime = 0;
+        if (coyoteTime <= 0) { return false; }
+        return base.AttemptJump(jumpRef, airState, animTrigger, ForceCamMode);
     }
 }

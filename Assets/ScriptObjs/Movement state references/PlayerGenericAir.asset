@@ -19,7 +19,7 @@ MonoBehaviour:
   friction: 0
   jumpImpulse: 4
   jumpLeapPower: 1
-  coyoteTime: 0.3
+  coyoteTime: 0.2
   sprintSpeedRequirement: 2
   cameraRotationMode: 0
   characterRotationMode: 2

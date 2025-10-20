@@ -29,11 +29,8 @@ public class MovementStateHandler : MonoBehaviour
     {
         // setup objects required for sub-states
         inputManager = GetComponent<InputManager>();
-
         controller = GetComponent<CharacterController>();
-
         cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
-        Debug.Log(cameraObj);
         camOrbitController = cameraObj.GetComponent<CamOrbitObjState>();
 
         // setup initial state
@@ -49,7 +46,7 @@ public class MovementStateHandler : MonoBehaviour
             else { Debug.Log("new state entered: " + newState +  "old state: " + currentState); }
         }
 
-        if (newState == null || currentState == null || newState == currentState) { if (printUpdates) Debug.Log("returned");  return;  }
+        if (newState == null || currentState == null || newState == currentState) { if (printUpdates) Debug.Log("State Chenge invalid; returned."); return;  }
 
         // Disable old state and start new state.
         MovementState oldState = currentState;
@@ -66,84 +63,59 @@ public class MovementStateHandler : MonoBehaviour
 
     public void Update()
     {
-        foreach(MovementState state in allStates)
-        {
-            // only the current state is enabled, and is disabled out of game
-            state.enabled = state == currentState && gameStatus.gameState == Utils.GameStates.Run;
-        }
-
+        // only the current state is enabled, and is disabled out of game
+        foreach (MovementState state in allStates) { state.enabled = state == currentState && gameStatus.gameState == Utils.GameStates.Run; }
         if (printVelocity) { Debug.Log("Velocity: " + velocity + "  horizontal speed: " + Utils.GetHorizontal(velocity, false).magnitude); }
     }
 
     public void Move(Vector3 newVelocity)
     {
         velocity = newVelocity;
-
-        if(controller != null && velocity != Vector3.zero)
-        {
-            controller.Move(velocity * Time.deltaTime);
-        }
+        if(controller != null) controller.Move(velocity * Time.deltaTime);
     }
 
-    public void CapSpeed(float speed)
+    public void CapSpeed(float maxSpeed)
     {
-        if (velocity.magnitude <= speed) { return; }
-        velocity = velocity.normalized * speed;
+        if (velocity.magnitude <= maxSpeed) { return; }
+        velocity = velocity.normalized * maxSpeed;
     }
 
     public void Rotate(Utils.CharacterRotationMode rotationMode)
     {
         if (model == null) { return; }
         Transform transform = model.transform;
+        Vector3 newForward = transform.forward;
 
         switch (rotationMode)
         {
-            case Utils.CharacterRotationMode.None:
+            case Utils.CharacterRotationMode.None: break;
+
+            case Utils.CharacterRotationMode.FollowVelocity:// follow velocity
+                if (velocity.magnitude != 0) { newForward = velocity; }
                 break;
 
-            case Utils.CharacterRotationMode.FollowVelocity:
-                // follow velocity
-
-                if (velocity.magnitude == 0) { break; }
-                transform.LookAt(transform.position + velocity.normalized);
-
+            case Utils.CharacterRotationMode.FollowVelocityHorizontal: // follow velocity - horizontal only
+                Vector3 horizontalVelocity = Utils.GetHorizontal(velocity, false);
+                if (horizontalVelocity.magnitude != 0) { newForward = horizontalVelocity; }
                 break;
 
-            case Utils.CharacterRotationMode.FollowVelocityHorizontal:
-                // follow velocity - horizontally only
-
-                Vector3 horizontalVelocity = velocity;
-                horizontalVelocity.y = 0;
-                if (horizontalVelocity.magnitude == 0) { break; }
-
-                transform.LookAt(transform.position + horizontalVelocity.normalized);
-
-                break;
-
-            case Utils.CharacterRotationMode.FollowCamera:
-                // follow main camera
-
+            case Utils.CharacterRotationMode.FollowCamera: // follow main camera
                 if (cameraObj == null) { Debug.LogError("No camera found - rotation cannot follow camera rot"); break; }
-                Vector3 camForward = cameraObj.transform.forward;
-                transform.LookAt(transform.position + camForward);
-                
+                newForward = cameraObj.transform.forward;
                 break;
 
-            case Utils.CharacterRotationMode.FollowCameraHorizontal:
-                // follow main camera - horizontal only
-
+            case Utils.CharacterRotationMode.FollowCameraHorizontal: // follow main camera - horizontal only
                 if (cameraObj == null) { Debug.LogError("No camera found - rotation cannot follow camera rot"); break; }
-                Vector3 camForwardHorz = new Vector3(cameraObj.transform.forward.x, 0, cameraObj.transform.forward.z);
-                transform.LookAt(transform.position + camForwardHorz.normalized);
-
+                newForward = Utils.GetHorizontal(cameraObj.transform.forward, true);
                 break;
         }
+
+        transform.LookAt(transform.position + newForward.normalized);
     }
 
     public void SetAnimatorState(int newState, string paramName = "")
     {
         string param = paramName == "" ? animStateName : paramName;
-
         if (animator != null && AnimatorHasParameter(animator, param))
         {
             animator.SetInteger(param, newState);
@@ -163,6 +135,7 @@ public class MovementStateHandler : MonoBehaviour
         if (animator != null && AnimatorHasParameter(animator, "Jump"))
         {
             animator.SetTrigger(triggerName);
+            Debug.Log(triggerName);
         }
     }
 
@@ -172,7 +145,7 @@ public class MovementStateHandler : MonoBehaviour
         {
             if (param.name == paramName) return true;
         }
-
+        Debug.LogError("No Animator parameter named: " + paramName);
         return false;
     }
 }

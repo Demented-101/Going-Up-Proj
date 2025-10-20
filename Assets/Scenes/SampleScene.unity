@@ -803,6 +803,14 @@ PrefabInstance:
       propertyPath: anchor
       value: 
       objectReference: {fileID: 238876472}
+    - target: {fileID: 785777506303322812, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: printUpdates
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 785777506303322812, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
+      propertyPath: printVelocity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1807140595852462061, guid: 5345c829dfba45e4ca5dca1a27322ffa, type: 3}
       propertyPath: anchor
       value: 

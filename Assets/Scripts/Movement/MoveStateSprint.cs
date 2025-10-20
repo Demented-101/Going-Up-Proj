@@ -19,38 +19,33 @@ public class MoveStateSprint : MovementState
     [SerializeField] private float animationSpeedMultiplier = 0.1f;
     [SerializeField] private string jumpAnimationTrigger = "";
     [SerializeField] private string startAnimationTrigger = "";
-    [SerializeField] private string boostAnimationTrigger = "";
 
     private const int sprintAnimState = 1;
     private const int maxSprintAnimState = 2;
     private const int turnLeftAnimState = 3;
     private const int turnRightAnimState = 4;
-    private const float boostSpeed = 1.3f;
 
     public int currentMach { get; private set; } = 2;
 
     private bool isTurning = false;
     private Vector3 turnVector;
     private float turnDelay = -1;
+    private int turnAnim = -1;
     private enum TurnDirections { right, left, backward };
 
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
+        isTurning = false;
+        
+        // update animation
+        stateHandler.SetAnimatorState(runningAnimationState);
 
         // update to correct mach
-        currentMach = 2;
-
-
         float currentSpeed = Utils.GetHorizontal(stateHandler.velocity, false).magnitude;
+        currentMach = 2; 
         AttemptSprint(mach3Ref, currentSpeed, this);
         AttemptSprint(mach4Ref, currentSpeed, this);
-    }
-
-    public override void onExit()
-    {
-        base.onExit();
-        isTurning = false;
     }
 
     private void Update()
@@ -60,36 +55,35 @@ public class MoveStateSprint : MovementState
         // -> midair state - make sure can do coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
-        // -> turning
-        if (!isTurning) { 
+        // -> turning + animation
+        if (!isTurning) {
             if (turnDelay > 0) turnDelay -= Time.deltaTime;
-            else { 
+            else {
                 if (turning.x > 0) { StartTurn(TurnDirections.right); } // turn right
                 if (turning.x < 0) { StartTurn(TurnDirections.left); } // turn left
             }
         }
         
-
         Vector3 oldVelocity = stateHandler.velocity;
         Vector3 newVelocity = ProcessMovement(oldVelocity);
         float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
 
         stateHandler.Move(newVelocity);
-        stateHandler.SetAnimatorState(runningAnimationState);
-        stateHandler.SetAnimatorSpeed((Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier) + minSprintAnimSpeed);
         stateHandler.Rotate(GetMachRef().characterRotationMode);
         stateHandler.camOrbitController.UpdateFaceDirection(-Utils.GetHorizontal(newVelocity, true));
 
-        // sprint animation
-        if (!isTurning) 
-        {
-            if (currentMach >= 4) stateHandler.SetAnimatorState(maxSprintAnimState, sprintingAnimStateName);
-            else stateHandler.SetAnimatorState(sprintAnimState, sprintingAnimStateName);
+        // animation
+        if (isTurning) stateHandler.SetAnimatorState(turnAnim, sprintingAnimStateName);
+        else
+        { // either max or normal sprint
+            bool useMaxSprint = currentMach >= 4;
+            stateHandler.SetAnimatorState(useMaxSprint ? maxSprintAnimState : sprintAnimState, sprintingAnimStateName);
+            stateHandler.SetAnimatorSpeed((Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier) + minSprintAnimSpeed);
         }
 
         // -> walking, jumping + next mach
-        if (walkState != null & !stateHandler.inputManager.GetWishSprint()) { stateHandler.ChangeState(walkState, new TransitionData[] {TransitionData.IgnoreVelocityCap}); return; }
-        AttemptJump(GetMachRef(), notGroundedState, jumpAnimationTrigger);
+        if (walkState != null & !stateHandler.inputManager.GetWishSprint()) { stateHandler.ChangeState(walkState, new TransitionData[] { TransitionData.IgnoreVelocityCap }); return; }
+        AttemptJump(GetMachRef(), notGroundedState, jumpAnimationTrigger, true); // ensure the camera is always kept forward
         AttemptSprint(GetMachRef(currentMach + 1), horizontalSpeed, this);
     }
 
@@ -102,10 +96,7 @@ public class MoveStateSprint : MovementState
         // make sure a minimum speed is kept
         if (velocity.magnitude < GetMachRef().sprintSpeedRequirement) { velocity = wishDir * GetMachRef().sprintSpeedRequirement; }
 
-        Vector3 targetVelocity = wishDir * GetMachRef().maxVelocity;
-        float acceleration = GetMachRef().acceleration;
-
-        velocity = Vector3.MoveTowards(velocity, targetVelocity, acceleration * Time.deltaTime);
+        velocity = Vector3.MoveTowards(velocity, wishDir * GetMachRef().maxVelocity, GetMachRef().acceleration * Time.deltaTime);
         velocity.y = -GetMachRef().gravity;
 
         return velocity;
@@ -124,16 +115,10 @@ public class MoveStateSprint : MovementState
             velocity *= Mathf.Max(currentSpeed - control, 0) / currentSpeed;
         }
 
-
-        // make sure minimum speed is kept
-        if (velocity.magnitude < realRef.sprintSpeedRequirement) { velocity += turnVector * realRef.sprintSpeedRequirement; }
-
-        // have completed rotation
-        if (velocity.magnitude > realRef.sprintSpeedRequirement && Vector3.Dot(Utils.GetHorizontal(velocity, true), turnVector.normalized) >= 0.99) 
+        if (velocity.magnitude > GetMachRef().sprintSpeedRequirement && Vector3.Dot(Utils.GetHorizontal(velocity, true), turnVector.normalized) >= 0.99f) // completed turn
         { 
             EndTurn();
-            stateHandler.SendAnimatorTrigger(boostAnimationTrigger);
-            return (turnVector * velocity.magnitude) - (Vector3.up * realRef.gravity);
+            return (turnVector * Utils.GetHorizontal(velocity, false).magnitude) - (Vector3.up * realRef.gravity);
         }
 
         velocity.y = -realRef.gravity;
@@ -148,15 +133,12 @@ public class MoveStateSprint : MovementState
         {
             case TurnDirections.right:
                 turnVector = stateHandler.cameraObj.transform.right;
-                stateHandler.SetAnimatorState(turnRightAnimState, sprintingAnimStateName);
+                turnAnim = turnRightAnimState;
                 break;
+
             case TurnDirections.left:
                 turnVector = stateHandler.cameraObj.transform.right * -1;
-                stateHandler.SetAnimatorState(turnLeftAnimState, sprintingAnimStateName);
-                break;
-            case TurnDirections.backward:
-                turnVector = stateHandler.cameraObj.transform.forward * -1;
-                stateHandler.SetAnimatorState(turnLeftAnimState, sprintingAnimStateName);
+                turnAnim = turnLeftAnimState;
                 break;
         }
     }
@@ -165,8 +147,12 @@ public class MoveStateSprint : MovementState
     {
         isTurning = false;
         turnDelay = maxTurnDelay;
-        if (currentMach == 4) currentMach = 3;
-        stateHandler.SetAnimatorState(sprintAnimState, sprintingAnimStateName);
+
+        // update to correct mach
+        float currentSpeed = Utils.GetHorizontal(stateHandler.velocity, false).magnitude;
+        currentMach = 2;
+        AttemptSprint(mach3Ref, currentSpeed, this);
+        AttemptSprint(mach4Ref, currentSpeed, this);
     }
 
     protected override bool AttemptSprint(MovementStateReference nextSprintRef, float speed, MovementState sprintState)
@@ -177,14 +163,11 @@ public class MoveStateSprint : MovementState
         StartSprint(sprintState);
         return true;
     }
-
-    protected override void StartSprint(MovementState sprintState)
-    {
-        currentMach++;
-    }
+    protected override void StartSprint(MovementState sprintState) { currentMach++; }
 
     private MovementStateReference GetMachRef(int mach = -1)
     {
+        if (currentMach == -1) return reference;
         switch (mach)
         {
             case -1: return GetMachRef(currentMach);
@@ -192,6 +175,6 @@ public class MoveStateSprint : MovementState
             case 3: return mach3Ref;
             case 4: return mach4Ref;
         }
-        return null;
+        return reference;
     }
 }

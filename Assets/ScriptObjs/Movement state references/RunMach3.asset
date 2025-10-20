@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: RunMach3
   m_EditorClassIdentifier: 
   maxVelocity: 19
-  acceleration: 7
+  acceleration: 3
   stopSpeed: 1
   gravity: 9.81
   friction: 3
   jumpImpulse: 2
-  jumpLeapPower: 1.5
+  jumpLeapPower: 1
   coyoteTime: 11
   sprintSpeedRequirement: 9.9
   cameraRotationMode: 1
