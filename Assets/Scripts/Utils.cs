@@ -19,6 +19,10 @@ public static class Utils
     {
         None, ToCamera, ToCameraHorizontal
     }
+    public enum PGData 
+    { 
+        Seed, RemainingSize, RemainingBranches 
+    }
 
 
     // multiplayer (unused)
@@ -33,16 +37,21 @@ public static class Utils
     private const int seedSuffixSize = 5; // the size of the floor sude of the seed
     private const string seedPadding = "00000"; // ! - must be longer than both pre/suffix sizes, and is a digit. is added to the front of both ends to ensure size before its cut down
 
+    public const int gridSize = 10;
+    public const int floorMinSize = 15;
+    public const int floorMaxSize = 20;
+    public const int maxBranches = 5;
+
     // floor and building math
     static public int GetFloorPointRequirement(int floor) { return (floor + 10) * 50; }
     static public int GetBuildingFloorCount(int building) { return (building * 10) + 40; }
     static public int GetFloorSeed(int floor, int building, bool isNegative = false)
     {
         // match both sides of the seed to the correct sizes
-        string seedPrefix = seedPadding + building.ToString();
-        if (seedPrefix.Length > seedPrefixSize) seedPrefix = seedPrefix.Substring(0, seedPrefixSize); 
+        string seedPrefix = building.ToString() + seedPadding ;
+        if (seedPrefix.Length > seedPrefixSize) seedPrefix = seedPrefix.Substring(0, seedPrefixSize);
 
-        string seedSuffix = seedPadding + floor.ToString();
+        string seedSuffix = floor.ToString() + seedPadding;
         if (seedSuffix.Length > seedSuffixSize) seedSuffix = seedSuffix.Substring(0, seedSuffixSize); 
 
         int result = int.Parse(seedPrefix + seedSuffix);
