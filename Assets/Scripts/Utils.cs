@@ -38,14 +38,12 @@ public static class Utils
     private const string seedPadding = "00000"; // ! - must be longer than both pre/suffix sizes, and is a digit. is added to the front of both ends to ensure size before its cut down
         
     public const int gridSize = 30; // ! - always add one to integer maxs since range is excusive max
-    public const int floorMinSize = 25;
-    public const int floorMaxSize = 31; 
+    public const int floorMinSize  = 25;
+    public const int floorMaxSize  = 31; 
     public const int branchDeltaMin = 3;
-    public const int branchDeltaMax = 6; 
+    public const int branchDeltaMax = 5; 
     public const int branchSizeMin = 1;
     public const int branchSizeMax = 3;
-
-    public const int maxBranches = 5;
 
     // floor and building math
     static public int GetFloorPointRequirement(int floor) { return (floor + 10) * 50; }
@@ -66,5 +64,27 @@ public static class Utils
     static public Vector3 GetHorizontal(Vector3 vectorIn, bool normalize) { 
         Vector3 newVec = new Vector3(vectorIn.x, 0, vectorIn.z);
         return normalize ? newVec.normalized : newVec;
+    }
+
+    public static int GridDirectionIndex(Vector2Int gridDir)
+    {
+        if (gridDir.x > 0 && gridDir.y == 0) { return 0; }
+        if (gridDir.x == 0 && gridDir.y > 0) { return 1; }
+        if (gridDir.x < 0 && gridDir.y == 0) { return 2; }
+        if (gridDir.x == 0 && gridDir.y < 0) { return 3; }
+
+        return -1;
+    }
+
+    public static Vector2Int GetGridDirection(int index)
+    {
+        switch (index)
+        {
+            case 0: return Vector2Int.right;
+            case 1: return Vector2Int.up;
+            case 2: return Vector2Int.left;
+            case 3: return Vector2Int.down;
+        }
+        return Vector2Int.zero;
     }
 }

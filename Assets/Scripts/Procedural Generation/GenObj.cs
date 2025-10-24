@@ -5,32 +5,33 @@ using UnityEngine;
 
 public class GenObj : MonoBehaviour
 {
-
     private GenerationHandler handler;
     public Vector2Int gridPosition;
     public int ID { get; private set; }
-    private List<Vector2Int> usedDirections;
+    public List<Vector2Int> connections { get; private set; }
 
-    [SerializeField] bool persist;
+    [SerializeField] bool isInitial;
 
-    public void Generate(Dictionary<Utils.PGData, int> data, GenerationHandler newHandler, Vector2Int gridPos)
+    public void Generate(Dictionary<Utils.PGData, int> data, GenerationHandler newHandler, Vector2Int gridPos, Vector2Int incomingDirection)
     {
         handler = newHandler;
         handler.clear += Clear;
 
+        // ID and section counts
         ID = handler.sectionCount;
         handler.sectionCount++;
+        data[Utils.PGData.RemainingSize]--;
 
+        // grid positions
         gridPosition = gridPos;
-        usedDirections = new List<Vector2Int> { } ;
         handler.AddGridPosition(gridPosition);
 
-        Debug.Log("ID: " + ID + "  my grid pos: " + gridPosition);
+        // connections for decorator
+        connections = new List<Vector2Int>();
+        if (incomingDirection.magnitude != 0) connections.Add(incomingDirection);
 
-        data[Utils.PGData.RemainingSize]--;
-        
         // start new branch
-        if (data[Utils.PGData.BranchCountdown] == 0)
+        if (data[Utils.PGData.BranchCountdown] == 0 && !isInitial)
         {
             Dictionary<Utils.PGData, int> newData = InitializeDictionary(data);
             if (AttemptMakeSegement(newData)) data[Utils.PGData.BranchCountdown] = Random.Range(Utils.branchDeltaMin, Utils.branchDeltaMax);
@@ -39,6 +40,13 @@ public class GenObj : MonoBehaviour
 
         // continue down main my branch
         AttemptMakeSegement(data);
+
+        // on backtrace, run all decorators
+        if (gameObject.GetComponent<Decorator>() != null && !isInitial)
+        {
+            Decorator[] decorators = gameObject.GetComponents<Decorator>();
+            foreach (Decorator decor in decorators) { decor.Decorate(this); }
+        }
     }
 
     private bool AttemptMakeSegement(Dictionary<Utils.PGData, int> data)
@@ -46,27 +54,38 @@ public class GenObj : MonoBehaviour
         foreach (Vector2Int direction in GetRandomDirections())
         {
             if (data[Utils.PGData.RemainingSize] < 0) return false; // -> reached max depth, return out
-
-            // get positions
             Vector2Int nextPosition = gridPosition + direction;
-            Vector3 nextWorldPos = new Vector3(nextPosition.x * Utils.gridSize, 0, nextPosition.y * Utils.gridSize);
 
             // -> position is taken, continue to next direction
             if (handler.IsGridPositionUsed(nextPosition)) continue;
-            usedDirections.Add(nextPosition);
 
             // create next segment
-            GameObject newSegment = Instantiate(handler.cornerObj, nextWorldPos, Quaternion.identity);
-            newSegment.transform.SetParent(handler.transform);
-            newSegment.GetComponent<GenObj>()?.Generate(data, handler, nextPosition);
+            MakeSegment(nextPosition, direction, data);
             return true;
         }
 
         return false; // didnt successfully create new segment
     }
 
-    private static Vector2Int[] GetRandomDirections()
+    private void MakeSegment(Vector2Int gridPos, Vector2Int gridDir, Dictionary<Utils.PGData, int> data)
     {
+        Vector3 nextWorldPos = new Vector3(gridPos.x * Utils.gridSize, 0, gridPos.y * Utils.gridSize);
+
+        GameObject newSegment = Instantiate(handler.cornerObj, nextWorldPos, Quaternion.identity);
+        newSegment.transform.SetParent(handler.transform);
+        AddConnection(gridDir);
+
+        GenObj generationComponent = newSegment.GetComponent<GenObj>();
+        if (generationComponent != null)
+        {
+            generationComponent.Generate(data, handler, gridPos, gridDir * -1);
+        }
+    }
+
+    private Vector2Int[] GetRandomDirections()
+    {
+        if (isInitial) { return new Vector2Int[] { Vector2Int.up }; }
+
         Vector2Int[] directions = new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
 
         for (int i = 0; i < directions.Length -1; i++)
@@ -92,9 +111,14 @@ public class GenObj : MonoBehaviour
         return dict;
     }
 
+    public void AddConnection(Vector2Int direction)
+    {
+        connections.Add(direction);
+    }
+
     private void Clear()
     {
-        if (persist) return;
+        if (isInitial) return;
 
         handler.clear -= Clear;
         DestroyImmediate(this.gameObject);

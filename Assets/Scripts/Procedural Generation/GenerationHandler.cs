@@ -9,8 +9,6 @@ public class GenerationHandler : MonoBehaviour
     [SerializeField] private GenObj initialObject;
 
     public GameObject cornerObj;
-    public GameObject cornerWall;
-    public GameObject hallObj;
 
     public Action clear;
     public int sectionCount = 0;
@@ -45,7 +43,7 @@ public class GenerationHandler : MonoBehaviour
         Debug.Log("Starting Generation with seed: " + seed);
         
         Dictionary<Utils.PGData, int> data = InitializeDictionary(floorSize);
-        initialObject.Generate(data, this, Vector2Int.zero);
+        initialObject.Generate(data, this, Vector2Int.zero, Vector2Int.zero);
     }
 
     public void Clear()

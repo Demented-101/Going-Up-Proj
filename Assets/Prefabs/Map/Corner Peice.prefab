@@ -307,6 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8478326157566434996}
   - component: {fileID: 1274045350791912284}
+  - component: {fileID: 1554995924603125789}
   m_Layer: 0
   m_Name: Corner Peice
   m_TagString: Untagged
@@ -346,6 +347,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
   persist: 0
+--- !u!114 &1554995924603125789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2255735986302304756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d2f08434fe81b94ca0dbe91e26d6e59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hallObject: {fileID: 2255735986302304756, guid: 6195c33f27298a244b957e55e757c873, type: 3}
+  wallObject: {fileID: 2255735986302304756, guid: 30e0bbb53e5ac7544bfe0cf98931c9a7, type: 3}
 --- !u!1 &7833893249445382623
 GameObject:
   m_ObjectHideFlags: 0
