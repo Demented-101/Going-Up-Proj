@@ -9,6 +9,9 @@ public class GenerationHandler : MonoBehaviour
     [SerializeField] private GenObj initialObject;
 
     public GameObject cornerObj;
+    public GameObject cornerWall;
+    public GameObject hallObj;
+
     public Action clear;
     public int sectionCount = 0;
     public List<Vector2Int> usedGridPositions { get; private set; }

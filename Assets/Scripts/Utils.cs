@@ -37,7 +37,7 @@ public static class Utils
     private const int seedSuffixSize = 5; // the size of the floor sude of the seed
     private const string seedPadding = "00000"; // ! - must be longer than both pre/suffix sizes, and is a digit. is added to the front of both ends to ensure size before its cut down
         
-    public const int gridSize = 10; // ! - always add one to integer maxs since range is excusive max
+    public const int gridSize = 30; // ! - always add one to integer maxs since range is excusive max
     public const int floorMinSize = 25;
     public const int floorMaxSize = 31; 
     public const int branchDeltaMin = 3;

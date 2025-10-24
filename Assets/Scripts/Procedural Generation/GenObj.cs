@@ -9,6 +9,7 @@ public class GenObj : MonoBehaviour
     private GenerationHandler handler;
     public Vector2Int gridPosition;
     public int ID { get; private set; }
+    private List<Vector2Int> usedDirections;
 
     [SerializeField] bool persist;
 
@@ -21,26 +22,23 @@ public class GenObj : MonoBehaviour
         handler.sectionCount++;
 
         gridPosition = gridPos;
+        usedDirections = new List<Vector2Int> { } ;
         handler.AddGridPosition(gridPosition);
 
         Debug.Log("ID: " + ID + "  my grid pos: " + gridPosition);
 
         data[Utils.PGData.RemainingSize]--;
         
-
         // start new branch
         if (data[Utils.PGData.BranchCountdown] == 0)
         {
             Dictionary<Utils.PGData, int> newData = InitializeDictionary(data);
             if (AttemptMakeSegement(newData)) data[Utils.PGData.BranchCountdown] = Random.Range(Utils.branchDeltaMin, Utils.branchDeltaMax);
         }
-        else
-        {
-            data[Utils.PGData.BranchCountdown]--;
-        }
+        else data[Utils.PGData.BranchCountdown]--;
 
-            // continue down main my branch
-            AttemptMakeSegement(data);
+        // continue down main my branch
+        AttemptMakeSegement(data);
     }
 
     private bool AttemptMakeSegement(Dictionary<Utils.PGData, int> data)
@@ -54,7 +52,8 @@ public class GenObj : MonoBehaviour
             Vector3 nextWorldPos = new Vector3(nextPosition.x * Utils.gridSize, 0, nextPosition.y * Utils.gridSize);
 
             // -> position is taken, continue to next direction
-            if (handler.IsGridPositionUsed(nextPosition)) continue; 
+            if (handler.IsGridPositionUsed(nextPosition)) continue;
+            usedDirections.Add(nextPosition);
 
             // create next segment
             GameObject newSegment = Instantiate(handler.cornerObj, nextWorldPos, Quaternion.identity);
