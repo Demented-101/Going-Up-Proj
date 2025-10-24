@@ -21,7 +21,7 @@ public static class Utils
     }
     public enum PGData 
     { 
-        Seed, RemainingSize, RemainingBranches 
+        Seed, RemainingSize, BranchCountdown
     }
 
 
@@ -36,10 +36,15 @@ public static class Utils
     private const int seedPrefixSize = 3; // the size of the buidling side of the seed
     private const int seedSuffixSize = 5; // the size of the floor sude of the seed
     private const string seedPadding = "00000"; // ! - must be longer than both pre/suffix sizes, and is a digit. is added to the front of both ends to ensure size before its cut down
+        
+    public const int gridSize = 10; // ! - always add one to integer maxs since range is excusive max
+    public const int floorMinSize = 25;
+    public const int floorMaxSize = 31; 
+    public const int branchDeltaMin = 3;
+    public const int branchDeltaMax = 6; 
+    public const int branchSizeMin = 1;
+    public const int branchSizeMax = 3;
 
-    public const int gridSize = 10;
-    public const int floorMinSize = 15;
-    public const int floorMaxSize = 20;
     public const int maxBranches = 5;
 
     // floor and building math
