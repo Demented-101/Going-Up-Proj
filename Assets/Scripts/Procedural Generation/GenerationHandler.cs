@@ -9,6 +9,7 @@ public class GenerationHandler : MonoBehaviour
     [SerializeField] private GenObj initialObject;
 
     public GameObject cornerObj;
+    public GameObject officeSection;
 
     public Action clear;
     public int sectionCount = 0;
@@ -60,8 +61,7 @@ public class GenerationHandler : MonoBehaviour
     {
         foreach (Vector2Int usedPos in usedGridPositions)
         {
-            Debug.Log(usedPos);
-            if (usedPos.x == gridPos.x && usedPos.y == gridPos.y) { Debug.Log("AAA"); return true; }
+            if (usedPos.x == gridPos.x && usedPos.y == gridPos.y) { return true; }
         }
         return false;
     }
@@ -73,6 +73,7 @@ public class GenerationHandler : MonoBehaviour
             {Utils.PGData.Seed, seed},
             {Utils.PGData.RemainingSize, size},
             {Utils.PGData.BranchCountdown, UnityEngine.Random.Range(Utils.branchDeltaMin, Utils.branchDeltaMax) },
+            {Utils.PGData.isMainBranch, 1 }, // 1 for main branch/true, 0 for other branch/false
         };
         return dict;
     }

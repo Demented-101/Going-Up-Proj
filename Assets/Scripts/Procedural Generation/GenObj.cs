@@ -8,6 +8,7 @@ public class GenObj : MonoBehaviour
     private GenerationHandler handler;
     public Vector2Int gridPosition;
     public int ID { get; private set; }
+    public bool isBranch;
     public List<Vector2Int> connections { get; private set; }
 
     [SerializeField] bool isInitial;
@@ -21,6 +22,7 @@ public class GenObj : MonoBehaviour
         ID = handler.sectionCount;
         handler.sectionCount++;
         data[Utils.PGData.RemainingSize]--;
+        isBranch = data[Utils.PGData.isMainBranch] == 0;
 
         // grid positions
         gridPosition = gridPos;
@@ -34,7 +36,7 @@ public class GenObj : MonoBehaviour
         if (data[Utils.PGData.BranchCountdown] == 0 && !isInitial)
         {
             Dictionary<Utils.PGData, int> newData = InitializeDictionary(data);
-            if (AttemptMakeSegement(newData)) data[Utils.PGData.BranchCountdown] = Random.Range(Utils.branchDeltaMin, Utils.branchDeltaMax);
+            if (AttemptMakeSegement(newData, true)) { data[Utils.PGData.BranchCountdown] = Random.Range(Utils.branchDeltaMin, Utils.branchDeltaMax); }
         }
         else data[Utils.PGData.BranchCountdown]--;
 
@@ -49,8 +51,10 @@ public class GenObj : MonoBehaviour
         }
     }
 
-    private bool AttemptMakeSegement(Dictionary<Utils.PGData, int> data)
+    private bool AttemptMakeSegement(Dictionary<Utils.PGData, int> data, bool onlyMakeOne = false)
     {
+        bool hasMadeSegment = false;
+
         foreach (Vector2Int direction in GetRandomDirections())
         {
             if (data[Utils.PGData.RemainingSize] < 0) return false; // -> reached max depth, return out
@@ -61,10 +65,11 @@ public class GenObj : MonoBehaviour
 
             // create next segment
             MakeSegment(nextPosition, direction, data);
-            return true;
+            if (onlyMakeOne) return true;
+            hasMadeSegment = true;
         }
 
-        return false; // didnt successfully create new segment
+        return hasMadeSegment; // didnt successfully create new segment
     }
 
     private void MakeSegment(Vector2Int gridPos, Vector2Int gridDir, Dictionary<Utils.PGData, int> data)
@@ -107,6 +112,7 @@ public class GenObj : MonoBehaviour
             {Utils.PGData.Seed, mainBranchData[Utils.PGData.Seed]},
             {Utils.PGData.RemainingSize, Random.Range(Utils.branchSizeMin, Utils.branchSizeMax)},
             {Utils.PGData.BranchCountdown, -1 }, // -1 makes sure no new branches are started past this point
+            {Utils.PGData.isMainBranch, 0 },
         };
         return dict;
     }

@@ -21,7 +21,7 @@ public static class Utils
     }
     public enum PGData 
     { 
-        Seed, RemainingSize, BranchCountdown
+        Seed, RemainingSize, BranchCountdown, isMainBranch
     }
 
 
@@ -39,11 +39,11 @@ public static class Utils
         
     public const int gridSize = 30; // ! - always add one to integer maxs since range is excusive max
     public const int floorMinSize  = 25;
-    public const int floorMaxSize  = 31; 
-    public const int branchDeltaMin = 3;
+    public const int floorMaxSize  = 25; 
+    public const int branchDeltaMin = 2;
     public const int branchDeltaMax = 5; 
-    public const int branchSizeMin = 1;
-    public const int branchSizeMax = 3;
+    public const int branchSizeMin = 0;
+    public const int branchSizeMax = 4;
 
     // floor and building math
     static public int GetFloorPointRequirement(int floor) { return (floor + 10) * 50; }
@@ -51,11 +51,11 @@ public static class Utils
     static public int GetFloorSeed(int floor, int building, bool isNegative = false)
     {
         // match both sides of the seed to the correct sizes
-        string seedPrefix = building.ToString() + seedPadding ;
-        if (seedPrefix.Length > seedPrefixSize) seedPrefix = seedPrefix.Substring(0, seedPrefixSize);
+        string seedPrefix = seedPadding + building.ToString();
+        if (seedPrefix.Length > seedPrefixSize) seedPrefix = seedPrefix.Substring(seedPrefix.Length - seedPrefixSize);
 
-        string seedSuffix = floor.ToString() + seedPadding;
-        if (seedSuffix.Length > seedSuffixSize) seedSuffix = seedSuffix.Substring(0, seedSuffixSize); 
+        string seedSuffix = seedPadding + floor.ToString();
+        if (seedSuffix.Length > seedSuffixSize) seedSuffix = seedSuffix.Substring(seedSuffix.Length - seedSuffixSize); 
 
         int result = int.Parse(seedPrefix + seedSuffix);
         return isNegative ? -result : result;

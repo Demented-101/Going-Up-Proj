@@ -3855,7 +3855,8 @@ MonoBehaviour:
   status: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
   initialObject: {fileID: 1018486588}
   cornerObj: {fileID: 2255735986302304756, guid: 23091f3f02d2be54ea70e74e33f32877, type: 3}
-  sectionCount: 29
+  officeSection: {fileID: 0}
+  sectionCount: 40
 --- !u!4 &1334040137
 Transform:
   m_ObjectHideFlags: 0
