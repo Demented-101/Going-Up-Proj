@@ -1,29 +1,27 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CornerDecorator : MonoBehaviour, Decorator
+public class SmallOfficeDecorator : MonoBehaviour, Decorator
 {
     GenObj generator;
 
-    [SerializeField] private GameObject hallObject;
+    [SerializeField] private GameObject doorObject;
     [SerializeField] private GameObject WallObject;
 
     public void Decorate(GenObj genObj)
     {
         generator = genObj;
-        if (generator.connections.Count < 2) { return; } // requires at least two connections
+        if (generator.connections.Count != 1) { return; } // requires one connection
 
         List<Vector2Int> remainingDirections = new List<Vector2Int> { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
 
-        foreach (Vector2Int hallDirection in generator.connections)
-        {
-            remainingDirections.Remove(hallDirection);
+        Vector2Int hallDirection = generator.connections[0];
+        remainingDirections.Remove(hallDirection);
 
-            GameObject newHall = Instantiate(hallObject, transform.position, Quaternion.identity);
-            newHall.transform.parent = transform;
-            newHall.transform.LookAt(transform.position + new Vector3(hallDirection.y, 0, -hallDirection.x));
-        }
+        GameObject newHall = Instantiate(doorObject, transform.position, Quaternion.identity);
+        newHall.transform.parent = transform;
+        newHall.transform.LookAt(transform.position + new Vector3(-hallDirection.y, 0, hallDirection.x));
+        
 
         foreach (Vector2Int wallDirection in remainingDirections)
         {

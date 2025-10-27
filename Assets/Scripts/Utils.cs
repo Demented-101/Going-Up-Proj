@@ -38,12 +38,13 @@ public static class Utils
     private const string seedPadding = "00000"; // ! - must be longer than both pre/suffix sizes, and is a digit. is added to the front of both ends to ensure size before its cut down
         
     public const int gridSize = 30; // ! - always add one to integer maxs since range is excusive max
-    public const int floorMinSize  = 25;
-    public const int floorMaxSize  = 25; 
+    public const int floorMinSize = 22;
+    public const int floorMaxSize = 31;
+    public const int forceEndSize = 50;
     public const int branchDeltaMin = 2;
-    public const int branchDeltaMax = 5; 
+    public const int branchDeltaMax = 3;
     public const int branchSizeMin = 0;
-    public const int branchSizeMax = 4;
+    public const int branchSizeMax = 3;
 
     // floor and building math
     static public int GetFloorPointRequirement(int floor) { return (floor + 10) * 50; }

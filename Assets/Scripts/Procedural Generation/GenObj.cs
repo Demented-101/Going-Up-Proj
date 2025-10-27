@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GenObj : MonoBehaviour
 {
-    private GenerationHandler handler;
+    public GenerationHandler handler { get; private set; }
     public Vector2Int gridPosition;
     public int ID { get; private set; }
     public bool isBranch;
@@ -57,6 +57,7 @@ public class GenObj : MonoBehaviour
 
         foreach (Vector2Int direction in GetRandomDirections())
         {
+            if (handler.sectionCount >= Utils.forceEndSize) return false; // force stop at specific size
             if (data[Utils.PGData.RemainingSize] < 0) return false; // -> reached max depth, return out
             Vector2Int nextPosition = gridPosition + direction;
 
@@ -76,7 +77,10 @@ public class GenObj : MonoBehaviour
     {
         Vector3 nextWorldPos = new Vector3(gridPos.x * Utils.gridSize, 0, gridPos.y * Utils.gridSize);
 
-        GameObject newSegment = Instantiate(handler.cornerObj, nextWorldPos, Quaternion.identity);
+        bool isOfficeSection = data[Utils.PGData.isMainBranch] == 0 && data[Utils.PGData.RemainingSize] == 0;
+        GameObject roomObj = isOfficeSection ? handler.officeSection : handler.cornerObj;
+
+        GameObject newSegment = Instantiate(roomObj, nextWorldPos, Quaternion.identity);
         newSegment.transform.SetParent(handler.transform);
         AddConnection(gridDir);
 
@@ -111,7 +115,7 @@ public class GenObj : MonoBehaviour
         {
             {Utils.PGData.Seed, mainBranchData[Utils.PGData.Seed]},
             {Utils.PGData.RemainingSize, Random.Range(Utils.branchSizeMin, Utils.branchSizeMax)},
-            {Utils.PGData.BranchCountdown, -1 }, // -1 makes sure no new branches are started past this point
+            {Utils.PGData.BranchCountdown, -1}, // dont allow further branches
             {Utils.PGData.isMainBranch, 0 },
         };
         return dict;
