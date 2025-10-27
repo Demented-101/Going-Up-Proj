@@ -45,6 +45,7 @@ public static class Utils
     public const int branchDeltaMax = 3;
     public const int branchSizeMin = 0;
     public const int branchSizeMax = 3;
+    public const int largeOfficeChance = 75;
 
     // floor and building math
     static public int GetFloorPointRequirement(int floor) { return (floor + 10) * 50; }

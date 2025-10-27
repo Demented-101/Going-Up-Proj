@@ -53,11 +53,18 @@ public class LargeOfficeDecorator : MonoBehaviour, Decorator
 
     private void propegate()
     {
-        foreach (Vector2Int direction in new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down })
+        Vector2Int direction = new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down }[Random.Range(0, 4)];
+        Vector2Int usedDirection = Vector2Int.zero;
+
+        for (int i = 0; i < 4; i++)
         {
+            direction = new Vector2Int(-direction.y, direction.x);
+
             Vector2Int nextPosition = generator.gridPosition + direction;
+            if (usedDirection != Vector2Int.zero && direction != -usedDirection) continue;
             if (generator.handler.IsGridPositionUsed(nextPosition)) continue;
 
+            usedDirection = direction;
             MakeSegment(nextPosition, direction);
             generator.handler.AddGridPosition(nextPosition);
         }

@@ -32,7 +32,7 @@ public class GenObj : MonoBehaviour
         if (incomingDirection.magnitude != 0) connections.Add(incomingDirection);
 
         // start new branch
-        if (data[Utils.PGData.BranchCountdown] == 0 && !isInitial)
+        if (data[Utils.PGData.BranchCountdown] == 0 && !isInitial && data[Utils.PGData.RemainingSize] > 0)
         {
             Dictionary<Utils.PGData, int> newData = InitializeDictionary(data);
             if (AttemptMakeSegement(newData, true)) { data[Utils.PGData.BranchCountdown] = Random.Range(Utils.branchDeltaMin, Utils.branchDeltaMax); }
@@ -76,7 +76,15 @@ public class GenObj : MonoBehaviour
     {
         Vector3 nextWorldPos = new Vector3(gridPos.x * Utils.gridSize, 0, gridPos.y * Utils.gridSize);
 
-        bool isOfficeSection = data[Utils.PGData.isMainBranch] == 0 && data[Utils.PGData.RemainingSize] == 0;
+        bool isOfficeSection = false;
+        if (data[Utils.PGData.isMainBranch] == 1) isOfficeSection = false; // never allow large office on main branch
+        else if (data[Utils.PGData.RemainingSize] == 0)
+        {
+            int chance = Random.Range(0,100);
+            isOfficeSection = chance <= Utils.largeOfficeChance; // allow office if end of a branch - also allow for randomization
+        }
+
+
         GameObject roomObj = isOfficeSection ? handler.officeSection : handler.cornerObj;
 
         GameObject newSegment = Instantiate(roomObj, nextWorldPos, Quaternion.identity);
