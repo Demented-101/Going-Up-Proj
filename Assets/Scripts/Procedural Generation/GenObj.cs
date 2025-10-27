@@ -16,7 +16,6 @@ public class GenObj : MonoBehaviour
     public void Generate(Dictionary<Utils.PGData, int> data, GenerationHandler newHandler, Vector2Int gridPos, Vector2Int incomingDirection)
     {
         handler = newHandler;
-        handler.clear += Clear;
 
         // ID and section counts
         ID = handler.sectionCount;
@@ -124,13 +123,5 @@ public class GenObj : MonoBehaviour
     public void AddConnection(Vector2Int direction)
     {
         connections.Add(direction);
-    }
-
-    private void Clear()
-    {
-        if (isInitial) return;
-
-        handler.clear -= Clear;
-        DestroyImmediate(this.gameObject);
     }
 }

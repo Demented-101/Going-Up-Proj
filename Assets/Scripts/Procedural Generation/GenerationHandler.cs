@@ -11,7 +11,6 @@ public class GenerationHandler : MonoBehaviour
     public GameObject cornerObj;
     public GameObject officeSection;
 
-    public Action clear;
     public int sectionCount = 0;
     public List<Vector2Int> usedGridPositions { get; private set; }
 
@@ -49,8 +48,8 @@ public class GenerationHandler : MonoBehaviour
 
     public void Clear()
     {
-        try { clear?.Invoke(); } catch { }
-        clear = null;
+        for (int i = this.transform.childCount; i > 0; --i)
+            DestroyImmediate(this.transform.GetChild(0).gameObject);
     }
 
     public void AddGridPosition(Vector2Int gridPos)
