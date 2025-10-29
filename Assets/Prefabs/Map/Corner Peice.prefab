@@ -62,7 +62,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hallObject: {fileID: 2255735986302304756, guid: 6195c33f27298a244b957e55e757c873, type: 3}
-  WallObject: {fileID: 2255735986302304756, guid: 30e0bbb53e5ac7544bfe0cf98931c9a7, type: 3}
+  wallObject: {fileID: 2255735986302304756, guid: 30e0bbb53e5ac7544bfe0cf98931c9a7, type: 3}
+  hallSideRoomObjects:
+  - {fileID: 2255735986302304756, guid: 587db88fce2b9cd45b3bc0a66db0a0c2, type: 3}
+  - {fileID: 2255735986302304756, guid: 400e2144cd4c92a43a5703cef182d2b1, type: 3}
+  - {fileID: 2255735986302304756, guid: e3d7a4d55a883a447b4022039468d2d9, type: 3}
 --- !u!114 &3795974639036561906
 MonoBehaviour:
   m_ObjectHideFlags: 0
