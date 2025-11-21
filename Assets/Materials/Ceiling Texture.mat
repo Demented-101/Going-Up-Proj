@@ -146,7 +146,7 @@ Material:
     - _noise_scale: 21.29
     - _noise_strength: 0.86
     - _normal_strength: 0.4
-    - _scale: 0.7
+    - _scale: 1
     - _shadow_brightness: 0.69
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
