@@ -25,8 +25,6 @@ public class MoveStateAir : MovementState
 
         // -> grounded state
         if (onGroundedState != null && stateHandler.controller.isGrounded) {
-            stateHandler.Move(Utils.GetHorizontal(stateHandler.velocity, false)); // remove Y component for landing - improves jump physics
-
             bool sprinting = AttemptSprint(reference, stateHandler.velocity.magnitude, onGroundedSprintState); // attempt to go to sprint, if not continue to grounded
             if (!sprinting) stateHandler.ChangeState(onGroundedState);
             return; 
