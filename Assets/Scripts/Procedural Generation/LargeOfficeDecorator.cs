@@ -3,22 +3,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 
-public class LargeOfficeDecorator : MonoBehaviour, Decorator
+public class LargeOfficeDecorator : Decorator
 {
-    public GenObj generator;
-
     public List<Vector2Int> officeConnections { get; private set; } = new List<Vector2Int> { };
     [SerializeField] private GameObject doorObject;
     [SerializeField] private GameObject WallObject;
 
-    public void Decorate(GenObj genObj)
+    public override void Decorate()
     {
-        generator = genObj;
         if (generator != null)
         {
             propegate();
         }
-
         GenerateRoom();
     }
 
@@ -26,7 +22,7 @@ public class LargeOfficeDecorator : MonoBehaviour, Decorator
     {
         List<Vector2Int> remainingDirections = new List<Vector2Int> { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
 
-        if (generator != null)
+        if (generator != null && generator.connections != null)
         {
             foreach (Vector2Int hallDirection in generator.connections) // generate doors
             {
@@ -74,15 +70,14 @@ public class LargeOfficeDecorator : MonoBehaviour, Decorator
     {
         Vector3 nextWorldPos = new Vector3(gridPos.x * Utils.gridSize, 0, gridPos.y * Utils.gridSize);
 
-        GameObject newSegment = Instantiate(gameObject, nextWorldPos, Quaternion.identity);
-        newSegment.transform.SetParent(transform.parent);
+        GameObject newSegment = Instantiate(gameObject, nextWorldPos, Quaternion.identity, transform.parent);
 
         officeConnections.Add(gridDir);
         LargeOfficeDecorator nextDecorator = newSegment.GetComponent<LargeOfficeDecorator>();
         if (nextDecorator != null)
         {
             nextDecorator.officeConnections.Add(-gridDir);
-            nextDecorator.Decorate(null);
+            nextDecorator.GenerateRoom();
         }
     }
 }

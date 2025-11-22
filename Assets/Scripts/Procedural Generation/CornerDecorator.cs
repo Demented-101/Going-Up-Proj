@@ -1,23 +1,20 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class CornerDecorator : MonoBehaviour, Decorator
+public class CornerDecorator : Decorator
 {
-    GenObj generator;
-
     [SerializeField] private GameObject hallObject;
     [SerializeField] private GameObject wallObject;
     [SerializeField] private GameObject[] hallSideRoomObjects;
 
-    public void Decorate(GenObj genObj)
+    public override void Decorate()
     {
-        generator = genObj;
         if (generator.connections.Count < 2) { return; } // requires at least two connections
 
-        int spawnOfficeDirection = Random.Range(0, generator.connections.Count + 2);
-
         List<Vector2Int> remainingDirections = new List<Vector2Int> { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+        int spawnOfficeDirection = Random.Range(0, generator.connections.Count + 2);
 
         for (int i = 0; i < generator.connections.Count; i++)
         {

@@ -42,11 +42,11 @@ public class GenObj : MonoBehaviour
         // continue down main my branch
         AttemptMakeSegement(data);
 
-        // on backtrace, run all decorators
+        // on backtrace, add self reference to all decorators if needed
         if (gameObject.GetComponent<Decorator>() != null && !isInitial)
         {
             Decorator[] decorators = gameObject.GetComponents<Decorator>();
-            foreach (Decorator decor in decorators) { decor.Decorate(this); }
+            foreach (Decorator decor in decorators) { decor.generator = this; }
         }
     }
 

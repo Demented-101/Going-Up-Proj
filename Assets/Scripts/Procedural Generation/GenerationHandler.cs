@@ -44,6 +44,21 @@ public class GenerationHandler : MonoBehaviour
         
         Dictionary<Utils.PGData, int> data = InitializeDictionary(floorSize);
         initialObject.Generate(data, this, Vector2Int.zero, Vector2Int.zero);
+
+        bool doNextPass = true;
+        while (doNextPass)
+        {
+            doNextPass = false;
+            foreach (GameObject DecorObj in GameObject.FindGameObjectsWithTag("Decorator"))
+            {
+                Decorator[] decorators = DecorObj.GetComponents<Decorator>();
+                foreach (Decorator decorator in decorators)
+                {
+                    bool completedDecor = decorator.AttemptDecorate();
+                    if (completedDecor) { doNextPass = true; }
+                }
+            }
+        }
     }
 
     public void Clear()

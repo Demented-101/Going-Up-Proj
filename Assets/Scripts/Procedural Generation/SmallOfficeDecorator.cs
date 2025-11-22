@@ -1,18 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SmallOfficeDecorator : MonoBehaviour, Decorator
+public class SmallOfficeDecorator : Decorator
 {
-    GenObj generator;
-
     [SerializeField] private GameObject doorObject;
     [SerializeField] private GameObject WallObject;
 
-    public void Decorate(GenObj genObj)
+    public override void Decorate()
     {
-        generator = genObj;
         if (generator.connections.Count != 1) { return; } // requires one connection
-
         List<Vector2Int> remainingDirections = new List<Vector2Int> { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
 
         Vector2Int hallDirection = generator.connections[0];

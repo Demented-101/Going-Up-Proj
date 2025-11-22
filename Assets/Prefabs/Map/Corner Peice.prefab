@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3795974639036561906}
   m_Layer: 0
   m_Name: Corner Peice
-  m_TagString: Untagged
+  m_TagString: Decorator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2f08434fe81b94ca0dbe91e26d6e59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generator: {fileID: 0}
   hallObject: {fileID: 2255735986302304756, guid: 6195c33f27298a244b957e55e757c873, type: 3}
   wallObject: {fileID: 2255735986302304756, guid: 30e0bbb53e5ac7544bfe0cf98931c9a7, type: 3}
   hallSideRoomObjects:
@@ -80,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff05d0d6ba3d98d41a0af6845a4f5892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generator: {fileID: 0}
   doorObject: {fileID: 5639551101903490764, guid: 30c40364be5fc6049b7adbd2d954bbd6, type: 3}
   WallObject: {fileID: 5639551101903490764, guid: efedd40abacd1154dae52f5d6377b989, type: 3}
 --- !u!1 &2912047519411888049
