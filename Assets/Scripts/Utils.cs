@@ -11,10 +11,6 @@ public static class Utils
     {
         None, FollowVelocity, FollowVelocityHorizontal, FollowCamera, FollowCameraHorizontal
     }
-    public enum CameraRotationMode
-    {
-        FreeOrbit, FollowRotation, Locked
-    }
     public enum InputMappingMode
     {
         None, ToCamera, ToCameraHorizontal

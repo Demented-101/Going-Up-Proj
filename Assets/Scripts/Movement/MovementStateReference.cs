@@ -19,6 +19,5 @@ public class MovementStateReference : ScriptableObject
     // max air velocity is omitted since air velocity should use a seperate movement state ref
 
     // camera + character transform controls
-    public Utils.CameraRotationMode cameraRotationMode;
     public Utils.CharacterRotationMode characterRotationMode;
 }

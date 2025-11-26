@@ -23,12 +23,6 @@ public abstract class MovementState : MonoBehaviour
     {
         // get state handler
         if (stateHandler == null) { stateHandler = GetComponent<MovementStateHandler>(); }
-        
-        // update camera mode
-        if (stateHandler.camOrbitController != null && !data.Contains(TransitionData.KeepCamRotationMode)) 
-        {
-            stateHandler.camOrbitController.rotationMode = reference.cameraRotationMode;
-        }
     }
 
     public virtual void onExit() { }

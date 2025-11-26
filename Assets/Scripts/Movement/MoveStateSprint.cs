@@ -12,7 +12,6 @@ public class MoveStateSprint : MovementState
     [SerializeField] private MovementStateReference mach3Ref;
     [SerializeField] private MovementStateReference mach4Ref;
     [SerializeField] private MovementStateReference turningReference;
-    [SerializeField] private float maxTurnDelay = 0.3f;
     [SerializeField] private int runningAnimationState = 2;
     [SerializeField] private string sprintingAnimStateName = "SprintState";
     [SerializeField] private float minSprintAnimSpeed = 1.5f;
@@ -26,10 +25,10 @@ public class MoveStateSprint : MovementState
     private const int turnRightAnimState = 4;
 
     public int currentMach { get; private set; } = 2;
+    private Vector3 currentDirection;
 
     private bool isTurning = false;
     private Vector3 turnVector;
-    private float turnDelay = -1;
     private int turnAnim = -1;
     private enum TurnDirections { right, left, backward };
 
@@ -37,7 +36,8 @@ public class MoveStateSprint : MovementState
     {
         base.onEntered(data);
         isTurning = false;
-        
+        currentDirection = stateHandler.velocity;
+
         // update animation
         stateHandler.SetAnimatorState(runningAnimationState);
 
@@ -50,27 +50,32 @@ public class MoveStateSprint : MovementState
 
     private void Update()
     {
-        Vector3 turning = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.None); // get the A or D input used for turnings
+        Vector3 input = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.ToCameraHorizontal, stateHandler.cameraObj);
 
         // -> midair state - make sure can do coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
         // -> turning + animation
-        if (!isTurning) {
-            if (turnDelay > 0) turnDelay -= Time.deltaTime;
-            else {
-                if (turning.x > 0) { StartTurn(TurnDirections.right); } // turn right
-                if (turning.x < 0) { StartTurn(TurnDirections.left); } // turn left
+        if (input != currentDirection.normalized) 
+        {
+            if (Vector3.Dot(input, currentDirection.normalized) > 0.95) currentDirection = input * currentDirection.magnitude;
+            else
+            {
+                Vector3 LeftVector = Vector3.Cross(currentDirection, Vector3.up).normalized;
+                Vector3 RightVector = LeftVector * -1;
+
+                if (Vector3.Dot(LeftVector, input) > Vector3.Dot(RightVector, input)) StartTurn(TurnDirections.left);  // turn left
+                if (Vector3.Dot(RightVector, input) < Vector3.Dot(LeftVector, input)) StartTurn(TurnDirections.right); // turn right
+                else StartTurn(TurnDirections.backward); // turn 180 (random)
             }
         }
         
-        Vector3 oldVelocity = stateHandler.velocity;
+        Vector3 oldVelocity = currentDirection;
         Vector3 newVelocity = ProcessMovement(oldVelocity);
         float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
 
         stateHandler.Move(newVelocity);
         stateHandler.Rotate(GetMachRef().characterRotationMode);
-        stateHandler.camOrbitController.UpdateFaceDirection(-Utils.GetHorizontal(newVelocity, true));
 
         // animation
         if (isTurning) stateHandler.SetAnimatorState(turnAnim, sprintingAnimStateName);
@@ -146,7 +151,6 @@ public class MoveStateSprint : MovementState
     private void EndTurn()
     {
         isTurning = false;
-        turnDelay = maxTurnDelay;
 
         // update to correct mach
         float currentSpeed = Utils.GetHorizontal(stateHandler.velocity, false).magnitude;

@@ -10,7 +10,7 @@ public class MovementStateHandler : MonoBehaviour
     public InputManager inputManager { get; private set; }
     public CharacterController controller { get; private set; }
     public GameObject cameraObj { get; private set; }
-    public CamOrbitObjState camOrbitController { get; private set; }
+    public CameraGameStateHandler camOrbitController { get; private set; }
     private MovementState[] allStates = null;
 
     [SerializeField] private GameStatus gameStatus;
@@ -31,7 +31,7 @@ public class MovementStateHandler : MonoBehaviour
         inputManager = GetComponent<InputManager>();
         controller = GetComponent<CharacterController>();
         cameraObj = GameObject.FindGameObjectWithTag("MainCamera");
-        camOrbitController = cameraObj.GetComponent<CamOrbitObjState>();
+        camOrbitController = cameraObj.GetComponent<CameraGameStateHandler>();
 
         // setup initial state
         currentState = initialState;
