@@ -23,12 +23,12 @@ public class MoveStateSprint : MovementState
     private const int maxSprintAnimState = 2;
     private const int turnLeftAnimState = 3;
     private const int turnRightAnimState = 4;
+    private const int turnBackAnimState = 4;
 
     public int currentMach { get; private set; } = 2;
     private Vector3 currentDirection;
 
     private bool isTurning = false;
-    private Vector3 turnVector;
     private int turnAnim = -1;
     private enum TurnDirections { right, left, backward };
 
@@ -52,26 +52,31 @@ public class MoveStateSprint : MovementState
     {
         Vector3 input = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.ToCameraHorizontal, stateHandler.cameraObj);
 
+        currentDirection = input.normalized * currentDirection.magnitude;
+        Vector3 velocity = stateHandler.velocity;
+
+        Debug.Log(isTurning);
+
         // -> midair state - make sure can do coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
         // -> turning + animation
-        if (input != currentDirection.normalized) 
+        if (Vector3.Dot(input.normalized, Utils.GetHorizontal(velocity, true)) > 0.95f)
         {
-            if (Vector3.Dot(input, currentDirection.normalized) > 0.95) currentDirection = input * currentDirection.magnitude;
-            else
-            {
-                Vector3 LeftVector = Vector3.Cross(currentDirection, Vector3.up).normalized;
-                Vector3 RightVector = LeftVector * -1;
+            isTurning = false;
+        }
+        else
+        {
+            isTurning = true;
 
-                if (Vector3.Dot(LeftVector, input) > Vector3.Dot(RightVector, input)) StartTurn(TurnDirections.left);  // turn left
-                if (Vector3.Dot(RightVector, input) < Vector3.Dot(LeftVector, input)) StartTurn(TurnDirections.right); // turn right
-                else StartTurn(TurnDirections.backward); // turn 180 (random)
-            }
+            Vector3 LeftVector = Vector3.Cross(velocity, Vector3.up).normalized;
+            Vector3 RightVector = LeftVector * -1;
+
+            if (Vector3.Dot(LeftVector, input) > Vector3.Dot(RightVector, input)) StartTurn(TurnDirections.left);  // turn left
+            else StartTurn(TurnDirections.right); // turn right
         }
         
-        Vector3 oldVelocity = currentDirection;
-        Vector3 newVelocity = ProcessMovement(oldVelocity);
+        Vector3 newVelocity = ProcessMovement(velocity, input);
         float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
 
         stateHandler.Move(newVelocity);
@@ -92,71 +97,38 @@ public class MoveStateSprint : MovementState
         AttemptSprint(GetMachRef(currentMach + 1), horizontalSpeed, this);
     }
 
-    private Vector3 ProcessMovement(Vector3 velocity)
+    private Vector3 ProcessMovement(Vector3 velocity, Vector3 wishDir)
     {
-        if (isTurning) { return ProcessMovementTurn(velocity); }
-
-        Vector3 wishDir = Utils.GetHorizontal(stateHandler.cameraObj.transform.forward, true);
-
-        // make sure a minimum speed is kept
-        if (velocity.magnitude < GetMachRef().sprintSpeedRequirement) { velocity = wishDir * GetMachRef().sprintSpeedRequirement; }
-
-        velocity = Vector3.MoveTowards(velocity, wishDir * GetMachRef().maxVelocity, GetMachRef().acceleration * Time.deltaTime);
-        velocity.y = -GetMachRef().gravity;
-
-        return velocity;
-    }
-
-    private Vector3 ProcessMovementTurn(Vector3 velocity)
-    {
-        float currentSpeed = Utils.GetHorizontal(velocity, false).magnitude;
-        MovementStateReference realRef = turningReference == null ? GetMachRef() : turningReference;
+        float currentSpeed = velocity.magnitude;
 
         if (currentSpeed != 0)
         {
-            float control = Mathf.Max(realRef.stopSpeed, currentSpeed) * realRef.friction * Time.deltaTime;
+            float control = Mathf.Max(GetMachRef().stopSpeed, currentSpeed) * GetMachRef().friction * Time.deltaTime;
 
-            // scale the velocity based off calculated friction
+            // scale the velocity based off calculated control value
             velocity *= Mathf.Max(currentSpeed - control, 0) / currentSpeed;
         }
 
-        if (velocity.magnitude > GetMachRef().sprintSpeedRequirement && Vector3.Dot(Utils.GetHorizontal(velocity, true), turnVector.normalized) >= 0.99f) // completed turn
-        { 
-            EndTurn();
-            return (turnVector * Utils.GetHorizontal(velocity, false).magnitude) - (Vector3.up * realRef.gravity);
-        }
-
-        velocity.y = -realRef.gravity;
-        return Accelerate(turnVector, velocity, realRef);
+        velocity.y = -GetMachRef().gravity;
+        return Accelerate(wishDir, velocity, GetMachRef());
     }
 
     private void StartTurn(TurnDirections direction)
     {
-        isTurning = true;
-
         switch (direction)
         {
             case TurnDirections.right:
-                turnVector = stateHandler.cameraObj.transform.right;
                 turnAnim = turnRightAnimState;
                 break;
 
             case TurnDirections.left:
-                turnVector = stateHandler.cameraObj.transform.right * -1;
                 turnAnim = turnLeftAnimState;
                 break;
+
+            case TurnDirections.backward:
+                turnAnim = turnBackAnimState;
+                return;
         }
-    }
-
-    private void EndTurn()
-    {
-        isTurning = false;
-
-        // update to correct mach
-        float currentSpeed = Utils.GetHorizontal(stateHandler.velocity, false).magnitude;
-        currentMach = 2;
-        AttemptSprint(mach3Ref, currentSpeed, this);
-        AttemptSprint(mach4Ref, currentSpeed, this);
     }
 
     protected override bool AttemptSprint(MovementStateReference nextSprintRef, float speed, MovementState sprintState)
@@ -171,6 +143,7 @@ public class MoveStateSprint : MovementState
 
     private MovementStateReference GetMachRef(int mach = -1)
     {
+        if (isTurning) return turningReference == null ? reference : turningReference;
         if (currentMach == -1) return reference;
         switch (mach)
         {
