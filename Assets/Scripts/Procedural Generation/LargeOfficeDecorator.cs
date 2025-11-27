@@ -11,7 +11,7 @@ public class LargeOfficeDecorator : Decorator
 
     public override void Decorate()
     {
-        if (generator != null)
+        if (generator != null && generator.handler != null)
         {
             propegate();
         }

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 89846911821680005}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -11.25, y: 0, z: 9}
+  m_LocalPosition: {x: -11.25, y: 0, z: 9.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46,8 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: 6d6ef98c7ca52b64cbe99a03275acaac, type: 2}
 --- !u!1 &120973999976701447
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,7 +614,7 @@ Transform:
   m_GameObject: {fileID: 2403553441882467193}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -6, y: 0, z: 8.75}
+  m_LocalPosition: {x: -6, y: 0, z: 9.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -635,8 +634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: 6d6ef98c7ca52b64cbe99a03275acaac, type: 2}
 --- !u!1 &3875664794305327445
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,8 +681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: e8638074707646d45b949127552a1ad7, type: 2}
 --- !u!1 &4002384968303020806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,8 +1227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: 6d6ef98c7ca52b64cbe99a03275acaac, type: 2}
 --- !u!1 &6767627461475888335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,8 +1539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: e8638074707646d45b949127552a1ad7, type: 2}
 --- !u!1 &8159256543059370068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,9 +1639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
-  - {fileID: 307209068700608540, guid: 877c0c4903867494aaabfb7335b8f7ad, type: 3}
+  objArray: {fileID: 11400000, guid: 6d6ef98c7ca52b64cbe99a03275acaac, type: 2}
 --- !u!1 &8394368363694285544
 GameObject:
   m_ObjectHideFlags: 0

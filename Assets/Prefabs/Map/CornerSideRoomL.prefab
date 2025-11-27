@@ -552,8 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: 6d6ef98c7ca52b64cbe99a03275acaac, type: 2}
 --- !u!1 &4572161774692499744
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,8 +599,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: 6d6ef98c7ca52b64cbe99a03275acaac, type: 2}
 --- !u!1 &4760253281578901023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,8 +1273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
   hasDecorated: 0
-  availableDecorObjects:
-  - {fileID: 652397628706912917, guid: a1a5a5d611e58db45879b6008dce1214, type: 3}
+  objArray: {fileID: 11400000, guid: e8638074707646d45b949127552a1ad7, type: 2}
 --- !u!1 &8933878763299826309
 GameObject:
   m_ObjectHideFlags: 0

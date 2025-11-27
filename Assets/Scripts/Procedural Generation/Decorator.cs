@@ -5,7 +5,6 @@ public class Decorator : MonoBehaviour
     public GenObj generator;
     public bool hasDecorated;
 
-
     private void Start()
     {
         gameObject.tag = "Decorator";
@@ -19,8 +18,8 @@ public class Decorator : MonoBehaviour
         }
         else
         {
-            hasDecorated = true;
             Decorate();
+            hasDecorated = true;
             return true;
         }
     }
