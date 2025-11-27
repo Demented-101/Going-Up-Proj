@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
   m_Name: RunTurn
   m_EditorClassIdentifier: 
-  maxVelocity: 5
-  acceleration: 30
-  stopSpeed: 10
+  maxVelocity: 10
+  acceleration: 40
+  stopSpeed: 3
   gravity: 9.81
-  friction: 3
+  friction: 4
   jumpImpulse: -1
   jumpLeapPower: 0
   coyoteTime: 0.3

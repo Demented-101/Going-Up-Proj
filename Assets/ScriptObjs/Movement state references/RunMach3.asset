@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbf3b5f52be1dc4686a759cbaf84cf2, type: 3}
   m_Name: RunMach3
   m_EditorClassIdentifier: 
-  maxVelocity: 19
-  acceleration: 3
+  maxVelocity: 17
+  acceleration: 30.1
   stopSpeed: 1
   gravity: 9.81
-  friction: 3
+  friction: 2
   jumpImpulse: 2
   jumpLeapPower: 1
   coyoteTime: 11
-  sprintSpeedRequirement: 9.9
+  sprintSpeedRequirement: 12
   characterRotationMode: 2

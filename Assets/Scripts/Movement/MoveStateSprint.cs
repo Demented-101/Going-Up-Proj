@@ -3,6 +3,7 @@ using Unity.Services.Matchmaker.Models;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Windows;
 
 public class MoveStateSprint : MovementState
 {
@@ -26,61 +27,46 @@ public class MoveStateSprint : MovementState
     private const int turnBackAnimState = 4;
 
     public int currentMach { get; private set; } = 2;
-    private Vector3 currentDirection;
-
+    private Vector3 input;
     private bool isTurning = false;
     private int turnAnim = -1;
     private enum TurnDirections { right, left, backward };
+
+    // TODO:
+    // new 180 animation
 
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
         isTurning = false;
-        currentDirection = stateHandler.velocity;
 
         // update animation
         stateHandler.SetAnimatorState(runningAnimationState);
 
         // update to correct mach
         float currentSpeed = Utils.GetHorizontal(stateHandler.velocity, false).magnitude;
-        currentMach = 2; 
-        AttemptSprint(mach3Ref, currentSpeed, this);
-        AttemptSprint(mach4Ref, currentSpeed, this);
+        currentMach = 2;
     }
 
     private void Update()
     {
-        Vector3 input = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.ToCameraHorizontal, stateHandler.cameraObj);
-
-        currentDirection = input.normalized * currentDirection.magnitude;
+        Vector3 newinput = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.ToCameraHorizontal, stateHandler.cameraObj);
         Vector3 velocity = stateHandler.velocity;
 
-        Debug.Log(isTurning);
+        if (newinput.magnitude > 0) input = newinput; 
 
         // -> midair state - make sure can do coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
         // -> turning + animation
-        if (Vector3.Dot(input.normalized, Utils.GetHorizontal(velocity, true)) > 0.95f)
-        {
-            isTurning = false;
-        }
-        else
-        {
-            isTurning = true;
-
-            Vector3 LeftVector = Vector3.Cross(velocity, Vector3.up).normalized;
-            Vector3 RightVector = LeftVector * -1;
-
-            if (Vector3.Dot(LeftVector, input) > Vector3.Dot(RightVector, input)) StartTurn(TurnDirections.left);  // turn left
-            else StartTurn(TurnDirections.right); // turn right
-        }
+        ProcessTurning(input, velocity);
         
         Vector3 newVelocity = ProcessMovement(velocity, input);
         float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
 
         stateHandler.Move(newVelocity);
         stateHandler.Rotate(GetMachRef().characterRotationMode);
+        currentMach = ProcessMach(horizontalSpeed);
 
         // animation
         if (isTurning) stateHandler.SetAnimatorState(turnAnim, sprintingAnimStateName);
@@ -91,10 +77,9 @@ public class MoveStateSprint : MovementState
             stateHandler.SetAnimatorSpeed((Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier) + minSprintAnimSpeed);
         }
 
-        // -> walking, jumping + next mach
+        // -> walking, jumping
         if (walkState != null & !stateHandler.inputManager.GetWishSprint()) { stateHandler.ChangeState(walkState, new TransitionData[] { TransitionData.IgnoreVelocityCap }); return; }
-        AttemptJump(GetMachRef(), notGroundedState, jumpAnimationTrigger, true); // ensure the camera is always kept forward
-        AttemptSprint(GetMachRef(currentMach + 1), horizontalSpeed, this);
+        AttemptJump(GetMachRef(), notGroundedState, jumpAnimationTrigger, true);
     }
 
     private Vector3 ProcessMovement(Vector3 velocity, Vector3 wishDir)
@@ -113,22 +98,38 @@ public class MoveStateSprint : MovementState
         return Accelerate(wishDir, velocity, GetMachRef());
     }
 
-    private void StartTurn(TurnDirections direction)
+    private void ProcessTurning(Vector3 input, Vector3 velocity)
     {
-        switch (direction)
+        isTurning = Vector3.Dot(Utils.GetHorizontal(velocity, true), input.normalized) < 0.98f;
+
+        if (isTurning)
         {
-            case TurnDirections.right:
-                turnAnim = turnRightAnimState;
-                break;
+            Vector3 leftVector = Vector3.Cross(velocity, Vector3.up).normalized;
+            float leftDot = Vector3.Dot(leftVector, input.normalized);
+            float rightDot = Vector3.Dot(leftVector * -1, input.normalized);
 
-            case TurnDirections.left:
-                turnAnim = turnLeftAnimState;
-                break;
-
-            case TurnDirections.backward:
-                turnAnim = turnBackAnimState;
-                return;
+            if (Mathf.Abs(leftDot - rightDot) < 0.05f) turnAnim = turnBackAnimState;
+            if (leftDot > rightDot) turnAnim = turnLeftAnimState;
+            if (rightDot < leftDot) turnAnim = turnRightAnimState;
         }
+    }
+
+    private int ProcessMach(float speed)
+    {
+        // mach up
+        if (currentMach < 4 && !isTurning)
+        {
+            MovementStateReference nextMach = GetMachRef(currentMach + 1);
+            if (speed > nextMach.sprintSpeedRequirement) { return currentMach + 1; }
+        }
+
+        // mach down
+        if (currentMach > 2)
+        {
+            if (speed < GetMachRef().sprintSpeedRequirement) { return currentMach - 1; }
+        }
+
+        return currentMach;
     }
 
     protected override bool AttemptSprint(MovementStateReference nextSprintRef, float speed, MovementState sprintState)
@@ -152,6 +153,6 @@ public class MoveStateSprint : MovementState
             case 3: return mach3Ref;
             case 4: return mach4Ref;
         }
-        return reference;
+        return null;
     }
 }
