@@ -12,6 +12,13 @@ public class DecorSpawner : Decorator
         GameObject newObj = Instantiate(newDecor, transform.position, transform.rotation, transform.parent);
 
         // update the material
+
+        // destroy self
+#if !UNITY_EDITOR
+        Destroy(gameObject);
+#else 
+        DestroyImmediate(gameObject);
+#endif
     }
 
 }
