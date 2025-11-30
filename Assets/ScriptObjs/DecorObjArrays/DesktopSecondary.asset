@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd539ba2173deed4393a06052de77307, type: 3}
+  m_Name: DesktopSecondary
+  m_EditorClassIdentifier: 
+  DecorObjs:
+  - {fileID: 5866982082985872501, guid: f948354839e024a48982c07f833c7836, type: 3}
+  - {fileID: 6881141912630110052, guid: 1f13a9047ead0f14a9cd3305e3bca24f, type: 3}
+  - {fileID: 6208580234593945436, guid: 73465d1fa2004474d9db10c7d54296d7, type: 3}
+  - {fileID: 7763923882580892697, guid: b687bbbff82eaaf4789ad5e6a4571655, type: 3}
+  - {fileID: 7763923882580892697, guid: b7a1cce27f178d347b7463efd98406fe, type: 3}
+  - {fileID: 8169011226277616720, guid: bb7f1fec4344a0a44a0c47adea1f4929, type: 3}
+  - {fileID: 2469992781384820647, guid: 8c95701a4853a6c469d5086c919f12fc, type: 3}
+  - {fileID: 7481132323940892193, guid: 1e355b511734a1640b56c3897c9f2fdf, type: 3}
+  - {fileID: 8181994032435869926, guid: 241b735fa30c4d243b3387b89a78c3cb, type: 3}
+  - {fileID: 1536847721280830738, guid: 9c3f45c5beca178428828661d4c78029, type: 3}
+  generationChance: 45

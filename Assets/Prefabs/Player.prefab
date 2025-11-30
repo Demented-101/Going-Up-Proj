@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1172079923144446035}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7372774, z: -0.67559016, w: 0}
-  m_LocalPosition: {x: 0, y: 6.5, z: 0.3}
+  m_LocalPosition: {x: 0, y: 8.24, z: 0.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -347,7 +347,6 @@ MonoBehaviour:
   mach3Ref: {fileID: 11400000, guid: a9ade501a750c9d49a73ea15bdba30ec, type: 2}
   mach4Ref: {fileID: 11400000, guid: 8133cad5c701b65438f98fe4e187e32e, type: 2}
   turningReference: {fileID: 11400000, guid: 23f13acab8549b64da450f5735a6ac97, type: 2}
-  maxTurnDelay: 0.1
   runningAnimationState: 2
   sprintingAnimStateName: SprintState
   minSprintAnimSpeed: 1.2
