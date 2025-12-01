@@ -7,6 +7,7 @@ public class GenerationHandler : MonoBehaviour
 {
     [SerializeField] private GameStatus status;
     [SerializeField] private GenObj initialObject;
+    [SerializeField] private MapColourHandler colourHandler;
 
     public GameObject cornerObj;
     public GameObject officeSection;
@@ -44,6 +45,7 @@ public class GenerationHandler : MonoBehaviour
         
         Dictionary<Utils.PGData, int> data = InitializeDictionary(floorSize);
         initialObject.Generate(data, this, Vector2Int.zero, Vector2Int.zero);
+        colourHandler.ReRoll();
 
         bool doNextPass = true;
         while (doNextPass)

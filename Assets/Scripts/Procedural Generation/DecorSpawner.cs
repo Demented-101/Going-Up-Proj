@@ -3,6 +3,7 @@ using UnityEngine;
 public class DecorSpawner : Decorator
 {
     public DecorObjArray objArray;
+    private static int floorMaterialIndex;
 
     public override void Decorate()
     {

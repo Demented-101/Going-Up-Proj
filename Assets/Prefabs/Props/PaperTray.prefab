@@ -95,6 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 911412318962097492}
+  - component: {fileID: 8376524114655327268}
   m_Layer: 0
   m_Name: PaperTray
   m_TagString: Untagged
@@ -118,3 +119,19 @@ Transform:
   - {fileID: 3032099684295713344}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8376524114655327268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7481132323940892193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed017159df5bc7041976aeb543be9f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colourHandler: {fileID: 11400000, guid: d56fbe360185b1f4484742c8de28a589, type: 2}
+  models:
+  - {fileID: 4648570716525274282}
+  doChangeMaterial: 1

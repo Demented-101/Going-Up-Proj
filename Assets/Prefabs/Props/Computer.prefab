@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6971202366987861009}
+  - component: {fileID: 5628127999077985638}
   m_Layer: 0
   m_Name: Computer
   m_TagString: Untagged
@@ -32,6 +33,22 @@ Transform:
   - {fileID: 2059169980279065003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5628127999077985638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2418504352159523098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed017159df5bc7041976aeb543be9f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colourHandler: {fileID: 11400000, guid: d56fbe360185b1f4484742c8de28a589, type: 2}
+  models:
+  - {fileID: 6841987551139786609}
+  doChangeMaterial: 1
 --- !u!1 &6841987551139786609
 GameObject:
   m_ObjectHideFlags: 0

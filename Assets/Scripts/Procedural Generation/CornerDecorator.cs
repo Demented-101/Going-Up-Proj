@@ -14,7 +14,7 @@ public class CornerDecorator : Decorator
         if (generator.connections.Count < 2) { return; } // requires at least two connections
 
         List<Vector2Int> remainingDirections = new List<Vector2Int> { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
-        int spawnOfficeDirection = Random.Range(0, generator.connections.Count + 2);
+        int spawnOfficeDirection = Random.Range(0, generator.connections.Count + 1);
 
         for (int i = 0; i < generator.connections.Count; i++)
         {

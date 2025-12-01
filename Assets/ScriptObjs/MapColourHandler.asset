@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d04659cd52d485c41ac2048cb07e7b28, type: 3}
+  m_Name: MapColourHandler
+  m_EditorClassIdentifier: 
+  propMaterials:
+  - {fileID: 2100000, guid: 0050b510625f13845a24a3999ac4eb59, type: 2}
+  - {fileID: 2100000, guid: 97f284a5402ed2749a67b656b3169e7d, type: 2}
+  - {fileID: 2100000, guid: 9eec1be3f6b9d0645acd66c8bbe1f711, type: 2}
+  - {fileID: 2100000, guid: bed865adc50feb74da55001e34ccfb00, type: 2}
+  - {fileID: 2100000, guid: 38611798d44448247ab33e0dd7d31cd8, type: 2}
+  - {fileID: 2100000, guid: c15f03dec0db73c48aff4ba4e03b87d9, type: 2}
+  - {fileID: 2100000, guid: 94c592b27b2e1ce48992983aedf109cd, type: 2}
+  - {fileID: 2100000, guid: 38308fda7ca7dc045b2fe1cff5b6aaf4, type: 2}

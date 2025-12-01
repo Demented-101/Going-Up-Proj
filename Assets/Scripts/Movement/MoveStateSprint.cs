@@ -109,8 +109,9 @@ public class MoveStateSprint : MovementState
             float rightDot = Vector3.Dot(leftVector * -1, input.normalized);
 
             if (Mathf.Abs(leftDot - rightDot) < 0.05f) turnAnim = turnBackAnimState;
-            if (leftDot > rightDot) turnAnim = turnLeftAnimState;
-            if (rightDot < leftDot) turnAnim = turnRightAnimState;
+            if (leftDot > 0) turnAnim = turnLeftAnimState;
+            if (rightDot > 0) turnAnim = turnRightAnimState;
+            Debug.Log(turnAnim);
         }
     }
 

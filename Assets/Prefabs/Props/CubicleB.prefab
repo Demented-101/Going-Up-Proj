@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1382300347434167885}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.46, y: 0, z: 0.121}
+  m_LocalPosition: {x: 1.46, y: 0, z: 0.93}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,6 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8944587509901952675}
+  - component: {fileID: 4088362809637330896}
   m_Layer: 0
   m_Name: CubicleB
   m_TagString: Untagged
@@ -119,6 +120,22 @@ Transform:
   - {fileID: 6464090917251487617}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4088362809637330896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4631486266116057803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed017159df5bc7041976aeb543be9f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colourHandler: {fileID: 11400000, guid: d56fbe360185b1f4484742c8de28a589, type: 2}
+  models:
+  - {fileID: 1382300347434167885}
+  doChangeMaterial: 1
 --- !u!1001 &6708454244782678509
 PrefabInstance:
   m_ObjectHideFlags: 0

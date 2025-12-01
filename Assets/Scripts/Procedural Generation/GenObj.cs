@@ -75,15 +75,7 @@ public class GenObj : MonoBehaviour
     private void MakeSegment(Vector2Int gridPos, Vector2Int gridDir, Dictionary<Utils.PGData, int> data)
     {
         Vector3 nextWorldPos = new Vector3(gridPos.x * Utils.gridSize, 0, gridPos.y * Utils.gridSize);
-
-        bool isOfficeSection = false;
-        if (data[Utils.PGData.isMainBranch] == 1) isOfficeSection = false; // never allow large office on main branch
-        else if (data[Utils.PGData.RemainingSize] == 0)
-        {
-            int chance = Random.Range(0,100);
-            isOfficeSection = chance <= Utils.largeOfficeChance; // allow office if end of a branch - also allow for randomization
-        }
-
+        bool isOfficeSection = data[Utils.PGData.RemainingSize] == 0;
 
         GameObject roomObj = isOfficeSection ? handler.officeSection : handler.cornerObj;
 
