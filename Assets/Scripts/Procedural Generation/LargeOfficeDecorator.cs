@@ -7,20 +7,27 @@ public class LargeOfficeDecorator : Decorator
 {
     public List<Vector2Int> officeConnections { get; private set; } = new List<Vector2Int> { };
     [SerializeField] private GameObject doorObject;
-    [SerializeField] private GameObject WallObject;
+    [SerializeField] private GameObject wallObject;
+    [SerializeField] private GameObject cubicleSet;
+
+    private bool isCenterOffice = false;
+    private Vector3 cubicleDir;
 
     public override void Decorate()
     {
         if (generator != null && generator.handler != null)
         {
+            isCenterOffice = true;
             propegate();
+            GenerateRoom();
         }
-        GenerateRoom();
+        
     }
 
-    public void GenerateRoom()
+    public void GenerateRoom(Vector3 cubDir)
     {
         List<Vector2Int> remainingDirections = new List<Vector2Int> { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down };
+        if (cubicleDir.magnitude <= 0) { cubicleDir = cubDir; }
 
         if (generator != null && generator.connections != null)
         {
@@ -37,19 +44,37 @@ public class LargeOfficeDecorator : Decorator
         foreach (Vector2Int gapDirection in officeConnections) // skip gaps - connections between offices
         {
             remainingDirections.Remove(gapDirection);
+
+            // add cubicles if center room
+            if (isCenterOffice)
+            {
+                Vector3 offset = new Vector3(gapDirection.x * 15, 0, gapDirection.y * 15);
+                GenerateCubicleRow(transform.position + offset);
+            }
         }
 
         foreach (Vector2Int wallDirection in remainingDirections) // generate final walls
         {
-            GameObject newWall = Instantiate(WallObject, transform.position, Quaternion.identity);
+            GameObject newWall = Instantiate(wallObject, transform.position, Quaternion.identity);
             newWall.transform.parent = transform;
             newWall.transform.LookAt(transform.position + new Vector3(-wallDirection.y, 0, wallDirection.x));
         }
+
+        // generate centeral cubicles
+        GenerateCubicleRow(transform.position);
+        GenerateCubicleRow(transform.position + cubicleDir.normalized * 30/4);
+        GenerateCubicleRow(transform.position - cubicleDir.normalized * 30/4);
     }
+
+    public void GenerateRoom()
+    {
+        GenerateRoom(cubicleDir);
+    }
+
 
     private void propegate()
     {
-        Vector2Int direction = new Vector2Int[] { Vector2Int.right, Vector2Int.left, Vector2Int.up, Vector2Int.down }[Random.Range(0, 4)];
+        Vector2Int direction = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down }[Random.Range(0, 4)];
         Vector2Int usedDirection = Vector2Int.zero;
 
         for (int i = 0; i < 4; i++)
@@ -64,6 +89,8 @@ public class LargeOfficeDecorator : Decorator
             MakeSegment(nextPosition, direction);
             generator.handler.AddGridPosition(nextPosition);
         }
+        if (usedDirection == Vector2Int.zero) { usedDirection = direction; }
+        cubicleDir = new Vector3(usedDirection.x, 0, usedDirection.y);
     }
 
     private void MakeSegment(Vector2Int gridPos, Vector2Int gridDir)
@@ -76,8 +103,19 @@ public class LargeOfficeDecorator : Decorator
         LargeOfficeDecorator nextDecorator = newSegment.GetComponent<LargeOfficeDecorator>();
         if (nextDecorator != null)
         {
-            nextDecorator.officeConnections.Add(-gridDir);
-            nextDecorator.GenerateRoom();
+            nextDecorator.officeConnections = new List<Vector2Int> { -gridDir };
+            nextDecorator.GenerateRoom(new Vector3(gridDir.x, 0, gridDir.y));
         }
+    }
+
+    private void GenerateCubicleRow(Vector3 position)
+    {
+        GameObject newRowA = Instantiate(cubicleSet, transform);
+        GameObject newRowB = Instantiate(cubicleSet, transform);
+
+        newRowA.transform.position = position + Vector3.Cross(cubicleDir, Vector3.up).normalized * 7;
+        newRowA.transform.LookAt(cubicleDir + newRowA.transform.position);
+        newRowB.transform.position = position - Vector3.Cross(cubicleDir, Vector3.up).normalized * 7;
+        newRowB.transform.LookAt(cubicleDir + newRowB.transform.position);
     }
 }

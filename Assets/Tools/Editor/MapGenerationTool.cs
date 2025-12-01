@@ -25,6 +25,14 @@ public class MapGenerationTool : EditorWindow
         building = EditorGUILayout.IntField("building", building);
 
         if (GUILayout.Button("Generate")) { Selection.activeGameObject?.GetComponent<GenerationHandler>()?.Generate(floor, building); }
+        if (GUILayout.Button("Generate Random")) { Roll(); Selection.activeGameObject?.GetComponent<GenerationHandler>()?.Generate(floor, building); }
         if (GUILayout.Button("Clear")) { Selection.activeGameObject?.GetComponent<GenerationHandler>()?.Clear(); }
     }
+
+    private void Roll()
+    {
+        building = UnityEngine.Random.Range(0, 100);
+        floor = UnityEngine.Random.Range(0, 100);
+    }
+
 }
