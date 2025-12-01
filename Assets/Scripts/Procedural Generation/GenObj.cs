@@ -21,7 +21,6 @@ public class GenObj : MonoBehaviour
         ID = handler.sectionCount;
         handler.sectionCount++;
         data[Utils.PGData.RemainingSize]--;
-        isBranch = data[Utils.PGData.isMainBranch] == 0;
 
         // grid positions
         gridPosition = gridPos;
@@ -56,7 +55,6 @@ public class GenObj : MonoBehaviour
 
         foreach (Vector2Int direction in GetRandomDirections())
         {
-            if (handler.sectionCount >= Utils.forceEndSize) return false; // force stop at specific size
             if (data[Utils.PGData.RemainingSize] < 0) return false; // -> reached max depth, return out
             Vector2Int nextPosition = gridPosition + direction;
 
@@ -64,7 +62,7 @@ public class GenObj : MonoBehaviour
             if (handler.IsGridPositionUsed(nextPosition)) continue;
 
             // create next segment
-            MakeSegment(nextPosition, direction, data);
+            MakeSegment(nextPosition, direction, data, handler.sectionCount >= Utils.forceEndSize);
             if (onlyMakeOne) return true;
             hasMadeSegment = true;
         }
@@ -72,10 +70,10 @@ public class GenObj : MonoBehaviour
         return hasMadeSegment; // didnt successfully create new segment
     }
 
-    private void MakeSegment(Vector2Int gridPos, Vector2Int gridDir, Dictionary<Utils.PGData, int> data)
+    public void MakeSegment(Vector2Int gridPos, Vector2Int gridDir, Dictionary<Utils.PGData, int> data, bool forceOffice = false)
     {
         Vector3 nextWorldPos = new Vector3(gridPos.x * Utils.gridSize, 0, gridPos.y * Utils.gridSize);
-        bool isOfficeSection = data[Utils.PGData.RemainingSize] == 0;
+        bool isOfficeSection = data[Utils.PGData.RemainingSize] == 0 || forceOffice;
 
         GameObject roomObj = isOfficeSection ? handler.officeSection : handler.cornerObj;
 

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8478326157566434996}
   - component: {fileID: 1274045350791912284}
   - component: {fileID: 1554995924603125789}
-  - component: {fileID: 3795974639036561906}
   m_Layer: 0
   m_Name: Corner Peice
   m_TagString: Decorator
@@ -63,27 +62,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: {fileID: 0}
+  hasDecorated: 0
   hallObject: {fileID: 2255735986302304756, guid: 6195c33f27298a244b957e55e757c873, type: 3}
   wallObject: {fileID: 2255735986302304756, guid: 30e0bbb53e5ac7544bfe0cf98931c9a7, type: 3}
   hallSideRoomObjects:
   - {fileID: 2255735986302304756, guid: 587db88fce2b9cd45b3bc0a66db0a0c2, type: 3}
   - {fileID: 2255735986302304756, guid: 400e2144cd4c92a43a5703cef182d2b1, type: 3}
   - {fileID: 2255735986302304756, guid: e3d7a4d55a883a447b4022039468d2d9, type: 3}
---- !u!114 &3795974639036561906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2255735986302304756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff05d0d6ba3d98d41a0af6845a4f5892, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  doorObject: {fileID: 5639551101903490764, guid: 30c40364be5fc6049b7adbd2d954bbd6, type: 3}
-  WallObject: {fileID: 5639551101903490764, guid: efedd40abacd1154dae52f5d6377b989, type: 3}
+  officeSection: {fileID: 5388770171258494987, guid: 10cc3c5ed2be6b04b9831d37075ee872, type: 3}
 --- !u!1 &2912047519411888049
 GameObject:
   m_ObjectHideFlags: 0
