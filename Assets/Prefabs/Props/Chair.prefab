@@ -135,3 +135,4 @@ MonoBehaviour:
   models:
   - {fileID: 6175924433530102326}
   doChangeMaterial: 1
+  allowedSpawnRotation: 180

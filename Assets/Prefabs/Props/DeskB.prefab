@@ -34,8 +34,6 @@ Transform:
   - {fileID: 2147915565240677438}
   - {fileID: 1153244329633816996}
   - {fileID: 7625404419398364873}
-  - {fileID: 920126095748658738}
-  - {fileID: 4243682542742015412}
   - {fileID: 5294942451497650436}
   - {fileID: 578679221217549377}
   - {fileID: 1329361290880651932}
@@ -58,6 +56,7 @@ MonoBehaviour:
   models:
   - {fileID: 1288265344459797297}
   doChangeMaterial: 1
+  allowedSpawnRotation: 0
 --- !u!1 &1016394244094622823
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,53 +237,6 @@ MonoBehaviour:
   generator: {fileID: 0}
   hasDecorated: 0
   objArray: {fileID: 11400000, guid: e75cebfb445ddb54f9cf4b2283bbe511, type: 2}
---- !u!1 &2099212897881598570
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 920126095748658738}
-  - component: {fileID: 1090323501217154310}
-  m_Layer: 0
-  m_Name: SecondaryGenerator (2)
-  m_TagString: Decorator
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &920126095748658738
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099212897881598570}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.554, y: 1.02, z: 0.86700004}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9083961559857677777}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1090323501217154310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099212897881598570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e1dfc9cb14a01040bfa68b4b0a7e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  hasDecorated: 0
-  objArray: {fileID: 11400000, guid: e75cebfb445ddb54f9cf4b2283bbe511, type: 2}
 --- !u!1 &5586724126066156967
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,53 +284,6 @@ MonoBehaviour:
   generator: {fileID: 0}
   hasDecorated: 0
   objArray: {fileID: 11400000, guid: 5bd3a7b0206f1904683f79493a520ea9, type: 2}
---- !u!1 &5656672913517971678
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4243682542742015412}
-  - component: {fileID: 3003921948708337672}
-  m_Layer: 0
-  m_Name: SecondaryGenerator (3)
-  m_TagString: Decorator
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4243682542742015412
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5656672913517971678}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.703, y: 1.02, z: 0.86700004}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9083961559857677777}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3003921948708337672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5656672913517971678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e1dfc9cb14a01040bfa68b4b0a7e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  generator: {fileID: 0}
-  hasDecorated: 0
-  objArray: {fileID: 11400000, guid: e75cebfb445ddb54f9cf4b2283bbe511, type: 2}
 --- !u!1 &6021011054983290319
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +457,7 @@ Transform:
   m_GameObject: {fileID: 7392113502031032219}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.0000029653306}
-  m_LocalPosition: {x: 0.002, y: 0, z: 1.48}
+  m_LocalPosition: {x: 0.002, y: 0, z: 1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

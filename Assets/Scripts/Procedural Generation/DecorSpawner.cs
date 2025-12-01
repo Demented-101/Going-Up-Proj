@@ -11,8 +11,7 @@ public class DecorSpawner : Decorator
         GameObject newDecor = objArray.GetRandom();
         if (newDecor == null) { return; } // chance to not generate hit
         GameObject newObj = Instantiate(newDecor, transform.position, transform.rotation, transform.parent);
-
-        // update the material
+        newObj.GetComponent<Prop>()?.Generate();
 
         // destroy self
 #if !UNITY_EDITOR

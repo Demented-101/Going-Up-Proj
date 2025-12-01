@@ -49,6 +49,7 @@ MonoBehaviour:
   models:
   - {fileID: 7587256001044487033}
   doChangeMaterial: 1
+  allowedSpawnRotation: 100
 --- !u!1 &7587256001044487033
 GameObject:
   m_ObjectHideFlags: 0

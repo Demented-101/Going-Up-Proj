@@ -311,3 +311,4 @@ MonoBehaviour:
   - {fileID: 1208588699002637281}
   - {fileID: 7297452354598811869}
   doChangeMaterial: 1
+  allowedSpawnRotation: 20
