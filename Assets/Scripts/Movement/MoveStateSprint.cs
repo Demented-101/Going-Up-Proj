@@ -26,7 +26,7 @@ public class MoveStateSprint : MovementState
     private const int turnRightAnimState = 4;
     private const int turnBackAnimState = 4;
 
-    public int currentMach { get; private set; } = 2;
+    private int currentMach = 2;
     private Vector3 input;
     private bool isTurning = false;
     private int turnAnim = -1;
@@ -34,6 +34,7 @@ public class MoveStateSprint : MovementState
 
     // TODO:
     // new 180 animation
+    // bonking
 
     public override void onEntered(TransitionData[] data)
     {
@@ -111,7 +112,6 @@ public class MoveStateSprint : MovementState
             if (Mathf.Abs(leftDot - rightDot) < 0.05f) turnAnim = turnBackAnimState;
             if (leftDot > 0) turnAnim = turnLeftAnimState;
             if (rightDot > 0) turnAnim = turnRightAnimState;
-            Debug.Log(turnAnim);
         }
     }
 
@@ -155,5 +155,11 @@ public class MoveStateSprint : MovementState
             case 4: return mach4Ref;
         }
         return null;
+    }
+
+    public int GetCurrentMach()
+    {
+        if (isActiveAndEnabled) { return currentMach; }
+        return 1;
     }
 }

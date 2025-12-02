@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8683682139337016151}
   - component: {fileID: 9039876981628709850}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5638812, y: 1.352265, z: 0.74259686}
-  m_Center: {x: -0.005244073, y: 0.69885886, z: -0.021780422}
+  m_Size: {x: 0.5638812, y: 1.352265, z: 0.5949689}
+  m_Center: {x: -0.005244073, y: 0.69885886, z: 0.05203366}
 --- !u!1 &4347488574499179015
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
   models:
   - {fileID: 6945727397929436111}
   doChangeMaterial: 1
+  allowedSpawnRotation: 0
 --- !u!1 &6485133548305607431
 GameObject:
   m_ObjectHideFlags: 0

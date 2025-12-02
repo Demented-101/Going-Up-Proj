@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5428906886217996763}
   - component: {fileID: 4787841031550077139}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SecondaryGenerator (5)
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6347699576920623244}
   - component: {fileID: 3519105022006706450}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SecondaryGenerator (1)
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -104,9 +104,10 @@ GameObject:
   m_Component:
   - component: {fileID: 336687946757387884}
   - component: {fileID: 5329277757371154992}
-  m_Layer: 0
+  - component: {fileID: 4921655223737501098}
+  m_Layer: 7
   m_Name: DeskA
-  m_TagString: Untagged
+  m_TagString: Prop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +132,6 @@ Transform:
   - {fileID: 8119216577424718598}
   - {fileID: 201465077406856334}
   - {fileID: 1084428033559342458}
-  - {fileID: 3151195201192421227}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5329277757371154992
@@ -151,45 +151,13 @@ MonoBehaviour:
   - {fileID: 7747001227255965719}
   doChangeMaterial: 1
   allowedSpawnRotation: 0
---- !u!1 &2820390637096127477
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3151195201192421227}
-  - component: {fileID: 5852165748131653271}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3151195201192421227
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2820390637096127477}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.81700003}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 336687946757387884}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5852165748131653271
+--- !u!65 &4921655223737501098
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2820390637096127477}
+  m_GameObject: {fileID: 652397628706912917}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -202,8 +170,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.5216875, y: 1.0311015, z: 1.1495122}
-  m_Center: {x: 0.00067687035, y: 0.5033556, z: -0.12085348}
+  m_Size: {x: 2.5490162, y: 1.0740144, z: 1.206183}
+  m_Center: {x: 0.007929921, y: 0.49695385, z: 0.70049345}
 --- !u!1 &4582766195076774309
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8119216577424718598}
   - component: {fileID: 6091799807735455491}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PrimaryGenerator
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -261,7 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1168998005487501199}
   - component: {fileID: 3879431582436996094}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SecondaryGenerator (4)
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -308,7 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201465077406856334}
   - component: {fileID: 5964941348241883578}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ChairGenerator
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -356,7 +324,7 @@ GameObject:
   - component: {fileID: 1084428033559342458}
   - component: {fileID: 6264108692435381458}
   - component: {fileID: 6487225100571408358}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DeskA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -441,7 +409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4035505361892683290}
   - component: {fileID: 3917515939613652056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SecondaryGenerator
   m_TagString: Decorator
   m_Icon: {fileID: 0}

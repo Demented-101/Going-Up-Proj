@@ -148,4 +148,10 @@ public class MovementStateHandler : MonoBehaviour
         Debug.LogError("No Animator parameter named: " + paramName);
         return false;
     }
+
+    public void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.includeLayers == LayerMask.NameToLayer("PropCollision"))
+            Debug.Log("hello!");
+    }
 }

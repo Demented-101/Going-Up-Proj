@@ -14,6 +14,5 @@ public class MapColourHandler : ScriptableObject
     public void ReRoll()
     {
         floorMaterial = Random.Range(0, propMaterials.Length);
-        Debug.Log(GetFloorPropMaterial());
     }
 }
