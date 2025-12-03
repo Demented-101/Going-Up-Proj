@@ -5,6 +5,7 @@ public class Prop : MonoBehaviour
     [SerializeField] private MapColourHandler colourHandler;
     [SerializeField] private GameObject[] models;
     [SerializeField] private bool doChangeMaterial;
+    [SerializeField] private bool canBreak = true;
     [SerializeField][Range(0f, 360f)] private float allowedSpawnRotation = 0;
 
     public void Generate()
@@ -16,5 +17,12 @@ public class Prop : MonoBehaviour
 
         float rotation = Random.Range(0, allowedSpawnRotation) - (allowedSpawnRotation / 2);
         transform.Rotate(0, rotation, 0);
+    }
+
+    public void Break()
+    {
+        if (!canBreak) { return; }
+        Debug.Log("BROKEN");
+        gameObject.SetActive(false);
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2191167321202974278}
   - component: {fileID: 557149461575423430}
   - component: {fileID: 6866159689384566930}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WaterCooler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7257585458271444890}
   - component: {fileID: 4730768608197002233}
-  m_Layer: 0
+  - component: {fileID: 8208005147010067571}
+  m_Layer: 8
   m_Name: WaterCooler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,3 +136,26 @@ MonoBehaviour:
   models:
   - {fileID: 4898087091530393190}
   doChangeMaterial: 0
+  canBreak: 1
+  allowedSpawnRotation: 0
+--- !u!65 &8208005147010067571
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053736907064306359}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.60489655, y: 1.9388596, z: 1}
+  m_Center: {x: 0.0019559264, y: 0.95841926, z: 0}

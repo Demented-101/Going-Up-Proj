@@ -150,6 +150,7 @@ MonoBehaviour:
   models:
   - {fileID: 7747001227255965719}
   doChangeMaterial: 1
+  canBreak: 1
   allowedSpawnRotation: 0
 --- !u!65 &4921655223737501098
 BoxCollider:

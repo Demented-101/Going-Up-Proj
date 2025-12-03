@@ -1,58 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3616633259169458035
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8683682139337016151}
-  - component: {fileID: 9039876981628709850}
-  m_Layer: 7
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8683682139337016151
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3616633259169458035}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0037315, y: -0.067, z: 0.39670822}
-  m_LocalScale: {x: 1.1909, y: 1.1909, z: 1.1909}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2033860886043722627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9039876981628709850
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3616633259169458035}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5638812, y: 1.352265, z: 0.5949689}
-  m_Center: {x: -0.005244073, y: 0.69885886, z: 0.05203366}
 --- !u!1 &4347488574499179015
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2033860886043722627}
   - component: {fileID: 2057067629800586290}
-  m_Layer: 0
+  - component: {fileID: 8233449840568219105}
+  m_Layer: 8
   m_Name: Cabinet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +32,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5600097407123813976}
-  - {fileID: 8683682139337016151}
   - {fileID: 5808667249879247174}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -104,7 +51,29 @@ MonoBehaviour:
   models:
   - {fileID: 6945727397929436111}
   doChangeMaterial: 1
+  canBreak: 1
   allowedSpawnRotation: 0
+--- !u!65 &8233449840568219105
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4347488574499179015}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.67897916, y: 1.5943654, z: 0.745726}
+  m_Center: {x: 0.0015891939, y: 0.78983843, z: 0.37505406}
 --- !u!1 &6485133548305607431
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5600097407123813976}
   - component: {fileID: 8430463240213805421}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SecondaryGenerator
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -131,7 +100,7 @@ Transform:
   m_GameObject: {fileID: 6485133548305607431}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.005, y: 1.576, z: 0.457}
+  m_LocalPosition: {x: -0.005, y: 1.576, z: 0.381}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -163,7 +132,7 @@ GameObject:
   - component: {fileID: 5808667249879247174}
   - component: {fileID: 2364587978471987883}
   - component: {fileID: 7383295834167755100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cabinet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 6945727397929436111}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.268, z: 0.47770822}
+  m_LocalPosition: {x: 0, y: 0.268, z: 0.40170825}
   m_LocalScale: {x: 34.201736, y: 34.201733, z: 34.201733}
   m_ConstrainProportionsScale: 0
   m_Children: []

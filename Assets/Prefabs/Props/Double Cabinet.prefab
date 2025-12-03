@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6923605347016607655}
   - component: {fileID: 2774747406493336419}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SecondaryGenerator (1)
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2921415527058480120}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5166918, y: 1.58, z: 0.581}
+  m_LocalPosition: {x: -0.5166918, y: 1.58, z: 0.47199997}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3077177567202446845}
   - component: {fileID: 6793314098631359118}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SecondaryGenerator
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ Transform:
   m_GameObject: {fileID: 4228872793613214017}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.37410137, y: 1.58, z: 0.439}
+  m_LocalPosition: {x: 0.37410137, y: 1.58, z: 0.33}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -104,7 +104,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2033860886043722627}
   - component: {fileID: 7089084510464626717}
-  m_Layer: 0
+  - component: {fileID: 7480651184311190212}
+  m_Layer: 8
   m_Name: Double Cabinet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +127,6 @@ Transform:
   m_Children:
   - {fileID: 3077177567202446845}
   - {fileID: 6923605347016607655}
-  - {fileID: 4753959952530134500}
   - {fileID: 5808667249879247174}
   - {fileID: 3036552595225269616}
   m_Father: {fileID: 0}
@@ -148,6 +148,29 @@ MonoBehaviour:
   - {fileID: 6945727397929436111}
   - {fileID: 9010431200850783541}
   doChangeMaterial: 1
+  canBreak: 1
+  allowedSpawnRotation: 0
+--- !u!65 &7480651184311190212
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4347488574499179015}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.4246892, y: 1.5928831, z: 0.78134817}
+  m_Center: {x: 0.006307304, y: 0.792613, z: 0.3994601}
 --- !u!1 &6945727397929436111
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,7 +182,7 @@ GameObject:
   - component: {fileID: 5808667249879247174}
   - component: {fileID: 2364587978471987883}
   - component: {fileID: 7383295834167755100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cabinet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +198,7 @@ Transform:
   m_GameObject: {fileID: 6945727397929436111}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.384, y: 0.268, z: 0.53970826}
+  m_LocalPosition: {x: 0.384, y: 0.268, z: 0.43070826}
   m_LocalScale: {x: 34.201736, y: 34.201733, z: 34.201733}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -234,59 +257,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &7895636652708698905
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4753959952530134500}
-  - component: {fileID: 6658671001759746104}
-  m_Layer: 0
-  m_Name: Collider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4753959952530134500
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7895636652708698905}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0037315, y: -0.067, z: 0.49870822}
-  m_LocalScale: {x: 1.1909, y: 1.1909, z: 1.1909}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2033860886043722627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6658671001759746104
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7895636652708698905}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.2995487, y: 1.3567075, z: 0.74259686}
-  m_Center: {x: 0.012588522, y: 0.7010803, z: -0.021780422}
 --- !u!1 &9010431200850783541
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +268,7 @@ GameObject:
   - component: {fileID: 3036552595225269616}
   - component: {fileID: 1893615750279776261}
   - component: {fileID: 8263833265555855714}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cabinet (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 9010431200850783541}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7064201, y: -0.031155251, z: -0.031155251, w: 0.7064201}
-  m_LocalPosition: {x: -0.33658484, y: 0.268, z: 0.5397265}
+  m_LocalPosition: {x: -0.33658484, y: 0.268, z: 0.4307265}
   m_LocalScale: {x: 34.201736, y: 34.201733, z: 34.201733}
   m_ConstrainProportionsScale: 0
   m_Children: []

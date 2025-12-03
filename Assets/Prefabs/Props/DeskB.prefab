@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 305823795093859040}
   m_Layer: 7
   m_Name: DeskB
-  m_TagString: Prop
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,6 +56,7 @@ MonoBehaviour:
   models:
   - {fileID: 1288265344459797297}
   doChangeMaterial: 1
+  canBreak: 1
   allowedSpawnRotation: 0
 --- !u!65 &305823795093859040
 BoxCollider:
