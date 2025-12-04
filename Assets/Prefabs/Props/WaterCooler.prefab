@@ -137,6 +137,7 @@ MonoBehaviour:
   - {fileID: 4898087091530393190}
   doChangeMaterial: 0
   canBreak: 1
+  breakStrength: 2
   allowedSpawnRotation: 0
 --- !u!65 &8208005147010067571
 BoxCollider:

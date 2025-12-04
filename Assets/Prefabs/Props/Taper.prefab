@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1567417552324880578}
   - component: {fileID: 2149102274854317421}
   - component: {fileID: 8260654735280283880}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Tape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 5032593981946728551}
   - component: {fileID: 4680844353902632166}
   - component: {fileID: 5427978631700891938}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Taper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +137,7 @@ MonoBehaviour:
   - {fileID: 2108251845733092932}
   doChangeMaterial: 1
   canBreak: 1
+  breakStrength: 2
   allowedSpawnRotation: 0
 --- !u!65 &5427978631700891938
 BoxCollider:

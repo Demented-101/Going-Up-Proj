@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 539305937302930094}
   - component: {fileID: 4036772535182583620}
   - component: {fileID: 4623040859521949105}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: WideCabinet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 4550124329129936259}
   doChangeMaterial: 1
   canBreak: 1
+  breakStrength: 3
   allowedSpawnRotation: 0
 --- !u!65 &4623040859521949105
 BoxCollider:
@@ -86,7 +87,7 @@ GameObject:
   - component: {fileID: 3409894340624918012}
   - component: {fileID: 6344545158623384515}
   - component: {fileID: 2593794306999365698}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: CabinetWide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 449074490373035307}
   - component: {fileID: 4478979825010100471}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: SecondaryGenerator
   m_TagString: Decorator
   m_Icon: {fileID: 0}
@@ -218,7 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 153275912943100280}
   - component: {fileID: 1976245857302917428}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: SecondaryGenerator (1)
   m_TagString: Decorator
   m_Icon: {fileID: 0}

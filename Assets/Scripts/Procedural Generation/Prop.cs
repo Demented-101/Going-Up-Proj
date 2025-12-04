@@ -6,6 +6,7 @@ public class Prop : MonoBehaviour
     [SerializeField] private GameObject[] models;
     [SerializeField] private bool doChangeMaterial;
     [SerializeField] private bool canBreak = true;
+    [SerializeField] private int breakStrength;
     [SerializeField][Range(0f, 360f)] private float allowedSpawnRotation = 0;
 
     public void Generate()
@@ -19,9 +20,10 @@ public class Prop : MonoBehaviour
         transform.Rotate(0, rotation, 0);
     }
 
-    public void Break()
+    public void Break(int currentMach)
     {
-        if (!canBreak) { return; }
+        if (!canBreak || currentMach < breakStrength) { return; }
+
         Debug.Log("BROKEN");
         gameObject.SetActive(false);
     }
