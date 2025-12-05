@@ -364,9 +364,11 @@ MonoBehaviour:
   models:
   - {fileID: 1382300347434167885}
   doChangeMaterial: 1
+  allowedSpawnRotation: 0
   canBreak: 1
   breakStrength: 4
-  allowedSpawnRotation: 0
+  breakPoints: 110
+  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
 --- !u!65 &4354304445152627978
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -5,9 +5,11 @@ public class Prop : MonoBehaviour
     [SerializeField] private MapColourHandler colourHandler;
     [SerializeField] private GameObject[] models;
     [SerializeField] private bool doChangeMaterial;
+    [SerializeField][Range(0f, 360f)] private float allowedSpawnRotation = 0;
     [SerializeField] private bool canBreak = true;
     [SerializeField] private int breakStrength;
-    [SerializeField][Range(0f, 360f)] private float allowedSpawnRotation = 0;
+    [SerializeField] private int breakPoints;
+    [SerializeField] private GameStatus gameStatus;
 
     public void Generate()
     {
@@ -26,5 +28,6 @@ public class Prop : MonoBehaviour
 
         Debug.Log("BROKEN");
         gameObject.SetActive(false);
+        gameStatus.AddScore(breakPoints);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameStatus", menuName = "Scriptable Objects/GameStatus")]
@@ -71,19 +72,10 @@ public class GameStatus : ScriptableObject
         Updated.Invoke();
     }
 
-    private int GetPassedFloors(int score, int startFloor)
+    private static int GetPassedFloors(int score)
     {
-        int passedFloors = 0;
-        int remainingScore = score;
-        int nextFloorReq = Utils.GetFloorPointRequirement(currentFloor);
-
-        while (remainingScore > nextFloorReq)
-        {
-            passedFloors++;
-            remainingScore -= nextFloorReq;
-
-            nextFloorReq = Utils.GetFloorPointRequirement(startFloor + passedFloors);
-        }
+        int remainingScore = score - Utils.winPointCost;
+        int passedFloors = 1 + Mathf.FloorToInt(remainingScore / Utils.floorPointCost);
 
         return passedFloors;
     }
@@ -91,7 +83,7 @@ public class GameStatus : ScriptableObject
     public void RunEnded() // calculate new floor, building, and score values
     {
         runCount++;
-        int passedFloors = GetPassedFloors(currentScore, currentFloor);
+        int passedFloors = GetPassedFloors(currentScore);
 
         if (isOnRoof) // has passed roof level -> moved to next building
         {
@@ -99,7 +91,7 @@ public class GameStatus : ScriptableObject
             currentFloor = 1;
             currentBuilding++;
         }
-        else if (passedFloors < 1) // not enough points gained - hasnt beaten floor
+        else if (currentScore < Utils.winPointCost) // not enough points gained - hasnt beaten floor
         {
             gameState = Utils.GameStates.GameOver;
             onStateChange?.Invoke(gameState);

@@ -136,3 +136,7 @@ MonoBehaviour:
   - {fileID: 2497094957411183378}
   doChangeMaterial: 1
   allowedSpawnRotation: 82
+  canBreak: 1
+  breakStrength: 0
+  breakPoints: 0
+  gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}

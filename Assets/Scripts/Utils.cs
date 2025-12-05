@@ -19,20 +19,17 @@ public static class Utils
     { 
         Seed, RemainingSize, BranchCountdown, isMainBranch
     }
-
-
-    // multiplayer (unused)
-    public const int maxLobbySize = 4;
     
     // save files
     public const string fileName = "/player.json";
     static public string GetSaveFilePath()  { return Application.persistentDataPath + fileName; }
 
-    // proc generation
+    // proc generation - seed generation
     private const int seedPrefixSize = 3; // the size of the buidling side of the seed
     private const int seedSuffixSize = 5; // the size of the floor sude of the seed
     private const string seedPadding = "00000"; // ! - must be longer than both pre/suffix sizes, and is a digit. is added to the front of both ends to ensure size before its cut down
         
+    // proc generation - map layout and settings
     public const int gridSize = 30; // ! - always add one to integer maxs since range is excusive max
     public const int floorMinSize = 15;
     public const int floorMaxSize = 25;
@@ -43,8 +40,11 @@ public static class Utils
     public const int branchSizeMax = 4;
     public const int largeOfficeChance = 75;
 
+    // floor and building constants
+    public const int winPointCost = 3000;
+    public const int floorPointCost = 1000;
+
     // floor and building math
-    static public int GetFloorPointRequirement(int floor) { return (floor + 10) * 50; }
     static public int GetBuildingFloorCount(int building) { return (building * 10) + 40; }
     static public int GetFloorSeed(int floor, int building, bool isNegative = false)
     {
