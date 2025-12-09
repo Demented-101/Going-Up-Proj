@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -19,7 +20,10 @@ public class MoveStateStumble : MovementState
 
         startMomentum = Utils.GetHorizontal(stateHandler.velocity, false);
         stateHandler.Move((startMomentum * -1) - new Vector3(0, reference.gravity, 0) );
-        stumbleTime = stumbleTimeMax;
+        if (data.Contains(TransitionData.IgnoreStumbleTime)) stumbleTime = 0;
+        else stumbleTime = stumbleTimeMax;
+        
+            
 
         stateHandler.SendAnimatorTrigger(stumbleStartAnimTrigger);
         stateHandler.SetAnimatorSpeed(animSpeed);
@@ -38,12 +42,13 @@ public class MoveStateStumble : MovementState
         Vector3 newVelocity = ProcessMovement(velocity, Vector3.zero);
 
         stateHandler.Move(newVelocity);
-        stateHandler.Rotate(reference.characterRotationMode);
 
         // once "near" 0 speed, start reducing stumbleState time
-        if (Utils.GetHorizontal(newVelocity, false).magnitude <= 0.05f) stumbleTime -= Time.deltaTime;
-        // once stumbleState time 0, return
-        if (stumbleTime < 0f) stateHandler.ChangeState(returnState);
+        if (Utils.GetHorizontal(newVelocity, false).magnitude <= 0.05f)
+        {
+            stumbleTime -= Time.deltaTime; 
+            if (stumbleTime <= 0f) stateHandler.ChangeState(returnState); // once stumbleState time 0, return
+        }
     }
 
     private Vector3 ProcessMovement(Vector3 velocity, Vector3 wishDir)

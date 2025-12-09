@@ -25,7 +25,7 @@ public class MoveStateSprint : MovementState
     private const int maxSprintAnimState = 2;
     private const int turnLeftAnimState = 3;
     private const int turnRightAnimState = 4;
-    private const int turnBackAnimState = 4;
+    private const int turnBackAnimState = 5;
 
     private const float bumpCastYOffset = 0.36f;
     private const float bumpCastRadius = 0.25f;
@@ -112,12 +112,13 @@ public class MoveStateSprint : MovementState
         if (isTurning)
         {
             Vector3 leftVector = Vector3.Cross(velocity, Vector3.up).normalized;
+            float backDot = Vector3.Dot(input.normalized, Utils.GetHorizontal(velocity, true) * -1);
             float leftDot = Vector3.Dot(leftVector, input.normalized);
             float rightDot = Vector3.Dot(leftVector * -1, input.normalized);
 
-            if (Mathf.Abs(leftDot - rightDot) < 0.05f) turnAnim = turnBackAnimState;
-            if (leftDot > 0) turnAnim = turnLeftAnimState;
-            if (rightDot > 0) turnAnim = turnRightAnimState;
+            if (backDot > 0.85f) { stateHandler.ChangeState(stumbleState, new TransitionData[] {TransitionData.IgnoreStumbleTime}); }
+            if (leftDot > 0f) { turnAnim = turnLeftAnimState; }
+            if (rightDot > 0f) { turnAnim = turnRightAnimState; }
         }
     }
 
