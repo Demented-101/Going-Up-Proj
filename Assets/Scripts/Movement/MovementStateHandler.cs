@@ -99,14 +99,9 @@ public class MovementStateHandler : MonoBehaviour
                 if (horizontalVelocity.magnitude != 0) { newForward = horizontalVelocity; }
                 break;
 
-            case Utils.CharacterRotationMode.FollowCamera: // follow main camera
-                if (cameraObj == null) { Debug.LogError("No camera found - rotation cannot follow camera rot"); break; }
-                newForward = cameraObj.transform.forward;
-                break;
-
-            case Utils.CharacterRotationMode.FollowCameraHorizontal: // follow main camera - horizontal only
-                if (cameraObj == null) { Debug.LogError("No camera found - rotation cannot follow camera rot"); break; }
-                newForward = Utils.GetHorizontal(cameraObj.transform.forward, true);
+            case Utils.CharacterRotationMode.FollowVelocityReversed:
+                Vector3 reverseVelocity = Utils.GetHorizontal(velocity * -1, false);
+                if (reverseVelocity.magnitude != 0) { newForward = reverseVelocity; }
                 break;
         }
 
@@ -135,7 +130,6 @@ public class MovementStateHandler : MonoBehaviour
         if (animator != null && AnimatorHasParameter(animator, "Jump"))
         {
             animator.SetTrigger(triggerName);
-            Debug.Log(triggerName);
         }
     }
 

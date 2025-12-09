@@ -9,6 +9,7 @@ public class MoveStateSprint : MovementState
 {
     public MovementState walkState;
     public MovementState notGroundedState;
+    public MovementState stumbleState;
 
     [SerializeField] private MovementStateReference mach3Ref;
     [SerializeField] private MovementStateReference mach4Ref;
@@ -25,6 +26,10 @@ public class MoveStateSprint : MovementState
     private const int turnLeftAnimState = 3;
     private const int turnRightAnimState = 4;
     private const int turnBackAnimState = 4;
+
+    private const float bumpCastYOffset = 0.36f;
+    private const float bumpCastRadius = 0.25f;
+    private const float bumpCastDistance = 0.4f;
 
     private int currentMach = 2;
     private Vector3 input;
@@ -56,10 +61,11 @@ public class MoveStateSprint : MovementState
 
         if (newinput.magnitude > 0) input = newinput; 
 
-        // -> midair state - make sure can do coyote time
+        // -> midair state + stumble
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
+        if (stumbleState != null && ProcessBump(Utils.GetHorizontal(velocity, true))) {Debug.Log("Stumblew!"); stateHandler.ChangeState(stumbleState); return; }
 
-        // -> turning + animation
+        // -> turning
         ProcessTurning(input, velocity);
         
         Vector3 newVelocity = ProcessMovement(velocity, input);
@@ -131,6 +137,14 @@ public class MoveStateSprint : MovementState
         }
 
         return currentMach;
+    }
+    
+    private bool ProcessBump(Vector3 forward)
+    {
+        RaycastHit hit;
+        Physics.SphereCast(transform.position + new Vector3(0, bumpCastYOffset, 0), bumpCastRadius, forward, out hit, bumpCastDistance);
+
+        return hit.collider != null;
     }
 
     protected override bool AttemptSprint(MovementStateReference nextSprintRef, float speed, MovementState sprintState)

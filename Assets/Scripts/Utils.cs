@@ -9,7 +9,7 @@ public static class Utils
     }
     public enum CharacterRotationMode
     {
-        None, FollowVelocity, FollowVelocityHorizontal, FollowCamera, FollowCameraHorizontal
+        None, FollowVelocity, FollowVelocityHorizontal, FollowVelocityReversed
     }
     public enum InputMappingMode
     {

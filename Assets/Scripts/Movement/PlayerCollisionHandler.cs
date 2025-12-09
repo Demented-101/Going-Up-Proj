@@ -6,7 +6,6 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         Prop prop = other.gameObject.GetComponent<Prop>();
         if (prop != null)
         {
