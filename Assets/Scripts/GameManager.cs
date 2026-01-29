@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) { TogglePaused(); }
+
+        if (currentState == Utils.GameStates.Run)
+        {
+            gameStatus.DecrementTimer(Time.deltaTime);
+        }
     }
 
     public void TogglePaused()
@@ -71,6 +76,7 @@ public class GameManager : MonoBehaviour
     // elevator -> new run
     public void StartRun()
     {
+        gameStatus.ResetFloorTimer();
         ChangeState(Utils.GameStates.Run);
     }
 

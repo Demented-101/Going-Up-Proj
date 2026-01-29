@@ -20,16 +20,21 @@ public class MoveStateSprint : MovementState
     [SerializeField] private float animationSpeedMultiplier = 0.1f;
     [SerializeField] private string jumpAnimationTrigger = "";
     [SerializeField] private string startAnimationTrigger = "";
+    [SerializeField] private bool doDash = true;
+    [SerializeField] private float maxDashTimer = 1f;
 
     private const int sprintAnimState = 1;
     private const int maxSprintAnimState = 2;
     private const int turnLeftAnimState = 3;
     private const int turnRightAnimState = 4;
-    private const int turnBackAnimState = 5;
 
     private const float bumpCastYOffset = 0.36f;
     private const float bumpCastRadius = 0.25f;
     private const float bumpCastDistance = 0.4f;
+
+    private bool isDashing = false;
+    private float dashTimer = 0f;
+    private Vector3 dashDirection;
 
     private int currentMach = 2;
     private Vector3 input;
@@ -37,9 +42,6 @@ public class MoveStateSprint : MovementState
     private int turnAnim = -1;
     private enum TurnDirections { right, left, backward };
 
-    // TODO:
-    // new 180 animation
-    // bonking
 
     public override void onEntered(TransitionData[] data)
     {
@@ -61,14 +63,23 @@ public class MoveStateSprint : MovementState
 
         if (newinput.magnitude > 0) input = newinput; 
 
-        // -> midair state + stumble
+        // -> midair state + stumble + dash
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
-        if (stumbleState != null && ProcessBump(Utils.GetHorizontal(velocity, true))) {Debug.Log("Stumblew!"); stateHandler.ChangeState(stumbleState); return; }
+        if (stumbleState != null && ProcessBump(Utils.GetHorizontal(velocity, true))) {stateHandler.ChangeState(stumbleState); return; }
+        if (stateHandler.inputManager.GetWishDash()) { StartDash(velocity); Debug.Log("woh"); }
 
-        // -> turning
-        ProcessTurning(input, velocity);
-        
-        Vector3 newVelocity = ProcessMovement(velocity, input);
+        Vector3 newVelocity;
+        if (isDashing)
+        {
+            newVelocity = ProcessDash(velocity);
+            isTurning = false;
+        }
+        else
+        {
+            ProcessTurning(input, velocity);
+            newVelocity = ProcessMovement(velocity, input);
+        }
+
         float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
 
         stateHandler.Move(newVelocity);
@@ -79,7 +90,7 @@ public class MoveStateSprint : MovementState
         if (isTurning) stateHandler.SetAnimatorState(turnAnim, sprintingAnimStateName);
         else
         { // either max or normal sprint
-            bool useMaxSprint = currentMach >= 4;
+            bool useMaxSprint = currentMach >= 4 || isDashing;
             stateHandler.SetAnimatorState(useMaxSprint ? maxSprintAnimState : sprintAnimState, sprintingAnimStateName);
             stateHandler.SetAnimatorSpeed((Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier) + minSprintAnimSpeed);
         }
@@ -148,6 +159,21 @@ public class MoveStateSprint : MovementState
         return hit.collider != null;
     }
 
+    private Vector3 ProcessDash(Vector3 velocity)
+    {
+        dashTimer -= Time.deltaTime;
+        if (dashTimer < 0) isDashing = false;
+
+        return ProcessMovement(velocity, dashDirection);
+    }
+
+    private void StartDash(Vector3 velocity)
+    {
+        isDashing = true;
+        dashTimer = maxDashTimer;
+        dashDirection = velocity.normalized;
+    }
+
     protected override bool AttemptSprint(MovementStateReference nextSprintRef, float speed, MovementState sprintState)
     {
         if (nextSprintRef == null) return false;
@@ -160,8 +186,10 @@ public class MoveStateSprint : MovementState
 
     private MovementStateReference GetMachRef(int mach = -1)
     {
+        if (isDashing) return mach4Ref;
         if (isTurning) return turningReference == null ? reference : turningReference;
         if (currentMach == -1) return reference;
+
         switch (mach)
         {
             case -1: return GetMachRef(currentMach);
@@ -174,7 +202,11 @@ public class MoveStateSprint : MovementState
 
     public int GetCurrentMach()
     {
-        if (isActiveAndEnabled) { return currentMach; }
+        if (isActiveAndEnabled) 
+        { 
+            if (isDashing) { return 4; }
+            return currentMach; 
+        }
         return 1;
     }
 }

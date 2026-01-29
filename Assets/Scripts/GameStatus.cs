@@ -5,9 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameStatus", menuName = "Scriptable Objects/GameStatus")]
 public class GameStatus : ScriptableObject
 {
+    private const float maxFloorTime = 60 * 5;
+
     public Action Updated;
     public Action onPauseChanged;
     public Action<Utils.GameStates> onStateChange;
+    public Action onFloorTimerEnded;
 
     public bool isPaused = false;
     public Utils.GameStates gameState;
@@ -15,6 +18,8 @@ public class GameStatus : ScriptableObject
     public int currentScore { get; private set; } = 0;
     public int totScore { get; private set; } = 0;
     public int highScore { get; private set; } = 0;
+    public float floorTimer { get; private set; } = 0;
+    private bool floorTimerRunning = false;
 
     public int currentFloor { get; private set; } = 1;
     public int currentBuilding { get; private set; } = 1;
@@ -80,6 +85,24 @@ public class GameStatus : ScriptableObject
         return passedFloors;
     }
 
+    public void DecrementTimer(float time)
+    {
+        if (!floorTimerRunning) return;
+
+        floorTimer -= time;
+        if (floorTimer < 0) 
+        {
+            GameOver();
+            floorTimerRunning = false;
+        }
+    }
+
+    public void ResetFloorTimer()
+    {
+        floorTimer = maxFloorTime;
+        floorTimerRunning = true;
+    }
+
     public void RunEnded() // calculate new floor, building, and score values
     {
         runCount++;
@@ -93,9 +116,7 @@ public class GameStatus : ScriptableObject
         }
         else if (currentScore < Utils.winPointCost) // not enough points gained - hasnt beaten floor
         {
-            gameState = Utils.GameStates.GameOver;
-            onStateChange?.Invoke(gameState);
-            Debug.Log("GAME OVER - ENDING GAME LOOP");
+            GameOver();
         }
         else // is still mid-building
         {
@@ -115,6 +136,13 @@ public class GameStatus : ScriptableObject
         currentScore = 0;
 
         Updated.Invoke();
+    }
+
+    public void GameOver()
+    {
+        gameState = Utils.GameStates.GameOver;
+        onStateChange?.Invoke(gameState);
+        Debug.Log("GAME OVER - ENDING GAME LOOP");
     }
 
 }

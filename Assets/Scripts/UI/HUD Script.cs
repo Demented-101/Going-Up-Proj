@@ -8,6 +8,8 @@ public class HUDScript : MonoBehaviour
     void Update()
     {
         string newText = "Floor " + status.currentFloor.ToString();
+        if (status.currentScore > Utils.winPointCost) newText += "   - Passed!";
+        newText += "\nTime Remaining: " + Mathf.Ceil(status.floorTimer).ToString();
         newText += "\nScore: " + status.currentScore.ToString();
         text.text = newText;
     }
