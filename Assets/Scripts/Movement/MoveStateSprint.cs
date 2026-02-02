@@ -14,6 +14,7 @@ public class MoveStateSprint : MovementState
     [SerializeField] private MovementStateReference mach3Ref;
     [SerializeField] private MovementStateReference mach4Ref;
     [SerializeField] private MovementStateReference turningReference;
+    [SerializeField] private MovementStateReference dashReference;
     [SerializeField] private int runningAnimationState = 2;
     [SerializeField] private string sprintingAnimStateName = "SprintState";
     [SerializeField] private float minSprintAnimSpeed = 1.5f;
@@ -47,6 +48,7 @@ public class MoveStateSprint : MovementState
     {
         base.onEntered(data);
         isTurning = false;
+        isDashing = false;
 
         // update animation
         stateHandler.SetAnimatorState(runningAnimationState);
@@ -66,7 +68,7 @@ public class MoveStateSprint : MovementState
         // -> midair state + stumble + dash
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
         if (stumbleState != null && ProcessBump(Utils.GetHorizontal(velocity, true))) {stateHandler.ChangeState(stumbleState); return; }
-        if (stateHandler.inputManager.GetWishDash()) { StartDash(velocity); Debug.Log("woh"); }
+        if (stateHandler.inputManager.GetWishDash()) { StartDash(velocity); }
 
         Vector3 newVelocity;
         if (isDashing)
@@ -171,6 +173,7 @@ public class MoveStateSprint : MovementState
     {
         isDashing = true;
         dashTimer = maxDashTimer;
+        stateHandler.SendAnimatorTrigger("Dash");
         dashDirection = velocity.normalized;
     }
 
@@ -186,7 +189,7 @@ public class MoveStateSprint : MovementState
 
     private MovementStateReference GetMachRef(int mach = -1)
     {
-        if (isDashing) return mach4Ref;
+        if (isDashing) return dashReference;
         if (isTurning) return turningReference == null ? reference : turningReference;
         if (currentMach == -1) return reference;
 

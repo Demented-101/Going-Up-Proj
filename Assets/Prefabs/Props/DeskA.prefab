@@ -153,7 +153,7 @@ MonoBehaviour:
   allowedSpawnRotation: 0
   canBreak: 1
   breakStrength: 3
-  breakPoints: 100
+  breakPoints: 50
   gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
 --- !u!65 &4921655223737501098
 BoxCollider:

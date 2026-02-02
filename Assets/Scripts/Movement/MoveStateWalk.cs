@@ -14,11 +14,16 @@ public class MoveStateWalk : MovementState
     [SerializeField] private float animationSpeedMultiplier = 1.0f;
     [SerializeField] private string jumpAnimationTrigger = "";
 
+    public bool isHitting { get; private set; }
+    private float hitTimer;
+    private float hitDelay;
 
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
         if (!data.Contains(TransitionData.IgnoreVelocityCap)) stateHandler.CapSpeed(reference.maxVelocity);
+
+        isHitting = false;
     }
 
     private void Update()
@@ -29,10 +34,15 @@ public class MoveStateWalk : MovementState
         // -> ungrounded - allow coyote time
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
 
+        // -> attack/hit
+        if (stateHandler.inputManager.GetWishDash()) { Hit(); }
+        HandleHit();
+
         // calculate velocities
         Vector3 oldVelocity = stateHandler.velocity;
         Vector3 newVelocity = ProcessMovement(wishDir, oldVelocity);
         float horizontalSpeed = Utils.GetHorizontal(newVelocity, false).magnitude;
+
         
         stateHandler.Move(newVelocity);
         stateHandler.SetAnimatorState(horizontalSpeed > 0.05? walkingAnimationState : idleAnimationState);
@@ -58,5 +68,31 @@ public class MoveStateWalk : MovementState
 
         velocity.y = -reference.gravity;
         return Accelerate(wishDir, velocity, reference);
+    }
+
+    private void Hit()
+    {
+        if (hitDelay > 0) return;
+        Debug.Log(hitDelay);
+
+        isHitting = true;
+        hitTimer = 0.2f;
+        stateHandler.SendAnimatorTrigger("Hit");
+    }
+
+    private void HandleHit()
+    {
+        if (hitTimer > 0) 
+        { 
+            hitTimer -= Time.deltaTime;
+
+            if (hitTimer <= 0)
+            {
+                isHitting = false;
+                hitDelay = 0.3f;
+            } 
+        }
+
+        hitDelay -= Time.deltaTime;
     }
 }

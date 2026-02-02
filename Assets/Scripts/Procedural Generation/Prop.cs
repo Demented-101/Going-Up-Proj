@@ -22,11 +22,11 @@ public class Prop : MonoBehaviour
         transform.Rotate(0, rotation, 0);
     }
 
-    public void Break(int currentMach)
+    public void Break(int currentMach, bool hit)
     {
-        if (!canBreak || currentMach < breakStrength) { return; }
+        bool wouldBreak = currentMach >= breakStrength || hit;
+        if (!canBreak || !wouldBreak) { return; }
 
-        Debug.Log("BROKEN");
         gameObject.SetActive(false);
         gameStatus.AddScore(breakPoints);
     }

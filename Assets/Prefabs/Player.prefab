@@ -350,12 +350,15 @@ MonoBehaviour:
   mach3Ref: {fileID: 11400000, guid: a9ade501a750c9d49a73ea15bdba30ec, type: 2}
   mach4Ref: {fileID: 11400000, guid: 8133cad5c701b65438f98fe4e187e32e, type: 2}
   turningReference: {fileID: 11400000, guid: 23f13acab8549b64da450f5735a6ac97, type: 2}
+  dashReference: {fileID: 11400000, guid: 45a371d03bef0834d808166e92839cfc, type: 2}
   runningAnimationState: 2
   sprintingAnimStateName: SprintState
   minSprintAnimSpeed: 1.2
   animationSpeedMultiplier: 0.1
   jumpAnimationTrigger: Jump
   startAnimationTrigger: 
+  doDash: 1
+  maxDashTimer: 0.3
 --- !u!114 &4901257563888209813
 MonoBehaviour:
   m_ObjectHideFlags: 0
