@@ -66,6 +66,10 @@ public class GameStatus : ScriptableObject
         gameState = Utils.GameStates.Pregame;
         onStateChange?.Invoke(gameState);
 
+        currentScore = 0;
+        currentFloor = 0;
+        currentBuilding = 0;
+
         bool useGenerics = false;
         LoadFromSave(useGenerics);
     }

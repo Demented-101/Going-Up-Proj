@@ -1,4 +1,4 @@
-using NUnit.Framework.Internal.Filters;
+using System;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,6 +17,8 @@ public class MoveStateWalk : MovementState
     public bool isHitting { get; private set; }
     private float hitTimer;
     private float hitDelay;
+
+    public Action onHit;
 
     public override void onEntered(TransitionData[] data)
     {
@@ -72,9 +74,9 @@ public class MoveStateWalk : MovementState
 
     private void Hit()
     {
-        if (hitDelay > 0) return;
-        Debug.Log(hitDelay);
+        if (hitDelay > 0 || hitTimer > 0) return;
 
+        onHit.Invoke();
         isHitting = true;
         hitTimer = 0.2f;
         stateHandler.SendAnimatorTrigger("Hit");
