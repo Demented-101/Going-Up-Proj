@@ -22,8 +22,6 @@ public class MoveStateStumble : MovementState
         stateHandler.Move((startMomentum * -1) - new Vector3(0, reference.gravity, 0) );
         if (data.Contains(TransitionData.IgnoreStumbleTime)) stumbleTime = 0;
         else stumbleTime = stumbleTimeMax;
-        
-            
 
         stateHandler.SendAnimatorTrigger(stumbleStartAnimTrigger);
         stateHandler.SetAnimatorSpeed(animSpeed);

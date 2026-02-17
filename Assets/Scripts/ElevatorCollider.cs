@@ -14,7 +14,7 @@ public class ElevatorCollider : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && gameStatus.gameState == Utils.GameStates.Run)
         {
-            if (gameStatus.floorTimer < GameStatus.maxFloorTime - 30)
+            if (gameStatus.floorTimer < GameStatus.maxFloorTime - 5)
             gameManager.EndRun();
         }
     }

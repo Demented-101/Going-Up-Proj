@@ -42,7 +42,6 @@ public class PlayerCollisionHandler : MonoBehaviour
     private void Hit()
     {
         if (colliding.Count <= 0) return;
-        Debug.Log("oh");
 
         for (int i = 0; i < colliding.Count; i++)
         {

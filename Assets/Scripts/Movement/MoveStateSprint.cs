@@ -20,8 +20,6 @@ public class MoveStateSprint : MovementState
     [SerializeField] private float minSprintAnimSpeed = 1.5f;
     [SerializeField] private float animationSpeedMultiplier = 0.1f;
     [SerializeField] private string jumpAnimationTrigger = "";
-    [SerializeField] private string startAnimationTrigger = "";
-    [SerializeField] private bool doDash = true;
     [SerializeField] private float maxDashTimer = 1f;
 
     private const int sprintAnimState = 1;

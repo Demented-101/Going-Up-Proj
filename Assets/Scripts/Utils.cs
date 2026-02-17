@@ -41,7 +41,7 @@ public static class Utils
     public const int largeOfficeChance = 75;
 
     // floor and building constants
-    public const int winPointCost = 2000;
+    public const int winPointCost = 4000;
     public const int floorPointCost = 500;
 
     // floor and building math

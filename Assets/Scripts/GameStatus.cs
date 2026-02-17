@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameStatus", menuName = "Scriptable Objects/GameStatus")]
 public class GameStatus : ScriptableObject
 {
-    public const float maxFloorTime = 150;
+    public const float maxFloorTime = 135;
 
     public Action Updated;
     public Action onPauseChanged;

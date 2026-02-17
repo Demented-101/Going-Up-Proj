@@ -68,6 +68,8 @@ public class MoveStateWalk : MovementState
             velocity *= Mathf.Max(currentSpeed - control, 0) / currentSpeed;
         }
 
+        if (isHitting) { velocity *= 1.05f; }
+
         velocity.y = -reference.gravity;
         return Accelerate(wishDir, velocity, reference);
     }
@@ -86,6 +88,7 @@ public class MoveStateWalk : MovementState
     {
         if (hitTimer > 0) 
         { 
+            onHit.Invoke();
             hitTimer -= Time.deltaTime;
 
             if (hitTimer <= 0)
