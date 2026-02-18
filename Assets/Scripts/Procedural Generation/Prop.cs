@@ -9,6 +9,8 @@ public class Prop : MonoBehaviour
     [SerializeField] private bool canBreak = true;
     [SerializeField] private int breakStrength;
     [SerializeField] private int breakPoints;
+    [SerializeField] private AudioClip breakSFX = null;
+    [SerializeField] private float breakSFXVolume;
     [SerializeField] private GameStatus gameStatus;
 
     public void Generate()
@@ -29,6 +31,7 @@ public class Prop : MonoBehaviour
 
         gameObject.SetActive(false);
         gameStatus.AddScore(breakPoints);
+        if (breakSFX != null) { AudioSource.PlayClipAtPoint(breakSFX, transform.position, breakSFXVolume); }
         return true;
     }
 }

@@ -54,6 +54,8 @@ MonoBehaviour:
   canBreak: 1
   breakStrength: 2
   breakPoints: 20
+  breakSFX: {fileID: 8300000, guid: 760c311f51e03e440a34fa8bb36f3d10, type: 3}
+  breakSFXVolume: 0.7
   gameStatus: {fileID: 11400000, guid: 3f42f049a85e9ae479c874ae1134a0f3, type: 2}
 --- !u!65 &3910998423960024785
 BoxCollider:
