@@ -6,32 +6,33 @@ public class MoveStateStumble : MovementState
 {
     public MovementState returnState;
     public MovementState notGroundedState;
-    [SerializeField] private string stumbleStartAnimTrigger = "";
-    [SerializeField] private string stumbleEndAnimTrigger = "";
+    [SerializeField] private string stumbleAnimParam = "";
     [SerializeField] private float animSpeed = 1f;
+    [SerializeField] private AudioSource bumpSfx;
 
     private float stumbleTime;
-    private const float stumbleTimeMax = 0.25f;
+    private const float stumbleTimeMax = 0.15f;
     private Vector3 startMomentum;
 
     public override void onEntered(TransitionData[] data)
     {
         base.onEntered(data);
 
-        startMomentum = Utils.GetHorizontal(stateHandler.velocity, false);
+        startMomentum = Utils.GetHorizontal(stateHandler.velocity, false) * 1.5f;
         stateHandler.Move((startMomentum * -1) - new Vector3(0, reference.gravity, 0) );
         if (data.Contains(TransitionData.IgnoreStumbleTime)) stumbleTime = 0;
         else stumbleTime = stumbleTimeMax;
 
-        stateHandler.SendAnimatorTrigger(stumbleStartAnimTrigger);
+        stateHandler.SetAnimatorBool(true, stumbleAnimParam);
         stateHandler.SetAnimatorSpeed(animSpeed);
+        bumpSfx.Play();
     }
 
     public override void onExit()
     {
         base.onExit();
 
-        stateHandler.SendAnimatorTrigger(stumbleEndAnimTrigger);
+        stateHandler.SetAnimatorBool(false, stumbleAnimParam);
     }
 
     private void Update()

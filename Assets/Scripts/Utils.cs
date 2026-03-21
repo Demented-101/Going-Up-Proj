@@ -31,21 +31,26 @@ public static class Utils
         
     // proc generation - map layout and settings
     public const int gridSize = 30; // ! - always add one to integer maxs since range is excusive max
+
     public const int floorMinSize = 15;
     public const int floorMaxSize = 25;
     public const int forceEndSize = 50;
+
     public const int branchDeltaMin = 2;
     public const int branchDeltaMax = 3;
     public const int branchSizeMin = 2;
     public const int branchSizeMax = 4;
     public const int largeOfficeChance = 75;
 
+    public const int minFloorCount = 30;
+    public const int floorsPerBuilding = 5;
+
     // floor and building constants
     public const int winPointCost = 4000;
     public const int floorPointCost = 500;
 
     // floor and building math
-    static public int GetBuildingFloorCount(int building) { return (building * 10) + 40; }
+    static public int GetBuildingFloorCount(int building) { return minFloorCount + ((building - 1) * floorsPerBuilding); }
     static public int GetFloorSeed(int floor, int building, bool isNegative = false)
     {
         // match both sides of the seed to the correct sizes

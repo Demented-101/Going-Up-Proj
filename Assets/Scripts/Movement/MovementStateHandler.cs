@@ -36,6 +36,12 @@ public class MovementStateHandler : MonoBehaviour
         // setup initial state
         currentState = initialState;
         allStates = GetComponents<MovementState>();
+
+        // clear velocity between levels
+        gameStatus.onStateChange += (Utils.GameStates newState) =>
+        {
+            if (newState != Utils.GameStates.Run) Move(new Vector3(0, 0, 0));
+        };
     }
 
     public void ChangeState(MovementState newState, MovementState.TransitionData[] data = null)
@@ -114,6 +120,15 @@ public class MovementStateHandler : MonoBehaviour
         if (animator != null && AnimatorHasParameter(animator, param))
         {
             animator.SetInteger(param, newState);
+        }
+    }
+
+    public void SetAnimatorBool(bool newState, string paramName = "")
+    {
+        string param = paramName == "" ? animStateName : paramName;
+        if (animator != null && AnimatorHasParameter(animator, param))
+        {
+            animator.SetBool(param, newState);
         }
     }
 

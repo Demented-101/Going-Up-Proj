@@ -6,6 +6,7 @@ public class PauseMenuUI : MonoBehaviour
 {
     private GameManager gameManager;
     [SerializeField] private GameStatus gameStatus;
+    [SerializeField] private GameObject shutter;
     private bool isPaused = false;
 
     private void Start()
@@ -23,6 +24,7 @@ public class PauseMenuUI : MonoBehaviour
         isPaused = gameStatus.isPaused;
 
         gameObject.SetActive(isPaused); // only show when paused
+        shutter.SetActive(isPaused);
     }
 
     public void AddPointsTEMP()

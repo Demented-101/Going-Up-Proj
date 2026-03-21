@@ -1,9 +1,4 @@
-using System.Runtime.CompilerServices;
-using Unity.Services.Matchmaker.Models;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Windows;
 
 public class MoveStateSprint : MovementState
 {

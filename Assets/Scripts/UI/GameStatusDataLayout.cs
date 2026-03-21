@@ -10,6 +10,7 @@ public class GameStatusDataLayout : MonoBehaviour
     private TMP_Text valueTextMesh;
 
     public bool showCurrentScore;
+    public bool showCurrentScoreAsPrevious;
     public bool showTotScore;
     public bool showHighScore;
     public bool showFloor;
@@ -37,12 +38,13 @@ public class GameStatusDataLayout : MonoBehaviour
         valueTextMesh.text = "";
 
         // add the correct scores when needed.
-        if (showCurrentScore)   { AddText("Score", gameStatus.currentScore.ToString()); }
-        if (showTotScore)       { AddText("Total Score", gameStatus.totScore.ToString()); }
-        if (showHighScore)      { AddText("High Score", gameStatus.highScore.ToString()); }
-        if (showFloor)          { AddText("Floor No", gameStatus.currentFloor.ToString()); }
-        if (showBuilding)       { AddText("Building", gameStatus.currentBuilding.ToString()); }
-        if (showRunCount)       { AddText("Run Count", gameStatus.runCount.ToString()); }
+        if (showCurrentScore)           { AddText("Score", gameStatus.currentScore.ToString()); }
+        if (showCurrentScoreAsPrevious) { AddText("Score", gameStatus.currentScore.ToString()); }
+        if (showTotScore)               { AddText("Total Score", gameStatus.totScore.ToString()); }
+        if (showHighScore)              { AddText("High Score", gameStatus.highScore.ToString()); }
+        if (showFloor)                  { AddText("Floor No", gameStatus.currentFloor.ToString()); }
+        if (showBuilding)               { AddText("Building", gameStatus.currentBuilding.ToString()); }
+        if (showRunCount)               { AddText("Run Count", gameStatus.runCount.ToString()); }
     }
 
     private void AddText(string prefix, string value)

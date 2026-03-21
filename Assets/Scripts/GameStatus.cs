@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameStatus", menuName = "Scriptable Objects/GameStatus")]
@@ -54,7 +53,7 @@ public class GameStatus : ScriptableObject
         isOnRoof = saveData.isOnRoof;
         runCount = saveData.runCount;
 
-        Updated.Invoke();
+        Updated?.Invoke();
     }
 
     public void Reset()
