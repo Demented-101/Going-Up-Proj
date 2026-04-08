@@ -40,7 +40,7 @@ public class MovementStateHandler : MonoBehaviour
         // clear velocity between levels
         gameStatus.onStateChange += (Utils.GameStates newState) =>
         {
-            if (newState != Utils.GameStates.Run) Move(new Vector3(0, 0, 0));
+            if (newState != Utils.GameStates.Run) velocity = Vector3.zero;
         };
     }
 
@@ -77,7 +77,7 @@ public class MovementStateHandler : MonoBehaviour
     public void Move(Vector3 newVelocity)
     {
         velocity = newVelocity;
-        if(controller != null) controller.Move(velocity * Time.deltaTime);
+        if(controller != null && controller.gameObject.activeInHierarchy) controller.Move(velocity * Time.deltaTime);
     }
 
     public void CapSpeed(float maxSpeed)

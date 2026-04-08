@@ -1,11 +1,15 @@
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 public class MusicPlayer : MonoBehaviour
 {
     [SerializeField] private GameStatus status;
     [SerializeField] private MusicTrack[] aud;
+    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private string mixerVolExposedName;
 
     enum Tracks { Pregame, Run, GameOver }
     private Tracks currentTrack;
@@ -54,6 +58,13 @@ public class MusicPlayer : MonoBehaviour
 
         currentPlayer = aud[index];
         currentPlayer.Select();
+    }
+
+    public void MuteMusic(bool muted)
+    {
+        float volume = 0f;
+        if (muted) volume = -80f;
+        mixer.SetFloat(mixerVolExposedName, volume);
     }
 
 
