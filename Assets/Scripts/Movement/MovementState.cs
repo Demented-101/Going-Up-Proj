@@ -8,7 +8,7 @@ public abstract class MovementState : MonoBehaviour
 {
     public enum TransitionData
     {
-        Force, IgnoreVelocityCap, IgnoreCoyoteTime, KeepCamRotationMode, IgnoreStumbleTime
+        Force, IgnoreVelocityCap, IgnoreCoyoteTime, KeepCamRotationMode, IgnoreStumbleTime, StartMach4
     }
 
     [SerializeField] public MovementStateReference reference;

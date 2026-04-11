@@ -5,13 +5,14 @@ using UnityEngine.Rendering;
 public class MoveStateStumble : MovementState
 {
     public MovementState returnState;
+    public MovementState sprintState;
     public MovementState notGroundedState;
     [SerializeField] private string stumbleAnimParam = "";
     [SerializeField] private float animSpeed = 1f;
     [SerializeField] private AudioSource bumpSfx;
 
     private float stumbleTime;
-    private const float stumbleTimeMax = 0.15f;
+    private const float stumbleTimeMax = 0.1f;
     private Vector3 startMomentum;
 
     public override void onEntered(TransitionData[] data)
@@ -41,6 +42,11 @@ public class MoveStateStumble : MovementState
         Vector3 newVelocity = ProcessMovement(velocity, Vector3.zero);
 
         stateHandler.Move(newVelocity);
+        if (stateHandler.inputManager.GetWishDash())
+        {
+            Debug.Log("whuhh");
+            stateHandler.ChangeState(sprintState, new TransitionData[] {TransitionData.StartMach4});
+        }
 
         // once "near" 0 speed, start reducing stumbleState time
         if (Utils.GetHorizontal(newVelocity, false).magnitude <= 0.05f)

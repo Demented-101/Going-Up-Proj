@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class MoveStateSprint : MovementState
@@ -16,6 +17,7 @@ public class MoveStateSprint : MovementState
     [SerializeField] private float animationSpeedMultiplier = 0.1f;
     [SerializeField] private string jumpAnimationTrigger = "";
     [SerializeField] private float maxDashTimer = 1f;
+    [SerializeField] private float maxDashCooldown = 1f;
 
     private const int sprintAnimState = 1;
     private const int maxSprintAnimState = 2;
@@ -28,6 +30,7 @@ public class MoveStateSprint : MovementState
 
     private bool isDashing = false;
     private float dashTimer = 0f;
+    private float dashCooldown = 0f;
     private Vector3 dashDirection;
 
     private int currentMach = 2;
@@ -46,9 +49,21 @@ public class MoveStateSprint : MovementState
         // update animation
         stateHandler.SetAnimatorState(runningAnimationState);
 
-        // update to correct mach
-        float currentSpeed = Utils.GetHorizontal(stateHandler.velocity, false).magnitude;
+        // update to mach 2
         currentMach = 2;
+
+        // attempt enter on mach 4
+        if (data.Contains(TransitionData.StartMach4)){
+            currentMach = 4;
+
+            Vector3 newinput = GetMoveDirection(stateHandler.inputManager, Utils.InputMappingMode.ToCameraHorizontal, stateHandler.cameraObj);
+            if (newinput.magnitude > 0)
+            {
+                // start dash to confirm mach 4
+                StartDash(newinput);
+                dashTimer = 0.3f;
+            }
+        }
     }
 
     private void Update()
@@ -61,7 +76,10 @@ public class MoveStateSprint : MovementState
         // -> midair state + stumble + dash
         if (notGroundedState != null && !stateHandler.controller.isGrounded) { stateHandler.ChangeState(notGroundedState); return; }
         if (stumbleState != null && ProcessBump(Utils.GetHorizontal(velocity, true))) {stateHandler.ChangeState(stumbleState); return; }
-        if (stateHandler.inputManager.GetWishDash()) { StartDash(velocity); }
+        if (stateHandler.inputManager.GetWishDash()) { 
+            if (isDashing) { EndDash(); }
+            else if (dashCooldown <= 0) { StartDash(velocity); }
+        }
 
         Vector3 newVelocity;
         if (isDashing)
@@ -71,6 +89,7 @@ public class MoveStateSprint : MovementState
         }
         else
         {
+            if (dashCooldown >= 0) dashCooldown -= Time.deltaTime;
             ProcessTurning(input, velocity);
             newVelocity = ProcessMovement(velocity, input);
         }
@@ -157,17 +176,26 @@ public class MoveStateSprint : MovementState
     private Vector3 ProcessDash(Vector3 velocity)
     {
         dashTimer -= Time.deltaTime;
-        if (dashTimer < 0) isDashing = false;
+        if (dashTimer < 0) EndDash();
 
         return ProcessMovement(velocity, dashDirection);
     }
 
     private void StartDash(Vector3 velocity)
     {
+        Debug.Log("Dash started");
         isDashing = true;
         dashTimer = maxDashTimer;
         stateHandler.SendAnimatorTrigger("Dash");
         dashDirection = velocity.normalized;
+    }
+
+    private void EndDash()
+    {
+        Debug.Log("Dash ended");
+        isDashing = false;
+        dashTimer = 0;
+        dashCooldown = maxDashCooldown;
     }
 
     protected override bool AttemptSprint(MovementStateReference nextSprintRef, float speed, MovementState sprintState)
