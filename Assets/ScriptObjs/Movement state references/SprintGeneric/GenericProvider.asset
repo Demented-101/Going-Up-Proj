@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2f6da918cb43624097e681ba9549a19, type: 3}
+  m_Name: GenericProvider
+  m_EditorClassIdentifier: 
+  displayName: All-Rounder
+  description: A Generic build that balances speed with precision. Beginner friendly!
+  Mach2: {fileID: 11400000, guid: 87a8ec87e6ed24d4686792f13ae88ba0, type: 2}
+  Mach3: {fileID: 11400000, guid: a9ade501a750c9d49a73ea15bdba30ec, type: 2}
+  Mach4: {fileID: 11400000, guid: 8133cad5c701b65438f98fe4e187e32e, type: 2}
+  Turning: {fileID: 11400000, guid: 23f13acab8549b64da450f5735a6ac97, type: 2}
+  Dash: {fileID: 11400000, guid: 45a371d03bef0834d808166e92839cfc, type: 2}

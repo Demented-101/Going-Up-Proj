@@ -27,10 +27,11 @@ public class SaveFileTool : EditorWindow
             data.currentFloor = EditorGUILayout.IntField("current floor", data.currentFloor);
             data.currentBuilding = EditorGUILayout.IntField("current building", data.currentBuilding);
             
-            GUILayout.Label("Is on roof: " + data.isOnRoof + "            WARNING - this does not update, and it is suggested 'current floor' should conform to this value to avoid bugs.");
+            GUILayout.Label("Is on roof: " + data.isOnRoof);
             GUILayout.Label("Total runs: " + data.runCount);
-        }
 
+            data.sprintModeIndex = EditorGUILayout.IntField("current sprint mode index", data.sprintModeIndex);
+        }
 
         if (GUILayout.Button("Load")) { LoadData(Utils.GetSaveFilePath()); }
         if (GUILayout.Button("Save")) { SaveJson(Utils.GetSaveFilePath()); }

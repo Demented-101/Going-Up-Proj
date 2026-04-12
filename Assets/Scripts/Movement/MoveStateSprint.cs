@@ -7,10 +7,7 @@ public class MoveStateSprint : MovementState
     public MovementState notGroundedState;
     public MovementState stumbleState;
 
-    [SerializeField] private MovementStateReference mach3Ref;
-    [SerializeField] private MovementStateReference mach4Ref;
-    [SerializeField] private MovementStateReference turningReference;
-    [SerializeField] private MovementStateReference dashReference;
+    public SprintRefProvider sprintRef;
     [SerializeField] private int runningAnimationState = 2;
     [SerializeField] private string sprintingAnimStateName = "SprintState";
     [SerializeField] private float minSprintAnimSpeed = 1.5f;
@@ -208,20 +205,20 @@ public class MoveStateSprint : MovementState
     }
     protected override void StartSprint(MovementState sprintState) { currentMach++; }
 
-    private MovementStateReference GetMachRef(int mach = -1)
+    private MovementStateReference GetMachRef(int mach = -1) // uses the default "reference" if one isnt selected, otherwise selects from the sprintRef
     {
-        if (isDashing) return dashReference;
-        if (isTurning) return turningReference == null ? reference : turningReference;
+        if (isDashing) return sprintRef.Dash == null ? reference : sprintRef.Dash;
+        if (isTurning) return sprintRef.Turning == null ? reference : sprintRef.Turning;
         if (currentMach == -1) return reference;
 
         switch (mach)
         {
             case -1: return GetMachRef(currentMach);
-            case 2: return reference;
-            case 3: return mach3Ref;
-            case 4: return mach4Ref;
+            case 2: return sprintRef.Mach2;
+            case 3: return sprintRef.Mach3;
+            case 4: return sprintRef.Mach4;
         }
-        return null;
+        return reference;
     }
 
     public int GetCurrentMach()

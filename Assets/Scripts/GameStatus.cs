@@ -19,6 +19,7 @@ public class GameStatus : ScriptableObject
     public int highScore { get; private set; } = 0;
     public float floorTimer { get; private set; } = 0;
     private bool floorTimerRunning = false;
+    public int sprintModeIndex { get; set; } = 0;
 
     public int currentFloor { get; private set; } = 1;
     public int currentBuilding { get; private set; } = 1;
@@ -52,6 +53,7 @@ public class GameStatus : ScriptableObject
         currentBuilding = saveData.currentBuilding;
         isOnRoof = saveData.isOnRoof;
         runCount = saveData.runCount;
+        sprintModeIndex = saveData.sprintModeIndex;
 
         Updated?.Invoke();
     }
@@ -68,6 +70,8 @@ public class GameStatus : ScriptableObject
         currentScore = 0;
         currentFloor = 0;
         currentBuilding = 0;
+
+        sprintModeIndex = 0;
 
         bool useGenerics = false;
         LoadFromSave(useGenerics);

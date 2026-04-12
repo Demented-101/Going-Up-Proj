@@ -10,6 +10,7 @@ public class SaveData
     public int currentBuilding = 1;
     public bool isOnRoof = false;
     public int runCount = 0;
+    public int sprintModeIndex;
 
     public void loadFromGameStatus(GameStatus status)
     {
@@ -19,6 +20,7 @@ public class SaveData
         currentBuilding = status.currentBuilding;
         isOnRoof= status.isOnRoof;
         runCount = status.runCount;
+        sprintModeIndex = status.sprintModeIndex;
     }
 
     public void LoadGeneric()
@@ -29,5 +31,6 @@ public class SaveData
         currentBuilding = 1;
         isOnRoof = false;
         runCount = 0;
+        sprintModeIndex = 0;
     }
 }
