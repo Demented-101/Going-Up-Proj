@@ -6,6 +6,8 @@ public class PlayerCollisionHandler : MonoBehaviour
 {
     [SerializeField] private MoveStateSprint sprintState;
     [SerializeField] private MoveStateWalk walkState;
+    [SerializeField] private CharacterController controller;
+    [SerializeField] private CapsuleCollider capsuleCollider;
 
     private List<Collider> colliding;
 
@@ -37,6 +39,9 @@ public class PlayerCollisionHandler : MonoBehaviour
                     if ( prop.Break(sprintState.GetCurrentMach()) ) { colliding.Remove(colliding[i]); }
             }
         }
+
+        float speed = controller.velocity.magnitude;
+        capsuleCollider.radius = 1.0f + (speed / 30);
     }
 
     private void Hit()

@@ -22,8 +22,7 @@ public class MoveStateSprint : MovementState
     private const int turnRightAnimState = 4;
 
     private const float bumpCastYOffset = 0.36f;
-    private const float bumpCastRadius = 0.25f;
-    private const float bumpCastDistance = 0.4f;
+    private const float bumpCastDistance = 0.6f;
 
     private bool isDashing = false;
     private float dashTimer = 0f;
@@ -100,9 +99,8 @@ public class MoveStateSprint : MovementState
         // animation
         if (isTurning) stateHandler.SetAnimatorState(turnAnim, sprintingAnimStateName);
         else
-        { // either max or normal sprint
-            bool useMaxSprint = currentMach >= 4 || isDashing;
-            stateHandler.SetAnimatorState(useMaxSprint ? maxSprintAnimState : sprintAnimState, sprintingAnimStateName);
+        { // either dash or sprint anim
+            stateHandler.SetAnimatorState(isDashing ? maxSprintAnimState : sprintAnimState, sprintingAnimStateName);
             stateHandler.SetAnimatorSpeed((Utils.GetHorizontal(newVelocity, false).magnitude * animationSpeedMultiplier) + minSprintAnimSpeed);
         }
 
@@ -165,7 +163,7 @@ public class MoveStateSprint : MovementState
     private bool ProcessBump(Vector3 forward)
     {
         RaycastHit hit;
-        Physics.SphereCast(transform.position + new Vector3(0, bumpCastYOffset, 0), bumpCastRadius, forward, out hit, bumpCastDistance);
+        Physics.Raycast(transform.position + new Vector3(0, bumpCastYOffset, 0), forward, out hit, bumpCastDistance);
 
         return hit.collider != null;
     }
