@@ -149,6 +149,7 @@ public class GameStatus : ScriptableObject
     {
         gameState = Utils.GameStates.GameOver;
         onStateChange?.Invoke(gameState);
+        currentScore = 0;
         LoadFromSave(true); // remove save data
         Debug.Log("GAME OVER - ENDING GAME LOOP");
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerCollisionHandler : MonoBehaviour
 {
+    [SerializeField] private GameStatus gameStatus;
     [SerializeField] private MoveStateSprint sprintState;
     [SerializeField] private MoveStateWalk walkState;
     [SerializeField] private CharacterController controller;
@@ -15,6 +16,8 @@ public class PlayerCollisionHandler : MonoBehaviour
     {
         colliding = new List<Collider>();
         walkState.onHit += Hit;
+
+        gameStatus.onPauseChanged += () => { colliding = new List<Collider> { }; };
     }
 
     private void OnTriggerEnter(Collider other)

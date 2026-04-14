@@ -6,6 +6,7 @@ public class GameStatusDataLayout : MonoBehaviour
     [SerializeField] private GameStatus gameStatus;
     [SerializeField] private GameObject prefixText;
     [SerializeField] private GameObject valueText;
+    [SerializeField] private bool onStateChangeUpdate;
     private TMP_Text prefixTextMesh;
     private TMP_Text valueTextMesh;
 
@@ -22,7 +23,13 @@ public class GameStatusDataLayout : MonoBehaviour
         prefixTextMesh = prefixText.GetComponent<TMP_Text>();
         valueTextMesh = valueText.GetComponent<TMP_Text>();
 
-        gameStatus.Updated += UpdateText;
+        if (onStateChangeUpdate)
+        {
+            gameStatus.onStateChange += (Utils.GameStates state) => { UpdateText(); }; 
+        } else {
+            gameStatus.Updated += UpdateText;
+
+        }
         UpdateText();
     }
 
