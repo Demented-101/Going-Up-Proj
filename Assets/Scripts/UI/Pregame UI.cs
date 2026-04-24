@@ -13,12 +13,12 @@ public class PregameUI : MonoBehaviour
 
     public void ContinueGame()
     {
-        gameManager.StartGame(true);
+        gameManager.StartGame(true); // start game and load the save file
     }
 
     public void NewGame()
     {
-        gameManager.StartGame(false);
+        gameManager.StartGame(false); // start game and load generic 
     }
 
     public void Quit()

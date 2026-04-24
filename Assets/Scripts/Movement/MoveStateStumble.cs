@@ -42,14 +42,11 @@ public class MoveStateStumble : MovementState
         Vector3 newVelocity = ProcessMovement(velocity, Vector3.zero);
 
         stateHandler.Move(newVelocity);
-        if (stateHandler.inputManager.GetWishDash())
-        {
-            Debug.Log("whuhh");
-            stateHandler.ChangeState(sprintState, new TransitionData[] {TransitionData.StartMach4});
-        }
+        // -> sprint (via dash move)
+        if (stateHandler.inputManager.GetWishDash()) { stateHandler.ChangeState(sprintState, new TransitionData[] {TransitionData.StartMach4}); }
 
-        // once "near" 0 speed, start reducing stumbleState time
-        if (Utils.GetHorizontal(newVelocity, false).magnitude <= 0.05f)
+        // once slowed down, start reducing stumbleState time
+        if (Utils.GetHorizontal(newVelocity, false).magnitude <= 0.1f)
         {
             stumbleTime -= Time.deltaTime; 
             if (stumbleTime <= 0f) stateHandler.ChangeState(returnState); // once stumbleState time 0, return

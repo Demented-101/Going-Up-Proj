@@ -1,7 +1,9 @@
-[System.Serializable]
 
-// this handles the data in the save file, i.e. formatting it or giving it to the variables that need it, IE PlayerData
-// loading or saving the data itself is done seperately by the SaveManager
+[System.Serializable]
+// this handles the data in the save file, i.e. formatting it
+// or giving it to the variables that need it, IE PlayerData
+// loading or saving the data itself is done seperately by
+// the SaveManager
 public class SaveData
 {
     public int totScore = 0;

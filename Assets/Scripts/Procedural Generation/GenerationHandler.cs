@@ -42,11 +42,13 @@ public class GenerationHandler : MonoBehaviour
         int floorSize = UnityEngine.Random.Range(Utils.floorMinSize, Utils.floorMaxSize);
 
         Debug.Log("Starting Generation with seed: " + seed);
-        
+
+        // generate layout
         Dictionary<Utils.PGData, int> data = InitializeDictionary(floorSize);
         initialObject.Generate(data, this, Vector2Int.zero, Vector2Int.zero);
         colourHandler.ReRoll();
 
+        // generate props
         bool doNextPass = true;
         while (doNextPass)
         {
